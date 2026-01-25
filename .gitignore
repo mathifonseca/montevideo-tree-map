@@ -19,3 +19,7 @@ env/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Large geojson files (use .gz versions)
+data/raw/*.geojson
+data/processed/arboles.geojson
