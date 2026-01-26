@@ -34,15 +34,15 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
 
   return (
     <div className="absolute top-4 left-4 z-10">
-      <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-64 md:w-72">
+      <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-52 md:w-72">
         {/* Header */}
         <div
           className="p-3 border-b border-gray-700 md:cursor-default cursor-pointer flex justify-between items-center"
           onClick={() => setExpanded(!expanded)}
         >
           <div>
-            <h2 className="text-white font-semibold text-sm">Arbolado urbano de Montevideo</h2>
-            <p className="text-gray-400 text-xs">234,464 árboles en veredas</p>
+            <h2 className="text-white font-semibold text-xs md:text-sm">Arbolado urbano de Montevideo</h2>
+            <p className="text-gray-400 text-xs">234,464 árboles</p>
           </div>
           <svg
             className={`w-5 h-5 text-gray-400 md:hidden transition-transform ${expanded ? 'rotate-180' : ''}`}
