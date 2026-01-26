@@ -31,11 +31,12 @@ const SPECIES_COLORS: [string, string][] = [
 ];
 
 // Build color expression for Mapbox
-const colorExpression: any[] = ['match', ['get', 'e']];
-for (const [species, color] of SPECIES_COLORS) {
-  colorExpression.push(species, color);
-}
-colorExpression.push('#4ade80'); // default
+const colorExpression = [
+  'match',
+  ['get', 'e'],
+  ...SPECIES_COLORS.flat(),
+  '#4ade80', // default
+] as mapboxgl.ExpressionSpecification;
 
 export default function Map({ onTreeSelect, selectedSpecies, reportMode, onReportClick }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
