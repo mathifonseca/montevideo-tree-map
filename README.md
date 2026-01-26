@@ -1,74 +1,74 @@
-# Arbolado Urbano de Montevideo
+# Montevideo Urban Trees
 
-Mapa interactivo para explorar los **234,464 árboles** que adornan las veredas de Montevideo, Uruguay.
+Interactive map to explore the **234,464 trees** lining the sidewalks of Montevideo, Uruguay.
 
-🌳 **[Ver el mapa](https://montevideo-tree-map.vercel.app)**
+🌳 **[View the map](https://montevideo-tree-map.vercel.app)**
 
-![Mapa de árboles de Montevideo](https://img.shields.io/badge/árboles-234,464-green) ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![Mapbox](https://img.shields.io/badge/Mapbox-GL-blue)
+![Trees](https://img.shields.io/badge/trees-234,464-green) ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![Mapbox](https://img.shields.io/badge/Mapbox-GL-blue)
 
-## Funcionalidades
+## Features
 
-- 🗺️ **Mapa interactivo** con todos los árboles coloreados por especie
-- 🌲 **Panel de información** con datos de cada árbol (especie, altura, estado, ubicación)
-- 📷 **Fotos de especies** desde Wikipedia con carrusel
-- 🔍 **Filtro por especie** con búsqueda y leyenda de colores
-- 📍 **Geolocalización** para centrar el mapa en tu ubicación
-- 📝 **Reportar árbol faltante** para contribuir al mapa
-- 📱 **Responsive** - funciona en móvil y desktop
+- 🗺️ **Interactive map** with all trees colored by species
+- 🌲 **Info panel** with tree details (species, height, condition, location)
+- 📷 **Species photos** from Wikipedia with carousel
+- 🔍 **Filter by species** with search and color legend
+- 📍 **Geolocation** to center the map on your location
+- 📝 **Report missing tree** to contribute to the map
+- 📱 **Responsive** - works on mobile and desktop
 
-## Stack Técnico
+## Tech Stack
 
-| Componente | Tecnología |
-|------------|------------|
+| Component | Technology |
+|-----------|------------|
 | Framework | [Next.js 16](https://nextjs.org/) |
-| Mapa | [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/) |
-| Estilos | [Tailwind CSS](https://tailwindcss.com/) |
-| Formularios | [Formspree](https://formspree.io/) |
-| Imágenes | Wikipedia / Wikimedia Commons API |
+| Map | [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/) |
+| Styles | [Tailwind CSS](https://tailwindcss.com/) |
+| Forms | [Formspree](https://formspree.io/) |
+| Images | Wikipedia / Wikimedia Commons API |
 | Deploy | [Vercel](https://vercel.com/) |
 
-## Estructura del proyecto
+## Project Structure
 
 ```
 arbolesmvd/
-├── data/                 # Datos crudos y procesados
-│   ├── raw/              # CSVs del censo, GeoJSON del WFS
-│   └── processed/        # Dataset unificado con coordenadas
-├── scripts/              # Scripts Python para procesamiento
+├── data/                 # Raw and processed data
+│   ├── raw/              # Census CSVs, WFS GeoJSON
+│   └── processed/        # Unified dataset with coordinates
+├── scripts/              # Python processing scripts
 │   ├── merge_datasets.py
 │   ├── geocode_final.py
 │   └── ...
-└── web/                  # Aplicación Next.js
+└── web/                  # Next.js application
     ├── src/
     │   ├── app/          # Pages (App Router)
     │   └── components/   # Map, TreePanel, Filters, etc.
-    └── public/           # GeoJSON de árboles
+    └── public/           # Tree GeoJSON files
 ```
 
-## Desarrollo
+## Development
 
 ```bash
 cd web
 npm install
-echo "NEXT_PUBLIC_MAPBOX_TOKEN=tu_token" > .env.local
+echo "NEXT_PUBLIC_MAPBOX_TOKEN=your_token" > .env.local
 npm run dev
 ```
 
-Abrir [http://localhost:3000](http://localhost:3000)
+Open [http://localhost:3000](http://localhost:3000)
 
-## Fuentes de datos
+## Data Sources
 
-- [Censo de arbolado 2008](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008) - Intendencia de Montevideo
-- [GeoWeb Montevideo](https://geoweb.montevideo.gub.uy) - Capas geográficas
+- [Tree Census 2008](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008) - Montevideo City Government
+- [GeoWeb Montevideo](https://geoweb.montevideo.gub.uy) - Geographic layers
 
-## Inspiración
+## Inspiration
 
-Basado en [Gieß den Kiez](https://giessdenkiez.de), un proyecto de Berlín que mapea árboles urbanos.
+Based on [Gieß den Kiez](https://giessdenkiez.de), a Berlin project that maps urban trees.
 
-## Autor
+## Author
 
-Creado por [Mathi Fonseca](https://mathifonseca.me)
+Created by [Mathi Fonseca](https://mathifonseca.me)
 
 ---
 
-*Los datos provienen del censo municipal de 2008. Algunas ubicaciones pueden haber cambiado.*
+*Data comes from the 2008 municipal census. Some locations may have changed.*

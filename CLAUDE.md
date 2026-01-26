@@ -1,31 +1,31 @@
-# Arbolado Urbano de Montevideo
+# Montevideo Urban Trees
 
-Base de datos unificada y mapa interactivo del arbolado público de Montevideo, Uruguay.
+Unified database and interactive map of Montevideo's public trees, Uruguay.
 
-## Resumen del proyecto
+## Project Summary
 
-**234,464 árboles** públicos de Montevideo con coordenadas geográficas, información de especie, estado vegetativo, dimensiones y ubicación. Los datos provienen del censo municipal de 2008 combinado con capas geográficas del WFS de la Intendencia.
+**234,464 public trees** in Montevideo with geographic coordinates, species information, vegetative condition, dimensions, and location. Data comes from the 2008 municipal census combined with geographic layers from the City's WFS service.
 
-## Estructura del repositorio
+## Repository Structure
 
 ```
 arbolesmvd/
 ├── data/
-│   ├── raw/                    # Datos originales (no modificar)
-│   │   ├── archivo_comunal*.csv  # 18 archivos del censo por CCZ
+│   ├── raw/                    # Original data (do not modify)
+│   │   ├── archivo_comunal*.csv  # 18 census files by CCZ
 │   │   ├── codigos-de-especie.csv
-│   │   ├── wfs_arboles.geojson   # Árboles con coordenadas del WFS
-│   │   └── wfs_puertas.geojson   # Direcciones para geocodificación
+│   │   ├── wfs_arboles.geojson   # Trees with coordinates from WFS
+│   │   └── wfs_puertas.geojson   # Addresses for geocoding
 │   └── processed/
-│       ├── arboles_montevideo.csv      # Censo unificado
-│       └── arboles_montevideo_geo.csv  # Dataset principal con coordenadas
+│       ├── arboles_montevideo.csv      # Unified census
+│       └── arboles_montevideo_geo.csv  # Main dataset with coordinates
 ├── scripts/
-│   ├── merge_datasets.py       # Une censo + WFS
-│   ├── geocode_final.py        # Geocodificación principal
-│   ├── geocode_nominatim.py    # Geocodificación con OSM
-│   ├── analyze_data.py         # Análisis estadístico
-│   └── generate_report.py      # Genera reporte HTML
-└── web/                        # Aplicación Next.js
+│   ├── merge_datasets.py       # Merge census + WFS
+│   ├── geocode_final.py        # Main geocoding
+│   ├── geocode_nominatim.py    # Geocoding with OSM
+│   ├── analyze_data.py         # Statistical analysis
+│   └── generate_report.py      # Generate HTML report
+└── web/                        # Next.js application
     ├── src/
     │   ├── app/
     │   │   ├── layout.tsx
@@ -38,167 +38,167 @@ arbolesmvd/
     │       ├── FeedbackModal.tsx
     │       └── AboutModal.tsx
     └── public/
-        ├── trees.json          # GeoJSON para el mapa (30MB)
-        ├── trees-data.json     # Datos detallados (50MB)
-        └── species.json        # Lista de especies
+        ├── trees.json          # GeoJSON for the map (30MB)
+        ├── trees-data.json     # Detailed data (50MB)
+        └── species.json        # Species list
 ```
 
-## Columnas principales del dataset
+## Main Dataset Columns
 
-- `Arbol`: ID único del árbol
-- `lat`, `lng`: Coordenadas geográficas
-- `Nombre científico`, `Nombre común`: Especie
-- `Calle`, `Numero`: Dirección
-- `CCZ`: Centro Comunal Zonal (1-18)
-- `CAP`: Circunferencia a altura de pecho (cm)
-- `Altura`: Altura del árbol (m)
-- `Diámetro de copa`: Diámetro de la copa (m)
-- `EV`: Estado vegetativo (1=Muy bueno a 7=Tocón)
+- `Arbol`: Unique tree ID
+- `lat`, `lng`: Geographic coordinates
+- `Nombre científico`, `Nombre común`: Species
+- `Calle`, `Numero`: Address
+- `CCZ`: Communal Center Zone (1-18)
+- `CAP`: Circumference at breast height (cm)
+- `Altura`: Tree height (m)
+- `Diámetro de copa`: Crown diameter (m)
+- `EV`: Vegetative condition (1=Very good to 7=Stump)
 
-## Aplicación web
+## Web Application
 
 ### Stack
-- Next.js 16 con App Router
+- Next.js 16 with App Router
 - Mapbox GL JS
 - Tailwind CSS
-- Formspree (formularios)
+- Formspree (forms)
 - Vercel (deploy)
 
-### Funcionalidades implementadas
-- Mapa interactivo con 234,464 árboles
-- Colores por especie (15 especies principales + default)
-- Panel de información del árbol seleccionado
-- Fotos de especies desde Wikipedia/Wikimedia Commons
-- Carrusel de imágenes con swipe en móvil
-- Filtro por especie con búsqueda
-- Leyenda de colores
-- Reportar árbol faltante (Formspree)
-- Formulario de feedback (Formspree)
-- Modal "Sobre este proyecto"
-- Botón de geolocalización
-- Diseño responsive (bottom sheet en móvil)
+### Implemented Features
+- Interactive map with 234,464 trees
+- Colors by species (15 main species + default)
+- Selected tree info panel
+- Species photos from Wikipedia/Wikimedia Commons
+- Image carousel with swipe on mobile
+- Filter by species with search
+- Color legend
+- Report missing tree (Formspree)
+- Feedback form (Formspree)
+- "About this project" modal
+- Geolocation button
+- Responsive design (bottom sheet on mobile)
 
-### Variables de entorno
+### Environment Variables
 ```
 NEXT_PUBLIC_MAPBOX_TOKEN=xxx
 ```
 
-### Comandos
+### Commands
 ```bash
 cd web
 npm install
-npm run dev      # Desarrollo
-npm run build    # Build producción
+npm run dev      # Development
+npm run build    # Production build
 ```
 
 ---
 
-## Historial de desarrollo
+## Development History
 
-### Fase 1: Procesamiento de datos (scripts/)
+### Phase 1: Data Processing (scripts/)
 
-1. **Unificación del censo**: Merge de 18 archivos CSV por CCZ en un único dataset
-2. **Geocodificación**: 100% de los árboles con coordenadas mediante:
-   - Matching con WFS de la Intendencia
-   - Geocodificación por dirección (calle + número)
-   - Nominatim (OpenStreetMap) para casos difíciles
-3. **Limpieza de nombres comunes**:
-   - 97,229 árboles sin nombre común → asignados desde nombre científico
-   - Corrección de abreviaturas ("P. radiata" → "Pino radiata")
-   - Casos especiales como "Ejemplar seco" (árboles muertos)
+1. **Census unification**: Merged 18 CSV files by CCZ into a single dataset
+2. **Geocoding**: 100% of trees with coordinates via:
+   - Matching with City's WFS
+   - Geocoding by address (street + number)
+   - Nominatim (OpenStreetMap) for difficult cases
+3. **Common name cleanup**:
+   - 97,229 trees without common name → assigned from scientific name
+   - Fixed abbreviations ("P. radiata" → "Pino radiata")
+   - Special cases like "Ejemplar seco" (dead trees)
 
-### Fase 2: Aplicación web (web/)
+### Phase 2: Web Application (web/)
 
-#### Estructura inicial
-- Next.js con App Router
-- Mapbox con estilo oscuro (dark-v11)
-- Carga de GeoJSON con todos los árboles
-- Panel lateral con información del árbol
+#### Initial Structure
+- Next.js with App Router
+- Mapbox with dark style (dark-v11)
+- GeoJSON loading with all trees
+- Side panel with tree info
 
-#### Mejoras de datos
-- Separación en `trees.json` (puntos para mapa) y `trees-data.json` (datos completos)
-- Propiedades mínimas en GeoJSON (`i`=ID, `e`=especie) para rendimiento
+#### Data Improvements
+- Split into `trees.json` (map points) and `trees-data.json` (full data)
+- Minimal properties in GeoJSON (`i`=ID, `e`=species) for performance
 
-#### Filtro por especie
-- Dropdown con búsqueda
-- Filtro aplicado a la capa de Mapbox
-- Regeneración de trees.json con nombres comunes actualizados
+#### Species Filter
+- Dropdown with search
+- Filter applied to Mapbox layer
+- Regenerated trees.json with updated common names
 
-#### Colores por especie
-- 15 colores para especies más comunes
-- Expresión `match` de Mapbox para colorear puntos
-- Leyenda siempre visible
+#### Colors by Species
+- 15 colors for most common species
+- Mapbox `match` expression for point coloring
+- Always visible legend
 
-#### Fotos de especies
-- Integración con Wikipedia API (resumen en español)
-- Integración con Wikimedia Commons (imágenes)
-- Carrusel modal con navegación
-- Cache en memoria para evitar requests repetidos
-- Exclusión de especies no válidas ("Ejemplar seco", "Dudas", etc.)
+#### Species Photos
+- Wikipedia API integration (Spanish summary)
+- Wikimedia Commons integration (images)
+- Modal carousel with navigation
+- In-memory cache to avoid repeated requests
+- Exclusion of invalid species ("Ejemplar seco", "Dudas", etc.)
 
-#### Formularios
-- **Reportar árbol faltante**: Formspree (https://formspree.io/f/mbdodqbo)
-  - Coordenadas del click en el mapa
-  - Especie (opcional)
-  - Descripción
-- **Feedback general**: Formspree (https://formspree.io/f/xnjdjwav)
-  - Tipo (sugerencia, error, otro)
-  - Mensaje
+#### Forms
+- **Report missing tree**: Formspree (https://formspree.io/f/mbdodqbo)
+  - Click coordinates on map
+  - Species (optional)
+  - Description
+- **General feedback**: Formspree (https://formspree.io/f/xnjdjwav)
+  - Type (suggestion, error, other)
+  - Message
 
-#### Modal "Sobre este proyecto"
-- Descripción breve
-- Inspiración (Gieß den Kiez)
-- Fuentes de datos
-- Créditos (Mathi Fonseca)
+#### "About this project" Modal
+- Brief description
+- Inspiration (Gieß den Kiez)
+- Data sources
+- Credits (Mathi Fonseca)
 
 #### UI/UX
-- Botones compactos en esquina superior derecha
-- Indicador de modo reporte
-- Fix z-index para que botones no se tapen con panel
-- Ocultar sección "Ubicación" cuando está vacía
+- Compact buttons in top-right corner
+- Report mode indicator
+- z-index fix so buttons don't get covered by panel
+- Hide "Location" section when empty
 
-#### Responsive (móvil)
-- TreePanel como bottom sheet (70vh) con bordes redondeados
-- Filtros colapsables con chevron
-- Leyenda como acordeón separado
-- Ancho reducido del panel de filtros (w-52)
-- Backdrop oscuro para bottom sheet
+#### Responsive (Mobile)
+- TreePanel as bottom sheet (70vh) with rounded corners
+- Collapsible filters with chevron
+- Legend as separate accordion
+- Reduced filter panel width (w-52)
+- Dark backdrop for bottom sheet
 
-#### Geolocalización
-- Botón "Mi ubicación" en esquina inferior derecha
-- Usa navigator.geolocation.getCurrentPosition
-- Centra el mapa con zoom 17
-- Spinner mientras obtiene ubicación
+#### Geolocation
+- "My location" button in bottom-right corner
+- Uses navigator.geolocation.getCurrentPosition
+- Centers map with zoom 17
+- Spinner while getting location
 
-#### Swipe en carrusel
-- Touch events para detectar swipe (umbral 50px)
-- Navegación entre imágenes con dedo
-- Imagen no draggable para mejor UX
+#### Carousel Swipe
+- Touch events to detect swipe (50px threshold)
+- Navigate between images with finger
+- Non-draggable image for better UX
 
-### Solución de problemas
+### Troubleshooting
 
-#### Archivos grandes en Git
-- trees.json (30MB) y trees-data.json (50MB) excedían límite de GitHub
-- Solución: Compresión con gzip y .gitattributes
+#### Large Files in Git
+- trees.json (30MB) and trees-data.json (50MB) exceeded GitHub limit
+- Solution: Compression with gzip and .gitattributes
 
 #### TypeScript
-- Error de tipo en `colorExpression` → cast a `mapboxgl.ExpressionSpecification`
+- Type error in `colorExpression` → cast to `mapboxgl.ExpressionSpecification`
 
-#### Map loading
-- El mapa no cargaba (loop infinito) → fix en cleanup de useEffect y refs para callbacks
+#### Map Loading
+- Map wasn't loading (infinite loop) → fix in useEffect cleanup and refs for callbacks
 
 ---
 
-## Fuentes de datos
+## Data Sources
 
-- [Catálogo de Datos Abiertos](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008)
+- [Open Data Catalog](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008)
 - [IDE Montevideo (WFS)](https://sig.montevideo.gub.uy)
 - [GeoWeb Montevideo](https://geoweb.montevideo.gub.uy)
 
-## Inspiración
+## Inspiration
 
-- [Gieß den Kiez](https://giessdenkiez.de) - Mapa de árboles de Berlín
+- [Gieß den Kiez](https://giessdenkiez.de) - Berlin tree map
 
-## Autor
+## Author
 
 [Mathi Fonseca](https://mathifonseca.me)
