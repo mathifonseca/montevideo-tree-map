@@ -2,6 +2,20 @@
 
 import { useState, useEffect } from 'react';
 
+// Colors for legend (must match Map.tsx)
+const SPECIES_COLORS: [string, string][] = [
+  ['Paraiso', '#f59e0b'],
+  ['Fresno americano', '#3b82f6'],
+  ['Platano', '#8b5cf6'],
+  ['Tipa', '#ec4899'],
+  ['Arce negundo', '#ef4444'],
+  ['Fresno europeo', '#06b6d4'],
+  ['Laurel rosa', '#f43f5e'],
+  ['Anacahuita', '#84cc16'],
+  ['Jacaranda', '#a855f7'],
+  ['Olmo procera', '#14b8a6'],
+];
+
 interface FiltersProps {
   species: string[];
   selectedSpecies: string | null;
@@ -21,8 +35,8 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
       <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-72">
         {/* Header */}
         <div className="p-3 border-b border-gray-700">
-          <h2 className="text-white font-semibold text-sm">Árboles de Montevideo</h2>
-          <p className="text-gray-400 text-xs">234,464 árboles</p>
+          <h2 className="text-white font-semibold text-sm">Arbolado urbano de Montevideo</h2>
+          <p className="text-gray-400 text-xs">234,464 árboles en veredas</p>
         </div>
 
         {/* Species filter */}
@@ -91,6 +105,30 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
               </span>
             </div>
           )}
+        </div>
+
+        {/* Legend */}
+        <div className="p-3 border-t border-gray-700">
+          <p className="text-gray-400 text-xs mb-2">Especies más comunes</p>
+          <div className="space-y-1">
+            {SPECIES_COLORS.map(([name, color]) => (
+              <button
+                key={name}
+                onClick={() => onSpeciesChange(name)}
+                className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+              >
+                <span
+                  className="w-3 h-3 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: color }}
+                />
+                <span className="text-gray-300 text-xs truncate">{name}</span>
+              </button>
+            ))}
+            <div className="flex items-center gap-2 px-1 py-0.5">
+              <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
+              <span className="text-gray-500 text-xs">Otras especies</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

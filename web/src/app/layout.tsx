@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Árboles de Montevideo",
-  description: "Mapa interactivo de los 234,464 árboles de Montevideo",
+  title: "Arbolado urbano de Montevideo",
+  description: "Mapa interactivo de los 234,464 árboles en veredas de Montevideo",
 };
 
 export default function RootLayout({

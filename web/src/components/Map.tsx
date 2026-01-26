@@ -7,18 +7,57 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 interface MapProps {
   onTreeSelect: (treeId: number | null) => void;
   selectedSpecies: string | null;
+  reportMode?: boolean;
+  onReportClick?: (lat: number, lng: number) => void;
 }
 
-export default function Map({ onTreeSelect, selectedSpecies }: MapProps) {
+// Color palette for top species
+const SPECIES_COLORS: [string, string][] = [
+  ['Paraiso', '#f59e0b'],
+  ['Fresno americano', '#3b82f6'],
+  ['Platano', '#8b5cf6'],
+  ['Tipa', '#ec4899'],
+  ['Arce negundo', '#ef4444'],
+  ['Fresno europeo', '#06b6d4'],
+  ['Laurel rosa', '#f43f5e'],
+  ['Anacahuita', '#84cc16'],
+  ['Jacaranda', '#a855f7'],
+  ['Olmo procera', '#14b8a6'],
+  ['Sauce llorón', '#22c55e'],
+  ['Sauce lloron', '#22c55e'],
+  ['Eucalipto blanco', '#64748b'],
+  ['Arce blanco', '#f97316'],
+  ['Palo borracho rosa', '#db2777'],
+];
+
+// Build color expression for Mapbox
+const colorExpression: any[] = ['match', ['get', 'e']];
+for (const [species, color] of SPECIES_COLORS) {
+  colorExpression.push(species, color);
+}
+colorExpression.push('#4ade80'); // default
+
+export default function Map({ onTreeSelect, selectedSpecies, reportMode, onReportClick }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const onTreeSelectRef = useRef(onTreeSelect);
+  const reportModeRef = useRef(reportMode);
+  const onReportClickRef = useRef(onReportClick);
   const [loading, setLoading] = useState(true);
 
-  // Keep ref updated
+  // Keep refs updated
   useEffect(() => {
     onTreeSelectRef.current = onTreeSelect;
   }, [onTreeSelect]);
+
+  useEffect(() => {
+    reportModeRef.current = reportMode;
+    onReportClickRef.current = onReportClick;
+    // Change cursor in report mode
+    if (map.current) {
+      map.current.getCanvas().style.cursor = reportMode ? 'crosshair' : '';
+    }
+  }, [reportMode, onReportClick]);
 
   useEffect(() => {
     if (map.current) return;
@@ -52,13 +91,13 @@ export default function Map({ onTreeSelect, selectedSpecies }: MapProps) {
       });
       console.log('Source added');
 
-      // Trees layer
+      // Trees layer with colors by species
       map.current!.addLayer({
         id: 'trees-point',
         type: 'circle',
         source: 'trees',
         paint: {
-          'circle-color': '#4ade80',
+          'circle-color': colorExpression,
           'circle-radius': [
             'interpolate', ['linear'], ['zoom'],
             10, 1.5,
@@ -70,7 +109,7 @@ export default function Map({ onTreeSelect, selectedSpecies }: MapProps) {
             10, 0,
             14, 1
           ],
-          'circle-stroke-color': '#166534',
+          'circle-stroke-color': '#000',
         },
       });
 
@@ -78,9 +117,17 @@ export default function Map({ onTreeSelect, selectedSpecies }: MapProps) {
 
       // Click on tree
       map.current!.on('click', 'trees-point', (e) => {
+        if (reportModeRef.current) return; // Ignore in report mode
         const feature = e.features![0];
         const treeId = feature.properties!.i;
         onTreeSelectRef.current(treeId);
+      });
+
+      // Click on map for report mode
+      map.current!.on('click', (e) => {
+        if (reportModeRef.current && onReportClickRef.current) {
+          onReportClickRef.current(e.lngLat.lat, e.lngLat.lng);
+        }
       });
 
       // Cursor
