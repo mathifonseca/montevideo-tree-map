@@ -25,6 +25,7 @@ interface FiltersProps {
 export default function Filters({ species, selectedSpecies, onSpeciesChange }: FiltersProps) {
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const filteredSpecies = species.filter((s) =>
     s.toLowerCase().includes(search.toLowerCase())
@@ -32,15 +33,30 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
 
   return (
     <div className="absolute top-4 left-4 z-10">
-      <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-72">
+      <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-64 md:w-72">
         {/* Header */}
-        <div className="p-3 border-b border-gray-700">
-          <h2 className="text-white font-semibold text-sm">Arbolado urbano de Montevideo</h2>
-          <p className="text-gray-400 text-xs">234,464 árboles en veredas</p>
+        <div
+          className="p-3 border-b border-gray-700 md:cursor-default cursor-pointer flex justify-between items-center"
+          onClick={() => setExpanded(!expanded)}
+        >
+          <div>
+            <h2 className="text-white font-semibold text-sm">Arbolado urbano de Montevideo</h2>
+            <p className="text-gray-400 text-xs">234,464 árboles en veredas</p>
+          </div>
+          <svg
+            className={`w-5 h-5 text-gray-400 md:hidden transition-transform ${expanded ? 'rotate-180' : ''}`}
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
         </div>
 
-        {/* Species filter */}
-        <div className="p-3">
+        {/* Collapsible content - always visible on desktop, toggle on mobile */}
+        <div className={`${expanded ? 'block' : 'hidden'} md:block`}>
+          {/* Species filter */}
+          <div className="p-3">
           <label className="text-gray-400 text-xs block mb-2">Filtrar por especie</label>
           <div className="relative">
             <input
@@ -107,26 +123,27 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
           )}
         </div>
 
-        {/* Legend */}
-        <div className="p-3 border-t border-gray-700">
-          <p className="text-gray-400 text-xs mb-2">Especies más comunes</p>
-          <div className="space-y-1">
-            {SPECIES_COLORS.map(([name, color]) => (
-              <button
-                key={name}
-                onClick={() => onSpeciesChange(name)}
-                className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
-              >
-                <span
-                  className="w-3 h-3 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: color }}
-                />
-                <span className="text-gray-300 text-xs truncate">{name}</span>
-              </button>
-            ))}
-            <div className="flex items-center gap-2 px-1 py-0.5">
-              <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-              <span className="text-gray-500 text-xs">Otras especies</span>
+          {/* Legend */}
+          <div className="p-3 border-t border-gray-700">
+            <p className="text-gray-400 text-xs mb-2">Especies más comunes</p>
+            <div className="space-y-1">
+              {SPECIES_COLORS.map(([name, color]) => (
+                <button
+                  key={name}
+                  onClick={() => onSpeciesChange(name)}
+                  className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+                >
+                  <span
+                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    style={{ backgroundColor: color }}
+                  />
+                  <span className="text-gray-300 text-xs truncate">{name}</span>
+                </button>
+              ))}
+              <div className="flex items-center gap-2 px-1 py-0.5">
+                <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
+                <span className="text-gray-500 text-xs">Otras especies</span>
+              </div>
             </div>
           </div>
         </div>
