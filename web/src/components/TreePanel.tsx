@@ -180,13 +180,8 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
 
       {/* Panel - bottom sheet on mobile, side panel on desktop */}
       <div className="fixed md:absolute bottom-0 md:top-0 left-0 right-0 md:left-auto md:right-0 md:w-96 h-[70vh] md:h-full bg-gray-900 border-t md:border-t-0 md:border-l border-gray-700 shadow-xl overflow-auto z-20 rounded-t-2xl md:rounded-none">
-      {/* Drag handle for mobile */}
-      <div className="md:hidden flex justify-center py-2">
-        <div className="w-10 h-1 bg-gray-600 rounded-full" />
-      </div>
-
       {/* Header */}
-      <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4 pt-0 md:pt-4">
+      <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4">
         <div className="flex justify-between items-start">
           <div>
             <h2 className="text-xl font-bold text-white">
