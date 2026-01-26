@@ -39,6 +39,28 @@ const colorExpression = [
 ] as mapboxgl.ExpressionSpecification;
 
 export default function Map({ onTreeSelect, selectedSpecies, reportMode, onReportClick }: MapProps) {
+  const [locating, setLocating] = useState(false);
+
+  const handleLocateMe = () => {
+    if (!map.current) return;
+    setLocating(true);
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        map.current?.flyTo({
+          center: [position.coords.longitude, position.coords.latitude],
+          zoom: 17,
+        });
+        setLocating(false);
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        setLocating(false);
+        alert('No se pudo obtener tu ubicación');
+      },
+      { enableHighAccuracy: true }
+    );
+  };
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const onTreeSelectRef = useRef(onTreeSelect);
@@ -179,6 +201,25 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
           <div className="text-white text-lg">Cargando árboles...</div>
         </div>
       )}
+
+      {/* Locate me button */}
+      <button
+        onClick={handleLocateMe}
+        disabled={locating}
+        className="absolute bottom-6 right-4 z-10 p-3 bg-gray-900 text-white border border-gray-700 rounded-lg shadow-lg hover:bg-gray-800 disabled:opacity-50"
+        title="Mi ubicación"
+      >
+        {locating ? (
+          <svg className="w-5 h-5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        ) : (
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+        )}
+      </button>
     </div>
   );
 }

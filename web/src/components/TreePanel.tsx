@@ -108,6 +108,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
   const [infoLoading, setInfoLoading] = useState(false);
   const [carouselOpen, setCarouselOpen] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
 
   useEffect(() => {
     if (treeId && treesData) {
@@ -292,11 +293,28 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
           )}
 
           {/* Image */}
-          <div className="max-w-4xl max-h-[80vh] px-16" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="max-w-4xl max-h-[80vh] px-4 md:px-16"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={(e) => setTouchStart(e.touches[0].clientX)}
+            onTouchEnd={(e) => {
+              if (touchStart === null) return;
+              const diff = touchStart - e.changedTouches[0].clientX;
+              if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                  setCarouselIndex((i) => (i + 1) % speciesInfo.images.length);
+                } else {
+                  setCarouselIndex((i) => (i - 1 + speciesInfo.images.length) % speciesInfo.images.length);
+                }
+              }
+              setTouchStart(null);
+            }}
+          >
             <img
               src={speciesInfo.images[carouselIndex]}
               alt={`${tree?.nombre_cientifico} - ${carouselIndex + 1}`}
-              className="max-w-full max-h-[80vh] object-contain"
+              className="max-w-full max-h-[80vh] object-contain select-none"
+              draggable={false}
             />
             <div className="text-center mt-4">
               <p className="text-white/70 text-sm">
