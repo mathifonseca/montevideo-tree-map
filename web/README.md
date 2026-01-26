@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Arbolado Urbano de Montevideo
 
-## Getting Started
+Mapa interactivo para explorar los **234,464 árboles** que adornan las veredas de Montevideo, Uruguay.
 
-First, run the development server:
+**Demo en vivo**: [arbolesmvd.vercel.app](https://arbolesmvd.vercel.app) *(o tu URL de Vercel)*
+
+## Funcionalidades
+
+- **Mapa interactivo** con todos los árboles de Montevideo coloreados por especie
+- **Panel de información** con datos detallados de cada árbol (especie, ubicación, altura, estado, etc.)
+- **Fotos de especies** obtenidas de Wikipedia/Wikimedia Commons con carrusel
+- **Filtro por especie** con búsqueda y leyenda de colores
+- **Reportar árbol faltante** vía Formspree
+- **Geolocalización** para centrar el mapa en tu ubicación
+- **Diseño responsive** con bottom sheet en móvil y panel lateral en desktop
+
+## Stack Técnico
+
+- **Framework**: [Next.js 16](https://nextjs.org/) con App Router
+- **Mapa**: [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/)
+- **Estilos**: [Tailwind CSS](https://tailwindcss.com/)
+- **Formularios**: [Formspree](https://formspree.io/) (sin backend)
+- **Imágenes**: Wikipedia/Wikimedia Commons API
+- **Deploy**: [Vercel](https://vercel.com/)
+
+## Arquitectura
+
+```
+web/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Layout con metadata y fuentes
+│   │   └── page.tsx            # Página principal (estado global)
+│   └── components/
+│       ├── Map.tsx             # Mapa Mapbox con capas de árboles
+│       ├── TreePanel.tsx       # Panel info árbol + carrusel fotos
+│       ├── Filters.tsx         # Filtro especies + leyenda colores
+│       ├── ReportModal.tsx     # Modal reportar árbol faltante
+│       ├── FeedbackModal.tsx   # Modal feedback general
+│       └── AboutModal.tsx      # Modal "Sobre este proyecto"
+├── public/
+│   ├── trees.json              # GeoJSON con puntos (30MB)
+│   ├── trees-data.json         # Datos detallados por ID (50MB)
+│   └── species.json            # Lista de especies para filtro
+└── package.json
+```
+
+### Flujo de datos
+
+1. **trees.json** - GeoJSON con 234,464 features. Cada punto tiene propiedades mínimas (`i`=ID, `e`=especie) para rendimiento.
+2. **trees-data.json** - Objeto con datos completos de cada árbol, indexado por ID. Se carga al inicio y se consulta cuando el usuario selecciona un árbol.
+3. **species.json** - Array de nombres de especies para el dropdown de filtro.
+
+### Colores por especie
+
+Las 15 especies más comunes tienen colores asignados (definidos en `Map.tsx` y `Filters.tsx`). El resto se muestra en verde (`#4ade80`).
+
+## Desarrollo
+
+### Requisitos
+
+- Node.js 18+
+- Token de Mapbox (crear cuenta gratuita en [mapbox.com](https://mapbox.com))
+
+### Instalación
+
+```bash
+cd web
+npm install
+```
+
+### Configuración
+
+Crear archivo `.env.local`:
+
+```env
+NEXT_PUBLIC_MAPBOX_TOKEN=tu_token_de_mapbox
+```
+
+### Ejecutar
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrir [http://localhost:3000](http://localhost:3000)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm start
+```
 
-## Learn More
+## Fuentes de datos
 
-To learn more about Next.js, take a look at the following resources:
+- [Censo de arbolado 2008](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008) - Intendencia de Montevideo
+- [GeoWeb Montevideo](https://geoweb.montevideo.gub.uy/geonetwork/srv/spa/catalog.search) - Capas geográficas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Inspiración
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Basado en [Gieß den Kiez](https://giessdenkiez.de), un proyecto de Berlín que mapea árboles urbanos y permite a los ciudadanos registrar cuando los riegan.
 
-## Deploy on Vercel
+## Autor
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Creado por [Mathi Fonseca](https://mathifonseca.me)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+*Los datos provienen del censo municipal de 2008. Algunas ubicaciones pueden haber cambiado.*

@@ -1,42 +1,46 @@
 # Arbolado Urbano de Montevideo
 
-Base de datos unificada del arbolado público de Montevideo, Uruguay.
+Base de datos unificada y mapa interactivo del arbolado público de Montevideo, Uruguay.
 
-## Objetivo
+## Resumen del proyecto
 
-Crear un dataset completo y georreferenciado de los ~235,000 árboles públicos de Montevideo, combinando:
-- Censo municipal de arbolado (datos detallados por árbol)
-- Servicio WFS con coordenadas geográficas
-- Base de puertas (direcciones) para geocodificación
+**234,464 árboles** públicos de Montevideo con coordenadas geográficas, información de especie, estado vegetativo, dimensiones y ubicación. Los datos provienen del censo municipal de 2008 combinado con capas geográficas del WFS de la Intendencia.
 
-## Estado actual
-
-- **234,464 árboles** en total
-- **100% con coordenadas** (234,464)
-
-## Estructura
+## Estructura del repositorio
 
 ```
-data/
-  raw/                    # Datos originales (no modificar)
-    archivo_comunal*.csv  # 18 archivos del censo por CCZ
-    codigos-de-especie.csv
-    wfs_arboles.geojson   # Árboles con coordenadas del WFS
-    wfs_puertas.geojson   # Direcciones para geocodificación
-    referencias.txt       # Descripción de columnas del censo
-  processed/
-    arboles_montevideo.csv      # Censo unificado
-    arboles_montevideo_geo.csv  # Dataset principal con coordenadas
-    reporte_arbolado.html       # Reporte de análisis
-
-scripts/
-  merge_datasets.py      # Une censo + WFS
-  geocode_final.py       # Geocodificación principal (matching inteligente de calles)
-  geocode_nominatim.py   # Geocodificación con OpenStreetMap (para casos difíciles)
-  geocode_improved.py    # Versión anterior (deprecado)
-  geocode_puertas.py     # Versión inicial (deprecado)
-  analyze_data.py        # Análisis estadístico
-  generate_report.py     # Genera reporte HTML
+arbolesmvd/
+├── data/
+│   ├── raw/                    # Datos originales (no modificar)
+│   │   ├── archivo_comunal*.csv  # 18 archivos del censo por CCZ
+│   │   ├── codigos-de-especie.csv
+│   │   ├── wfs_arboles.geojson   # Árboles con coordenadas del WFS
+│   │   └── wfs_puertas.geojson   # Direcciones para geocodificación
+│   └── processed/
+│       ├── arboles_montevideo.csv      # Censo unificado
+│       └── arboles_montevideo_geo.csv  # Dataset principal con coordenadas
+├── scripts/
+│   ├── merge_datasets.py       # Une censo + WFS
+│   ├── geocode_final.py        # Geocodificación principal
+│   ├── geocode_nominatim.py    # Geocodificación con OSM
+│   ├── analyze_data.py         # Análisis estadístico
+│   └── generate_report.py      # Genera reporte HTML
+└── web/                        # Aplicación Next.js
+    ├── src/
+    │   ├── app/
+    │   │   ├── layout.tsx
+    │   │   └── page.tsx
+    │   └── components/
+    │       ├── Map.tsx
+    │       ├── TreePanel.tsx
+    │       ├── Filters.tsx
+    │       ├── ReportModal.tsx
+    │       ├── FeedbackModal.tsx
+    │       └── AboutModal.tsx
+    └── public/
+        ├── trees.json          # GeoJSON para el mapa (30MB)
+        ├── trees-data.json     # Datos detallados (50MB)
+        └── species.json        # Lista de especies
 ```
 
 ## Columnas principales del dataset
@@ -48,78 +52,153 @@ scripts/
 - `CCZ`: Centro Comunal Zonal (1-18)
 - `CAP`: Circunferencia a altura de pecho (cm)
 - `Altura`: Altura del árbol (m)
+- `Diámetro de copa`: Diámetro de la copa (m)
 - `EV`: Estado vegetativo (1=Muy bueno a 7=Tocón)
-- `origen`: 'censo' o 'wfs_only'
 
-## Comandos
+## Aplicación web
 
-```bash
-# Ejecutar scripts
-python3 scripts/merge_datasets.py
-python3 scripts/geocode_puertas.py
-python3 scripts/analyze_data.py
-python3 scripts/generate_report.py
+### Stack
+- Next.js 16 con App Router
+- Mapbox GL JS
+- Tailwind CSS
+- Formspree (formularios)
+- Vercel (deploy)
 
-# Abrir reporte
-open data/processed/reporte_arbolado.html
+### Funcionalidades implementadas
+- Mapa interactivo con 234,464 árboles
+- Colores por especie (15 especies principales + default)
+- Panel de información del árbol seleccionado
+- Fotos de especies desde Wikipedia/Wikimedia Commons
+- Carrusel de imágenes con swipe en móvil
+- Filtro por especie con búsqueda
+- Leyenda de colores
+- Reportar árbol faltante (Formspree)
+- Formulario de feedback (Formspree)
+- Modal "Sobre este proyecto"
+- Botón de geolocalización
+- Diseño responsive (bottom sheet en móvil)
+
+### Variables de entorno
+```
+NEXT_PUBLIC_MAPBOX_TOKEN=xxx
 ```
 
-## Fuentes de datos
-
-- Catálogo de Datos Abiertos de Uruguay: https://catalogodatos.gub.uy
-- IDE Montevideo (WFS): https://sig.montevideo.gub.uy
+### Comandos
+```bash
+cd web
+npm install
+npm run dev      # Desarrollo
+npm run build    # Build producción
+```
 
 ---
 
-## Próximos pasos: Mapa interactivo
+## Historial de desarrollo
 
-### Objetivo
-Crear un mapa interactivo de los árboles de Montevideo usando React + Next.js + Mapbox.
+### Fase 1: Procesamiento de datos (scripts/)
 
-### Referencia de diseño
-**Gieß den Kiez** (Berlín): https://www.giessdenkiez.de/map
+1. **Unificación del censo**: Merge de 18 archivos CSV por CCZ en un único dataset
+2. **Geocodificación**: 100% de los árboles con coordenadas mediante:
+   - Matching con WFS de la Intendencia
+   - Geocodificación por dirección (calle + número)
+   - Nominatim (OpenStreetMap) para casos difíciles
+3. **Limpieza de nombres comunes**:
+   - 97,229 árboles sin nombre común → asignados desde nombre científico
+   - Corrección de abreviaturas ("P. radiata" → "Pino radiata")
+   - Casos especiales como "Ejemplar seco" (árboles muertos)
 
-Características a replicar:
-- Mapa a pantalla completa con árboles como puntos
-- Panel lateral con información detallada del árbol al hacer clic
-- Filtros (por especie, estado, etc.)
-- Diseño limpio y moderno
-- Clusters de árboles en zoom bajo
-- Colores por especie o estado
+### Fase 2: Aplicación web (web/)
 
-### Stack técnico
-- **Framework**: Next.js (React)
-- **Mapa**: Mapbox GL JS
-- **Datos**: GeoJSON generado desde arboles_montevideo_geo.csv
-- **Estilo**: Inspirado en Gieß den Kiez (fondo oscuro, puntos verdes)
+#### Estructura inicial
+- Next.js con App Router
+- Mapbox con estilo oscuro (dark-v11)
+- Carga de GeoJSON con todos los árboles
+- Panel lateral con información del árbol
 
-### Funcionalidades requeridas
-1. Visualización de 234,464 árboles en mapa
-2. Clic en árbol → mostrar panel con info:
-   - Nombre común y científico
-   - Ubicación (calle, número)
-   - Características (altura, CAP, diámetro copa)
-   - Estado vegetativo
-   - CCZ
-3. Filtros:
-   - Por especie (búsqueda/dropdown)
-   - Por CCZ
-   - Por estado vegetativo
-4. Clustering en zoom bajo para rendimiento
-5. URL con estado del mapa (lat, lng, zoom, árbol seleccionado)
+#### Mejoras de datos
+- Separación en `trees.json` (puntos para mapa) y `trees-data.json` (datos completos)
+- Propiedades mínimas en GeoJSON (`i`=ID, `e`=especie) para rendimiento
 
-### Estructura propuesta
-```
-web/
-  app/
-    page.tsx           # Página principal con mapa
-    layout.tsx
-  components/
-    Map.tsx            # Componente Mapbox
-    TreePanel.tsx      # Panel lateral con info del árbol
-    Filters.tsx        # Filtros de búsqueda
-  lib/
-    trees.ts           # Utilidades para cargar/filtrar datos
-  public/
-    trees.geojson      # Datos de árboles para el mapa
-```
+#### Filtro por especie
+- Dropdown con búsqueda
+- Filtro aplicado a la capa de Mapbox
+- Regeneración de trees.json con nombres comunes actualizados
+
+#### Colores por especie
+- 15 colores para especies más comunes
+- Expresión `match` de Mapbox para colorear puntos
+- Leyenda siempre visible
+
+#### Fotos de especies
+- Integración con Wikipedia API (resumen en español)
+- Integración con Wikimedia Commons (imágenes)
+- Carrusel modal con navegación
+- Cache en memoria para evitar requests repetidos
+- Exclusión de especies no válidas ("Ejemplar seco", "Dudas", etc.)
+
+#### Formularios
+- **Reportar árbol faltante**: Formspree (https://formspree.io/f/mbdodqbo)
+  - Coordenadas del click en el mapa
+  - Especie (opcional)
+  - Descripción
+- **Feedback general**: Formspree (https://formspree.io/f/xnjdjwav)
+  - Tipo (sugerencia, error, otro)
+  - Mensaje
+
+#### Modal "Sobre este proyecto"
+- Descripción breve
+- Inspiración (Gieß den Kiez)
+- Fuentes de datos
+- Créditos (Mathi Fonseca)
+
+#### UI/UX
+- Botones compactos en esquina superior derecha
+- Indicador de modo reporte
+- Fix z-index para que botones no se tapen con panel
+- Ocultar sección "Ubicación" cuando está vacía
+
+#### Responsive (móvil)
+- TreePanel como bottom sheet (70vh) con bordes redondeados
+- Filtros colapsables con chevron
+- Leyenda como acordeón separado
+- Ancho reducido del panel de filtros (w-52)
+- Backdrop oscuro para bottom sheet
+
+#### Geolocalización
+- Botón "Mi ubicación" en esquina inferior derecha
+- Usa navigator.geolocation.getCurrentPosition
+- Centra el mapa con zoom 17
+- Spinner mientras obtiene ubicación
+
+#### Swipe en carrusel
+- Touch events para detectar swipe (umbral 50px)
+- Navegación entre imágenes con dedo
+- Imagen no draggable para mejor UX
+
+### Solución de problemas
+
+#### Archivos grandes en Git
+- trees.json (30MB) y trees-data.json (50MB) excedían límite de GitHub
+- Solución: Compresión con gzip y .gitattributes
+
+#### TypeScript
+- Error de tipo en `colorExpression` → cast a `mapboxgl.ExpressionSpecification`
+
+#### Map loading
+- El mapa no cargaba (loop infinito) → fix en cleanup de useEffect y refs para callbacks
+
+---
+
+## Fuentes de datos
+
+- [Catálogo de Datos Abiertos](https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008)
+- [IDE Montevideo (WFS)](https://sig.montevideo.gub.uy)
+- [GeoWeb Montevideo](https://geoweb.montevideo.gub.uy)
+
+## Inspiración
+
+- [Gieß den Kiez](https://giessdenkiez.de) - Mapa de árboles de Berlín
+
+## Autor
+
+[Mathi Fonseca](https://mathifonseca.me)
