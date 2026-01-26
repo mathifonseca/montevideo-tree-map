@@ -26,6 +26,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [legendOpen, setLegendOpen] = useState(false);
 
   const filteredSpecies = species.filter((s) =>
     s.toLowerCase().includes(search.toLowerCase())
@@ -123,8 +124,8 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
           )}
         </div>
 
-          {/* Legend */}
-          <div className="p-3 border-t border-gray-700">
+          {/* Legend - always visible on desktop */}
+          <div className="hidden md:block p-3 border-t border-gray-700">
             <p className="text-gray-400 text-xs mb-2">Especies más comunes</p>
             <div className="space-y-1">
               {SPECIES_COLORS.map(([name, color]) => (
@@ -145,6 +146,45 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
                 <span className="text-gray-500 text-xs">Otras especies</span>
               </div>
             </div>
+          </div>
+
+          {/* Legend toggle - mobile only */}
+          <div className="md:hidden p-3 border-t border-gray-700">
+            <button
+              onClick={() => setLegendOpen(!legendOpen)}
+              className="flex items-center justify-between w-full text-gray-400 text-xs"
+            >
+              <span>Especies más comunes</span>
+              <svg
+                className={`w-4 h-4 transition-transform ${legendOpen ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {legendOpen && (
+              <div className="space-y-1 mt-2">
+                {SPECIES_COLORS.map(([name, color]) => (
+                  <button
+                    key={name}
+                    onClick={() => onSpeciesChange(name)}
+                    className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+                  >
+                    <span
+                      className="w-3 h-3 rounded-full flex-shrink-0"
+                      style={{ backgroundColor: color }}
+                    />
+                    <span className="text-gray-300 text-xs truncate">{name}</span>
+                  </button>
+                ))}
+                <div className="flex items-center gap-2 px-1 py-0.5">
+                  <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
+                  <span className="text-gray-500 text-xs">Otras especies</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
