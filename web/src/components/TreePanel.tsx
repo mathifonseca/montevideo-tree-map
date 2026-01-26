@@ -171,7 +171,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
   }
 
   return (
-    <div className="absolute top-0 right-0 w-96 h-full bg-gray-900 border-l border-gray-700 shadow-xl overflow-auto">
+    <div className="absolute top-0 right-0 w-96 h-full bg-gray-900 border-l border-gray-700 shadow-xl overflow-auto z-20">
       {/* Header */}
       <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4">
         <div className="flex justify-between items-start">
@@ -343,18 +343,20 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
         )}
 
         {/* Ubicación */}
-        <div>
-          <h3 className="text-gray-400 text-sm mb-2">Ubicación</h3>
-          <div className="text-white">
-            {tree.calle && (
-              <p>
-                {tree.calle}
-                {tree.numero && ` ${tree.numero}`}
-              </p>
-            )}
-            {tree.ccz && <p className="text-gray-400 text-sm">CCZ {tree.ccz}</p>}
+        {(tree.calle || tree.ccz) && (
+          <div>
+            <h3 className="text-gray-400 text-sm mb-2">Ubicación</h3>
+            <div className="text-white">
+              {tree.calle && (
+                <p>
+                  {tree.calle}
+                  {tree.numero && ` ${tree.numero}`}
+                </p>
+              )}
+              {tree.ccz && <p className="text-gray-400 text-sm">CCZ {tree.ccz}</p>}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Características */}
         <div>
