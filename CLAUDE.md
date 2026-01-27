@@ -193,6 +193,26 @@ npm run test:coverage  # Coverage report
 - Navigate between images with finger
 - Non-draggable image for better UX
 
+### Phase 3: Testing (web/)
+
+#### Test Infrastructure
+- Vitest with jsdom environment and React plugin
+- MSW for API mocking (Wikipedia, Wikimedia Commons, Formspree, local JSON)
+- Custom Mapbox GL mock class with constructor spy
+- Navigator geolocation mock with success/error helpers
+- Custom render helper with userEvent
+
+#### Component Tests
+- **Filters.tsx** (11 tests): search, dropdown, selection, clear, legend, overflow
+- **TreePanel.tsx** (13 tests): display, location, characteristics, Wikipedia fetch, carousel, dead tree indicator
+- **ReportModal.tsx** (13 tests): form submission, species autocomplete, sending/error/success states, reset
+- **Map.tsx** (12 tests): initialization, filtering, geolocation, report mode cursor, cleanup
+- **FeedbackModal.tsx** (9 tests): validation, submission, error handling, state reset
+- **AboutModal.tsx** (8 tests): content, links, close actions
+
+#### Integration Tests
+- **page.tsx** (8 tests): layout, modal management, report mode toggle, species filter end-to-end
+
 ### Troubleshooting
 
 #### Large Files in Git
