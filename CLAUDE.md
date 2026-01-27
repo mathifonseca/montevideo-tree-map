@@ -26,17 +26,24 @@ arbolesmvd/
 │   ├── analyze_data.py         # Statistical analysis
 │   └── generate_report.py      # Generate HTML report
 └── web/                        # Next.js application
+    ├── vitest.config.ts        # Test configuration
     ├── src/
     │   ├── app/
     │   │   ├── layout.tsx
-    │   │   └── page.tsx
-    │   └── components/
-    │       ├── Map.tsx
-    │       ├── TreePanel.tsx
-    │       ├── Filters.tsx
-    │       ├── ReportModal.tsx
-    │       ├── FeedbackModal.tsx
-    │       └── AboutModal.tsx
+    │   │   ├── page.tsx
+    │   │   └── page.test.tsx
+    │   ├── components/
+    │   │   ├── Map.tsx
+    │   │   ├── TreePanel.tsx
+    │   │   ├── Filters.tsx
+    │   │   ├── ReportModal.tsx
+    │   │   ├── FeedbackModal.tsx
+    │   │   ├── AboutModal.tsx
+    │   │   └── *.test.tsx      # Component tests
+    │   └── test/               # Test infrastructure
+    │       ├── setup.ts        # Global setup
+    │       ├── mocks/          # Mapbox, geolocation, API mocks
+    │       └── utils/          # Custom render helper
     └── public/
         ├── trees.json          # GeoJSON for the map (30MB)
         ├── trees-data.json     # Detailed data (50MB)
@@ -62,6 +69,7 @@ arbolesmvd/
 - Mapbox GL JS
 - Tailwind CSS
 - Formspree (forms)
+- Vitest + React Testing Library + MSW (testing)
 - Vercel (deploy)
 
 ### Implemented Features
@@ -87,9 +95,19 @@ NEXT_PUBLIC_MAPBOX_TOKEN=xxx
 ```bash
 cd web
 npm install
-npm run dev      # Development
-npm run build    # Production build
+npm run dev            # Development
+npm run build          # Production build
+npm test               # Tests in watch mode
+npm run test:run       # Single test run (CI)
+npm run test:coverage  # Coverage report
 ```
+
+### Testing
+- **Stack**: Vitest + React Testing Library + MSW
+- **74 tests** across 7 test files covering all components and page integration
+- Mocks for Mapbox GL, geolocation, Wikipedia/Formspree APIs
+- Test files colocated with components (`*.test.tsx`)
+- Setup and mocks in `src/test/`
 
 ---
 

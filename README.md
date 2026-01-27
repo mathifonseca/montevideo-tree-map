@@ -25,6 +25,7 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 | Styles | [Tailwind CSS](https://tailwindcss.com/) |
 | Forms | [Formspree](https://formspree.io/) |
 | Images | Wikipedia / Wikimedia Commons API |
+| Testing | [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/) + [MSW](https://mswjs.io/) |
 | Deploy | [Vercel](https://vercel.com/) |
 
 ## Project Structure
@@ -55,6 +56,15 @@ npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000)
+
+### Testing
+
+```bash
+cd web
+npm test               # Watch mode
+npm run test:run       # Single run (CI)
+npm run test:coverage  # Coverage report
+```
 
 ## Data Sources
 
