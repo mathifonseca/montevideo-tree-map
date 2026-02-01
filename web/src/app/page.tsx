@@ -77,7 +77,7 @@ export default function Home() {
       />
 
       {/* Top right buttons */}
-      <div className="absolute top-4 right-4 z-10 flex gap-2">
+      <div className="absolute top-4 right-4 z-20 flex gap-2">
         <button
           onClick={() => setReportMode(!reportMode)}
           className={`p-2.5 rounded-lg shadow-lg transition-colors ${
@@ -115,7 +115,7 @@ export default function Home() {
 
       {/* Report mode indicator */}
       {reportMode && (
-        <div className="absolute top-16 right-4 z-10 bg-amber-600 text-white text-sm px-3 py-1.5 rounded-lg shadow-lg">
+        <div className="absolute top-16 right-4 z-20 bg-amber-600 text-white text-sm px-3 py-1.5 rounded-lg shadow-lg">
           Click en el mapa para reportar
         </div>
       )}
