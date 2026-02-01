@@ -206,7 +206,7 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
       <button
         onClick={handleLocateMe}
         disabled={locating}
-        className="absolute bottom-6 right-4 z-10 p-3 bg-gray-900 text-white border border-gray-700 rounded-lg shadow-lg hover:bg-gray-800 disabled:opacity-50"
+        className="absolute bottom-6 right-4 z-20 p-3 bg-gray-900 text-white border border-gray-700 rounded-lg shadow-lg hover:bg-gray-800 disabled:opacity-50"
         title="Mi ubicación"
       >
         {locating ? (
