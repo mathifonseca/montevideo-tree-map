@@ -153,7 +153,7 @@ export default function Home() {
         <button
           onClick={handleLocateMe}
           disabled={locating}
-          className="absolute bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-4 p-3 bg-gray-900 text-white border border-gray-700 rounded-lg shadow-lg hover:bg-gray-800 disabled:opacity-50 pointer-events-auto"
+          className="absolute bottom-24 md:bottom-6 right-4 p-3 bg-gray-900 text-white border border-gray-700 rounded-lg shadow-lg hover:bg-gray-800 disabled:opacity-50 pointer-events-auto"
           title="Mi ubicación"
         >
           {locating ? (
