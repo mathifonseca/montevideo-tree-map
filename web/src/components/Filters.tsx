@@ -33,7 +33,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange }: F
   );
 
   return (
-    <div className="absolute top-4 left-4 z-20">
+    <div className="absolute top-4 left-4">
       <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-52 md:w-72">
         {/* Header */}
         <div
