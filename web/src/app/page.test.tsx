@@ -1,11 +1,30 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '../test/utils/render';
+import { mockGeolocation, mockGeolocationSuccess, mockGeolocationError } from '../test/mocks/geolocation';
 import Home from './page';
 
 // Mock @/components/Map since it uses Mapbox
+const mockFlyTo = vi.fn();
 vi.mock('@/components/Map', () => ({
-  default: (props: any) => <div data-testid="map-mock">Map Component</div>,
+  default: (props: any) => {
+    if (props.mapRef) props.mapRef.current = { flyTo: mockFlyTo };
+    return <div data-testid="map-mock">Map Component</div>;
+  },
 }));
+
+// Override next/dynamic to render the mocked Map component
+vi.mock('next/dynamic', () => {
+  return {
+    default: (importFn: any) => {
+      // Return a wrapper that will use the mocked Map
+      return function DynamicMock(props: any) {
+        // Set mapRef if present
+        if (props.mapRef) props.mapRef.current = { flyTo: mockFlyTo };
+        return <div data-testid="map-mock">Map Component</div>;
+      };
+    },
+  };
+});
 
 describe('Home (page integration)', () => {
   beforeEach(() => {
@@ -82,6 +101,40 @@ describe('Home (page integration)', () => {
       expect(screen.getByText('Inspiración')).toBeInTheDocument();
       expect(screen.getByText('Fuentes de datos')).toBeInTheDocument();
     });
+  });
+
+  it('renders locate me button', () => {
+    render(<Home />);
+    expect(screen.getByTitle('Mi ubicación')).toBeInTheDocument();
+  });
+
+  it('handles geolocation error', async () => {
+    mockGeolocationError(1, 'User denied');
+    const alertSpy = vi.spyOn(window, 'alert').mockImplementation(() => {});
+
+    const { user } = render(<Home />);
+
+    const locateButton = screen.getByTitle('Mi ubicación');
+    await user.click(locateButton);
+
+    await waitFor(() => {
+      expect(alertSpy).toHaveBeenCalledWith('No se pudo obtener tu ubicación');
+    });
+
+    alertSpy.mockRestore();
+  });
+
+  it('shows spinner while locating', async () => {
+    mockGeolocation.getCurrentPosition.mockImplementation(() => {
+      // Don't call callback - simulates pending state
+    });
+
+    const { user } = render(<Home />);
+
+    const locateButton = screen.getByTitle('Mi ubicación');
+    await user.click(locateButton);
+
+    expect(locateButton).toBeDisabled();
   });
 
   it('species filter works end-to-end after data loads', async () => {
