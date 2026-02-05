@@ -149,7 +149,7 @@ describe('Home (page integration)', () => {
 
     // Find the dropdown item specifically (text-left class)
     await waitFor(() => {
-      const dropdownButtons = screen.getAllByRole('button', { name: 'Paraiso' });
+      const dropdownButtons = screen.getAllByRole('button', { name: 'Paraíso' });
       const dropdownItem = dropdownButtons.find(btn =>
         btn.classList.contains('text-left')
       );

@@ -4,7 +4,7 @@ import ReportModal from './ReportModal';
 import { server } from '../test/mocks/server';
 import { errorHandlers } from '../test/mocks/handlers';
 
-const mockSpecies = ['Paraiso', 'Fresno americano', 'Platano', 'Tipa'];
+const mockSpecies = ['Paraíso', 'Fresno americano', 'Plátano', 'Tipa'];
 
 describe('ReportModal', () => {
   const defaultProps = {
@@ -50,7 +50,7 @@ describe('ReportModal', () => {
     const input = screen.getByPlaceholderText('Buscar o escribir especie...');
     await user.type(input, 'Para');
 
-    expect(screen.getByRole('button', { name: 'Paraiso' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Paraíso' })).toBeInTheDocument();
   });
 
   it('selects species from dropdown', async () => {
@@ -58,9 +58,9 @@ describe('ReportModal', () => {
 
     const input = screen.getByPlaceholderText('Buscar o escribir especie...');
     await user.type(input, 'Para');
-    await user.click(screen.getByRole('button', { name: 'Paraiso' }));
+    await user.click(screen.getByRole('button', { name: 'Paraíso' }));
 
-    expect(input).toHaveValue('Paraiso');
+    expect(input).toHaveValue('Paraíso');
   });
 
   it('calls onClose when close button is clicked', async () => {

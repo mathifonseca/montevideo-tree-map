@@ -3,15 +3,15 @@ import { render, screen, within } from '../test/utils/render';
 import Filters from './Filters';
 
 const mockSpecies = [
-  'Paraiso',
+  'Paraíso',
   'Fresno americano',
-  'Platano',
+  'Plátano',
   'Tipa',
   'Arce negundo',
   'Fresno europeo',
   'Laurel rosa',
   'Anacahuita',
-  'Jacaranda',
+  'Jacarandá',
   'Olmo procera',
 ];
 
@@ -43,7 +43,7 @@ describe('Filters', () => {
     await user.type(input, 'Para');
 
     // Dropdown items have class "w-full text-left" to distinguish from legend buttons
-    const dropdownButtons = screen.getAllByRole('button', { name: 'Paraiso' });
+    const dropdownButtons = screen.getAllByRole('button', { name: 'Paraíso' });
     const dropdownItem = dropdownButtons.find(btn =>
       btn.classList.contains('text-left')
     );
@@ -74,20 +74,20 @@ describe('Filters', () => {
     await user.type(input, 'Para');
 
     // Click the dropdown item (not the legend one)
-    const dropdownButtons = screen.getAllByRole('button', { name: 'Paraiso' });
+    const dropdownButtons = screen.getAllByRole('button', { name: 'Paraíso' });
     const dropdownItem = dropdownButtons.find(btn =>
       btn.classList.contains('text-left')
     )!;
     await user.click(dropdownItem);
 
-    expect(onSpeciesChange).toHaveBeenCalledWith('Paraiso');
+    expect(onSpeciesChange).toHaveBeenCalledWith('Paraíso');
   });
 
   it('shows selected species badge when a species is selected', () => {
-    render(<Filters {...defaultProps} selectedSpecies="Paraiso" />);
+    render(<Filters {...defaultProps} selectedSpecies="Paraíso" />);
 
     // Badge has a specific class
-    const badge = screen.getAllByText('Paraiso').find(el =>
+    const badge = screen.getAllByText('Paraíso').find(el =>
       el.classList.contains('bg-green-600')
     );
     expect(badge).toBeInTheDocument();
@@ -96,7 +96,7 @@ describe('Filters', () => {
   it('clears selection when clear button is clicked', async () => {
     const onSpeciesChange = vi.fn();
     const { user } = render(
-      <Filters {...defaultProps} selectedSpecies="Paraiso" onSpeciesChange={onSpeciesChange} />
+      <Filters {...defaultProps} selectedSpecies="Paraíso" onSpeciesChange={onSpeciesChange} />
     );
 
     // Find the clear button (X icon inside input area)
@@ -135,10 +135,10 @@ describe('Filters', () => {
     );
 
     // Find legend buttons (they have gap-2 class unlike dropdown buttons)
-    const legendButtons = screen.getAllByRole('button', { name: /Paraiso/i });
+    const legendButtons = screen.getAllByRole('button', { name: /Paraíso/i });
     await user.click(legendButtons[0]);
 
-    expect(onSpeciesChange).toHaveBeenCalledWith('Paraiso');
+    expect(onSpeciesChange).toHaveBeenCalledWith('Paraíso');
   });
 
   it('limits dropdown to 20 species and shows count', async () => {

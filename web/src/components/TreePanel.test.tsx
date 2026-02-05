@@ -23,7 +23,7 @@ describe('TreePanel', () => {
     render(<TreePanel {...defaultProps} treeId={1} />);
 
     await waitFor(() => {
-      expect(screen.getByText('Paraiso')).toBeInTheDocument();
+      expect(screen.getByText('Paraíso')).toBeInTheDocument();
       expect(screen.getByText('Melia azedarach')).toBeInTheDocument();
     });
   });
@@ -86,7 +86,7 @@ describe('TreePanel', () => {
     );
 
     await waitFor(() => {
-      expect(screen.getByText('Paraiso')).toBeInTheDocument();
+      expect(screen.getByText('Paraíso')).toBeInTheDocument();
     });
 
     // Find close button in header

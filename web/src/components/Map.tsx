@@ -14,21 +14,21 @@ interface MapProps {
 
 // Color palette for top species
 const SPECIES_COLORS: [string, string][] = [
-  ['Paraiso', '#f59e0b'],
+  ['Paraíso', '#f59e0b'],
   ['Fresno americano', '#3b82f6'],
-  ['Platano', '#8b5cf6'],
+  ['Plátano de sombra', '#7c3aed'],
   ['Tipa', '#ec4899'],
   ['Arce negundo', '#ef4444'],
   ['Fresno europeo', '#06b6d4'],
   ['Laurel rosa', '#f43f5e'],
   ['Anacahuita', '#84cc16'],
-  ['Jacaranda', '#a855f7'],
-  ['Olmo procera', '#14b8a6'],
-  ['Sauce llorón', '#22c55e'],
-  ['Sauce lloron', '#22c55e'],
+  ['Jacarandá', '#a855f7'],
+  ['Olmo europeo', '#14b8a6'],
   ['Eucalipto blanco', '#64748b'],
-  ['Arce blanco', '#f97316'],
+  ['Sauce llorón', '#22c55e'],
   ['Palo borracho rosa', '#db2777'],
+  ['Arce plateado', '#f97316'],
+  ['Álamo Carolino', '#8b5cf6'],
 ];
 
 // Build color expression for Mapbox

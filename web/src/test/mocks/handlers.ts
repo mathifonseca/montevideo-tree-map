@@ -4,7 +4,7 @@ import { http, HttpResponse } from 'msw';
 export const mockTreesData: Record<string, any> = {
   '1': {
     nombre_cientifico: 'Melia azedarach',
-    nombre_comun: 'Paraiso',
+    nombre_comun: 'Paraíso',
     calle: 'Av. 18 de Julio',
     numero: 1234,
     ccz: 1,
@@ -44,16 +44,16 @@ export const mockTreesData: Record<string, any> = {
 };
 
 export const mockSpecies = [
-  'Paraiso',
+  'Paraíso',
   'Fresno americano',
-  'Platano',
+  'Plátano de sombra',
   'Tipa',
   'Arce negundo',
   'Fresno europeo',
   'Laurel rosa',
   'Anacahuita',
-  'Jacaranda',
-  'Olmo procera',
+  'Jacarandá',
+  'Olmo europeo',
 ];
 
 export const mockTreesGeoJSON = {
@@ -61,7 +61,7 @@ export const mockTreesGeoJSON = {
   features: [
     {
       type: 'Feature',
-      properties: { i: 1, e: 'Paraiso' },
+      properties: { i: 1, e: 'Paraíso' },
       geometry: { type: 'Point', coordinates: [-56.1645, -34.9011] },
     },
     {

@@ -60,7 +60,7 @@ describe('Map', () => {
   it('applies species filter when selectedSpecies changes', async () => {
     const { rerender } = render(<Map {...defaultProps} />);
 
-    rerender(<Map {...defaultProps} selectedSpecies="Paraiso" />);
+    rerender(<Map {...defaultProps} selectedSpecies="Paraíso" />);
 
     await waitFor(() => {
       expect(mockMapInstance.setFilter).toHaveBeenCalled();
@@ -68,7 +68,7 @@ describe('Map', () => {
   });
 
   it('clears filter when selectedSpecies is null', async () => {
-    const { rerender } = render(<Map {...defaultProps} selectedSpecies="Paraiso" />);
+    const { rerender } = render(<Map {...defaultProps} selectedSpecies="Paraíso" />);
 
     rerender(<Map {...defaultProps} selectedSpecies={null} />);
 
