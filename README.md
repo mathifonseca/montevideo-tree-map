@@ -11,7 +11,11 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 - 🗺️ **Interactive map** with all trees colored by species
 - 🌲 **Info panel** with tree details (species, height, condition, location)
 - 📷 **Species photos** from Wikipedia with carousel
-- 🔍 **Filter by species** with search and color legend
+- 🔍 **Filter by species** with search and dynamic count
+- 🏘️ **Filter by zone** (18 CCZ municipal zones)
+- 📍 **Address search** using Mapbox Geocoding
+- 📊 **Statistics modal** with top species chart
+- 🔗 **Share tree** via URL deep linking
 - 📍 **Geolocation** to center the map on your location
 - 📝 **Report missing tree** to contribute to the map
 - 📱 **Responsive** - works on mobile and desktop
@@ -26,12 +30,14 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 | Forms | [Formspree](https://formspree.io/) |
 | Images | Wikipedia / Wikimedia Commons API |
 | Testing | [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/) + [MSW](https://mswjs.io/) |
+| CI/CD | [GitHub Actions](https://github.com/features/actions) |
 | Deploy | [Vercel](https://vercel.com/) |
 
 ## Project Structure
 
 ```
 arbolesmvd/
+├── .github/workflows/    # CI/CD (tests + build)
 ├── data/                 # Raw and processed data
 │   ├── raw/              # Census CSVs, WFS GeoJSON
 │   └── processed/        # Unified dataset with coordinates
@@ -43,8 +49,8 @@ arbolesmvd/
 └── web/                  # Next.js application
     ├── src/
     │   ├── app/          # Pages (App Router)
-    │   └── components/   # Map, TreePanel, Filters, etc.
-    └── public/           # Tree data (PMTiles + JSON)
+    │   └── components/   # Map, TreePanel, Filters, StatsModal, etc.
+    └── public/           # Tree data (PMTiles + gzipped JSON)
 ```
 
 ## Development
@@ -74,13 +80,17 @@ The raw census data was cleaned and normalized:
 - **359 unique species** - duplicates and variants unified
 - **566 scientific name corrections** - fixed typos (Bahuinia→Bauhinia, etc.)
 - **2,553 data entry fixes** - corrected mismatched species names
-- **Vector tiles** - 80% smaller than GeoJSON for faster loading
+- **Vector tiles** - PMTiles format (4.5MB vs 32MB GeoJSON)
+- **Gzip compression** - trees-data.json.gz (4.1MB vs 54MB)
 
 Run the data pipeline:
 ```bash
 python scripts/clean_common_names.py  # Clean species names
 python scripts/generate_geojson.py    # Generate web files
-tippecanoe -o web/public/trees.pmtiles ... web/public/trees.json  # Generate tiles
+tippecanoe -o web/public/trees.pmtiles --force --layer=trees \
+  --minimum-zoom=10 --maximum-zoom=16 \
+  --drop-densest-as-needed web/public/trees.json
+gzip -k -9 web/public/trees-data.json  # Compress data
 ```
 
 ## Data Sources

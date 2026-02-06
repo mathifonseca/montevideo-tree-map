@@ -41,16 +41,17 @@ arbolesmvd/
     │   │   ├── ReportModal.tsx
     │   │   ├── FeedbackModal.tsx
     │   │   ├── AboutModal.tsx
-    │   │   └── *.test.tsx      # Component tests
+    │   │   ├── StatsModal.tsx
+    │   │   └── *.test.tsx      # Component tests (92 tests)
     │   └── test/               # Test infrastructure
     │       ├── setup.ts        # Global setup
     │       ├── mocks/          # Mapbox, geolocation, API mocks
     │       └── utils/          # Custom render helper
     └── public/
-        ├── trees.pmtiles       # Vector tiles for the map (6.4MB)
-        ├── trees.json          # GeoJSON backup (32MB)
-        ├── trees-data.json     # Detailed data by ID (54MB)
-        └── species.json        # Species list (359 species)
+        ├── trees.pmtiles       # Vector tiles for the map (4.5MB)
+        ├── trees-data.json.gz  # Detailed data by ID, gzipped (4.1MB)
+        ├── species.json        # Species list (359 species)
+        └── species-counts.json # Tree count by species
 ```
 
 ## Main Dataset Columns
@@ -78,10 +79,14 @@ arbolesmvd/
 ### Implemented Features
 - Interactive map with 234,464 trees
 - Colors by species (15 main species + default)
-- Selected tree info panel
+- Selected tree info panel with share button
 - Species photos from Wikipedia/Wikimedia Commons
 - Image carousel with swipe on mobile
-- Filter by species with search
+- Filter by species with search and dynamic count
+- Filter by CCZ zone (18 municipal zones)
+- Address search (Mapbox Geocoding API)
+- Statistics modal with top species chart
+- Deep linking (URL with ?arbol=ID)
 - Color legend
 - Report missing tree (Formspree)
 - Feedback form (Formspree)
@@ -107,10 +112,15 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **73 tests** across 7 test files covering all components and page integration
+- **92 tests** across 8 test files covering all components and page integration
 - Mocks for Mapbox GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
+
+### CI/CD
+- GitHub Actions workflow (`.github/workflows/ci.yml`)
+- Runs on push/PR to main branch
+- Steps: install → test → build
 
 ---
 
@@ -213,15 +223,16 @@ npm run test:coverage  # Coverage report
 - Custom render helper with userEvent
 
 #### Component Tests
-- **Filters.tsx** (11 tests): search, dropdown, selection, clear, legend, overflow
-- **TreePanel.tsx** (13 tests): display, location, characteristics, Wikipedia fetch, carousel, dead tree indicator
+- **Filters.tsx** (17 tests): search, dropdown, selection, clear, legend, CCZ filter, address search
+- **TreePanel.tsx** (15 tests): display, location, characteristics, Wikipedia fetch, carousel, dead tree, share button
 - **ReportModal.tsx** (13 tests): form submission, species autocomplete, sending/error/success states, reset
-- **Map.tsx** (12 tests): initialization, filtering, geolocation, report mode cursor, cleanup
+- **Map.tsx** (8 tests): initialization, filtering, report mode cursor, cleanup
 - **FeedbackModal.tsx** (9 tests): validation, submission, error handling, state reset
 - **AboutModal.tsx** (8 tests): content, links, close actions
+- **StatsModal.tsx** (8 tests): summary counts, species chart, close button
 
 #### Integration Tests
-- **page.tsx** (8 tests): layout, modal management, report mode toggle, species filter end-to-end
+- **page.tsx** (14 tests): layout, modal management, report mode, species filter, CCZ filter, stats modal
 
 ### Troubleshooting
 
@@ -260,12 +271,50 @@ tippecanoe -o web/public/trees.pmtiles \
   --name="Árboles de Montevideo" \
   --layer=trees \
   --minimum-zoom=10 \
-  --maximum-zoom=18 \
+  --maximum-zoom=16 \
   --drop-densest-as-needed \
   --extend-zooms-if-still-dropping \
   --force \
   web/public/trees.json
 ```
+
+### Phase 5: New Features (web/)
+
+#### Filtered Tree Count
+- Shows "51.795 de 234.464 árboles" when species is selected
+- Uses Spanish locale formatting (dots as thousands separator)
+- species-counts.json provides counts per species
+
+#### CCZ Zone Filter
+- Dropdown with 18 municipal zones
+- Combined filtering with species (both can be active)
+- CCZ field added to PMTiles (`c` property)
+
+#### Address Search
+- Mapbox Geocoding API integration
+- Debounced search (300ms delay)
+- Limited to Montevideo bounding box
+- Flies to selected location with zoom 17
+
+#### Statistics Modal
+- Summary cards: total trees, species count, zone count
+- Bar chart of top 10 species
+- Accessible via chart icon button
+
+#### Deep Linking / Share
+- URLs include `?arbol=ID` parameter
+- Share button in TreePanel (Web Share API or clipboard fallback)
+- Map centers on tree when opened from shared URL
+
+#### Data Compression
+- trees-data.json.gz: 54MB → 4.1MB (92% reduction)
+- Client-side decompression with pako
+- PMTiles: 4.5MB total (includes CCZ field)
+
+#### CI/CD
+- GitHub Actions workflow for automated testing
+- Runs on push/PR to main branch
+- Steps: checkout → setup Node.js → install → test → build
 
 ---
 
