@@ -468,6 +468,40 @@ UNIFY_NAMES = {
 }
 
 
+# ── H. Corrección de nombres científicos mal escritos ────────────────────────
+
+SCIENTIFIC_NAME_FIXES = {
+    # Errores ortográficos comunes
+    "Bahuinia candicans": "Bauhinia candicans",
+    "Olea europea": "Olea europaea",
+    "Ricinus comunnis": "Ricinus communis",
+    "Cinnamomun camphora": "Cinnamomum camphora",
+    "Cinnamomun zeylanicum": "Cinnamomum zeylanicum",
+    "Pyrus comunnis": "Pyrus communis",
+    "Kolreuteria paniculata": "Koelreuteria paniculata",
+    "Berberis thumbergii": "Berberis thunbergii",
+    "Berberis thumbergii var atropurpurea": "Berberis thunbergii var. atropurpurea",
+    "Pterocarya redheriana": "Pterocarya rehderiana",
+    "Sequioa sempervirens": "Sequoia sempervirens",
+    "Dyospiros kaki": "Diospyros kaki",
+    "Castanospermun australe": "Castanospermum australe",
+    "Cortaderia seloana": "Cortaderia selloana",
+    "Psidium catleianum": "Psidium cattleianum",
+    "Hydrangea macrophyla": "Hydrangea macrophylla",
+    "Chaenomeles cinensis": "Chaenomeles sinensis",
+    "Quercus phelox": "Quercus phellos",
+    "Leptospermun sp.": "Leptospermum sp.",
+    "Pittosporum crasifolium": "Pittosporum crassifolium",
+    "Raphiolepis umbellata": "Rhaphiolepis umbellata",
+    "Cotoneaster glaucophilla serotina": "Cotoneaster glaucophylla serotina",
+    "Crateagus oxyacantha var.rosea": "Crataegus oxyacantha var. rosea",
+    "Datura arbórea": "Datura arborea",  # sin tilde en nombres científicos
+    "Sapium sp..": "Sapium sp.",  # punto extra
+    # Ginkgo ya corregido en paso F, pero por si acaso
+    "Ginkgo bilboa": "Ginkgo biloba",
+}
+
+
 def main():
     print("Cargando datos...")
     df = pd.read_csv(CSV_PATH, low_memory=False)
@@ -477,12 +511,16 @@ def main():
     sin_nombre_antes = df["Nombre común"].isna().sum()
     print(f"Sin nombre común antes: {sin_nombre_antes:,}")
 
-    # ── F. Corrección de nombre científico ───────────────────────────────
-    mask_bilboa = df["Nombre científico"] == "Ginkgo bilboa"
-    n_bilboa = mask_bilboa.sum()
-    if n_bilboa > 0:
-        df.loc[mask_bilboa, "Nombre científico"] = "Ginkgo biloba"
-        print(f"Corregido 'Ginkgo bilboa' → 'Ginkgo biloba': {n_bilboa} registros")
+    # ── H. Corrección de nombres científicos ─────────────────────────────
+    count_h = 0
+    for old, new in SCIENTIFIC_NAME_FIXES.items():
+        mask = df["Nombre científico"] == old
+        n = mask.sum()
+        if n > 0:
+            df.loc[mask, "Nombre científico"] = new
+            count_h += n
+            print(f"  '{old}' → '{new}': {n}")
+    print(f"Correcciones nombres científicos: {count_h:,}")
 
     # ── A. Nombres con coma ──────────────────────────────────────────────
     count_a = 0
@@ -561,7 +599,7 @@ def main():
     print(f"Sin nombre común antes:   {sin_nombre_antes:,}")
     print(f"Sin nombre común después: {sin_nombre_despues:,}")
     print(f"Nombres asignados:        {sin_nombre_antes - sin_nombre_despues:,}")
-    print(f"Total correcciones:       {count_a + count_b + count_c + count_d + count_e + count_g:,}")
+    print(f"Total correcciones:       {count_h + count_a + count_b + count_c + count_d + count_e + count_g:,}")
 
     # ── Guardar ──────────────────────────────────────────────────────────
     print(f"\nGuardando en {CSV_PATH}...")
