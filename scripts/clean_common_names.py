@@ -731,8 +731,11 @@ def main():
     print(f"Asignaciones por nombre científico: {count_e:,}")
 
     # ── G. Unificación de nombres comunes ──────────────────────────────
+    # Combinar UNIFY_NAMES con SCIENTIFIC_TO_COMMON para corregir data entry errors
+    all_mappings = {**SCIENTIFIC_TO_COMMON, **UNIFY_NAMES}  # UNIFY_NAMES tiene prioridad
+
     count_g = 0
-    for sci_name, common_name in UNIFY_NAMES.items():
+    for sci_name, common_name in all_mappings.items():
         mask = (df["Nombre científico"] == sci_name) & (
             df["Nombre común"].isna() | (df["Nombre común"] != common_name)
         )
@@ -741,7 +744,7 @@ def main():
             df.loc[mask, "Nombre común"] = common_name
             count_g += n
             print(f"  {sci_name} → '{common_name}': {n}")
-    print(f"Unificaciones: {count_g:,}")
+    print(f"Unificaciones (data entry fixes): {count_g:,}")
 
     # ── Resumen ──────────────────────────────────────────────────────────
     sin_nombre_despues = df["Nombre común"].isna().sum()
