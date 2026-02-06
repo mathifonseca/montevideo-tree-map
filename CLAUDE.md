@@ -23,6 +23,8 @@ arbolesmvd/
 │   ├── merge_datasets.py       # Merge census + WFS
 │   ├── geocode_final.py        # Main geocoding
 │   ├── geocode_nominatim.py    # Geocoding with OSM
+│   ├── clean_common_names.py   # Species name normalization (~33k fixes)
+│   ├── generate_geojson.py     # Generate web JSON/PMTiles files
 │   ├── analyze_data.py         # Statistical analysis
 │   └── generate_report.py      # Generate HTML report
 └── web/                        # Next.js application
@@ -45,9 +47,10 @@ arbolesmvd/
     │       ├── mocks/          # Mapbox, geolocation, API mocks
     │       └── utils/          # Custom render helper
     └── public/
-        ├── trees.json          # GeoJSON for the map (30MB)
-        ├── trees-data.json     # Detailed data (50MB)
-        └── species.json        # Species list
+        ├── trees.pmtiles       # Vector tiles for the map (6.4MB)
+        ├── trees.json          # GeoJSON backup (32MB)
+        ├── trees-data.json     # Detailed data by ID (54MB)
+        └── species.json        # Species list (359 species)
 ```
 
 ## Main Dataset Columns
@@ -66,7 +69,7 @@ arbolesmvd/
 
 ### Stack
 - Next.js 16 with App Router
-- Mapbox GL JS
+- Mapbox GL JS + PMTiles (vector tiles)
 - Tailwind CSS
 - Formspree (forms)
 - Vitest + React Testing Library + MSW (testing)
@@ -104,8 +107,8 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **74 tests** across 7 test files covering all components and page integration
-- Mocks for Mapbox GL, geolocation, Wikipedia/Formspree APIs
+- **73 tests** across 7 test files covering all components and page integration
+- Mocks for Mapbox GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
 
@@ -120,9 +123,14 @@ npm run test:coverage  # Coverage report
    - Matching with City's WFS
    - Geocoding by address (street + number)
    - Nominatim (OpenStreetMap) for difficult cases
-3. **Common name cleanup**:
-   - 97,229 trees without common name → assigned from scientific name
+3. **Common name cleanup** (`clean_common_names.py`):
+   - 100% coverage: all 234,464 trees now have common names
+   - 359 unique species (unified duplicates and variants)
    - Fixed abbreviations ("P. radiata" → "Pino radiata")
+   - Fixed truncated names ("Tuya orien." → "Tuya oriental")
+   - Normalized accents ("Paraiso" → "Paraíso")
+   - 566 scientific name corrections (typos like "Bahuinia" → "Bauhinia")
+   - 2,553 data entry error fixes (wrong species assigned)
    - Special cases like "Ejemplar seco" (dead trees)
 
 ### Phase 2: Web Application (web/)
@@ -136,6 +144,8 @@ npm run test:coverage  # Coverage report
 #### Data Improvements
 - Split into `trees.json` (map points) and `trees-data.json` (full data)
 - Minimal properties in GeoJSON (`i`=ID, `e`=species) for performance
+- PMTiles vector tiles (6.4MB vs 32MB GeoJSON = 80% smaller)
+- Automatic point density reduction at lower zoom levels
 
 #### Species Filter
 - Dropdown with search
@@ -224,6 +234,38 @@ npm run test:coverage  # Coverage report
 
 #### Map Loading
 - Map wasn't loading (infinite loop) → fix in useEffect cleanup and refs for callbacks
+
+### Phase 4: Data Quality (scripts/)
+
+#### Species Name Normalization (`clean_common_names.py`)
+Comprehensive cleanup of the "Nombre común" field:
+
+1. **Comma names** (5 fixes): "Gomero, F.elastica." → "Gomero"
+2. **Truncated names** (40+ fixes): "Tuya orien." → "Tuya oriental"
+3. **Abbreviations** (36 fixes): "P. radiata" → "Pino radiata", "E. globulus" → "Eucalipto blanco"
+4. **Accent normalization** (20+ fixes): "Paraiso" → "Paraíso", "Jacaranda" → "Jacarandá"
+5. **Scientific→common mapping** (300+ species): assigns common name based on scientific name
+6. **Scientific name corrections** (25 fixes): "Bahuinia" → "Bauhinia", "Olea europea" → "Olea europaea"
+7. **Unification** (37 mappings): standardizes when same species has multiple common names
+
+Results:
+- 97,232 trees without common name → 0 (100% coverage)
+- 377+ inconsistent species → 359 unified species
+- ~33,000 total corrections
+
+#### Vector Tiles Generation
+Using tippecanoe to create PMTiles:
+```bash
+tippecanoe -o web/public/trees.pmtiles \
+  --name="Árboles de Montevideo" \
+  --layer=trees \
+  --minimum-zoom=10 \
+  --maximum-zoom=18 \
+  --drop-densest-as-needed \
+  --extend-zooms-if-still-dropping \
+  --force \
+  web/public/trees.json
+```
 
 ---
 

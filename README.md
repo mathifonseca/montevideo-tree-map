@@ -4,7 +4,7 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 
 🌳 **[View the map](https://montevideo-tree-map.vercel.app)**
 
-![Trees](https://img.shields.io/badge/trees-234,464-green) ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![Mapbox](https://img.shields.io/badge/Mapbox-GL-blue)
+![Trees](https://img.shields.io/badge/trees-234,464-green) ![Species](https://img.shields.io/badge/species-359-brightgreen) ![Next.js](https://img.shields.io/badge/Next.js-16-black) ![Mapbox](https://img.shields.io/badge/Mapbox-GL-blue)
 
 ## Features
 
@@ -21,7 +21,7 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 | Component | Technology |
 |-----------|------------|
 | Framework | [Next.js 16](https://nextjs.org/) |
-| Map | [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/) |
+| Map | [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/) + [PMTiles](https://github.com/protomaps/PMTiles) |
 | Styles | [Tailwind CSS](https://tailwindcss.com/) |
 | Forms | [Formspree](https://formspree.io/) |
 | Images | Wikipedia / Wikimedia Commons API |
@@ -38,12 +38,13 @@ arbolesmvd/
 ├── scripts/              # Python processing scripts
 │   ├── merge_datasets.py
 │   ├── geocode_final.py
-│   └── ...
+│   ├── clean_common_names.py  # Species name normalization
+│   └── generate_geojson.py    # Web data generation
 └── web/                  # Next.js application
     ├── src/
     │   ├── app/          # Pages (App Router)
     │   └── components/   # Map, TreePanel, Filters, etc.
-    └── public/           # Tree GeoJSON files
+    └── public/           # Tree data (PMTiles + JSON)
 ```
 
 ## Development
@@ -64,6 +65,22 @@ cd web
 npm test               # Watch mode
 npm run test:run       # Single run (CI)
 npm run test:coverage  # Coverage report
+```
+
+## Data Processing
+
+The raw census data was cleaned and normalized:
+- **100% species coverage** - all 234,464 trees have common names assigned
+- **359 unique species** - duplicates and variants unified
+- **566 scientific name corrections** - fixed typos (Bahuinia→Bauhinia, etc.)
+- **2,553 data entry fixes** - corrected mismatched species names
+- **Vector tiles** - 80% smaller than GeoJSON for faster loading
+
+Run the data pipeline:
+```bash
+python scripts/clean_common_names.py  # Clean species names
+python scripts/generate_geojson.py    # Generate web files
+tippecanoe -o web/public/trees.pmtiles ... web/public/trees.json  # Generate tiles
 ```
 
 ## Data Sources
