@@ -190,4 +190,17 @@ describe('Filters', () => {
 
     expect(screen.getByText('Cerro, Casabó, Pajas Blancas')).toBeInTheDocument();
   });
+
+  it('renders address search input when onLocationSelect is provided', () => {
+    render(<Filters {...defaultProps} />);
+
+    expect(screen.getByText('Buscar dirección')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Ej: 18 de Julio 1234')).toBeInTheDocument();
+  });
+
+  it('does not render address search when onLocationSelect is not provided', () => {
+    render(<Filters {...defaultProps} onLocationSelect={undefined} />);
+
+    expect(screen.queryByText('Buscar dirección')).not.toBeInTheDocument();
+  });
 });

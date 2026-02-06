@@ -47,11 +47,12 @@ describe('Home (page integration)', () => {
     });
   });
 
-  it('renders the report, feedback, and about buttons', async () => {
+  it('renders the report, feedback, stats, and about buttons', async () => {
     render(<Home />);
 
     expect(screen.getByTitle('Reportar árbol faltante')).toBeInTheDocument();
     expect(screen.getByTitle('Enviar feedback')).toBeInTheDocument();
+    expect(screen.getByTitle('Estadísticas')).toBeInTheDocument();
     expect(screen.getByTitle('Sobre este proyecto')).toBeInTheDocument();
   });
 
@@ -154,6 +155,40 @@ describe('Home (page integration)', () => {
         btn.classList.contains('text-left')
       );
       expect(dropdownItem).toBeTruthy();
+    });
+  });
+
+  it('opens stats modal when stats button is clicked', async () => {
+    const { user } = render(<Home />);
+
+    // Wait for data to load
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Buscar especie...')).toBeInTheDocument();
+    });
+
+    const statsButton = screen.getByTitle('Estadísticas');
+    await user.click(statsButton);
+
+    await waitFor(() => {
+      // Check for modal-specific content
+      expect(screen.getByRole('heading', { name: 'Estadísticas' })).toBeInTheDocument();
+    });
+  });
+
+  it('renders address search input', async () => {
+    render(<Home />);
+
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText('Ej: 18 de Julio 1234')).toBeInTheDocument();
+    });
+  });
+
+  it('renders CCZ filter dropdown', async () => {
+    render(<Home />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Filtrar por zona')).toBeInTheDocument();
+      expect(screen.getByText('Todas las zonas')).toBeInTheDocument();
     });
   });
 });

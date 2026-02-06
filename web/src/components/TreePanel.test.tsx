@@ -153,4 +153,48 @@ describe('TreePanel', () => {
       expect(screen.getByText('Árbol')).toBeInTheDocument();
     });
   });
+
+  it('renders share button', async () => {
+    render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Paraíso')).toBeInTheDocument();
+    });
+
+    // Find share button by its title
+    const shareButton = screen.getByTitle('Compartir');
+    expect(shareButton).toBeInTheDocument();
+  });
+
+  it('shows checkmark after share button is clicked', async () => {
+    // Mock clipboard
+    const writeTextMock = vi.fn().mockResolvedValue(undefined);
+    const originalClipboard = navigator.clipboard;
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText: writeTextMock },
+      configurable: true,
+    });
+
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Paraíso')).toBeInTheDocument();
+    });
+
+    const shareButton = screen.getByTitle('Compartir');
+    await user.click(shareButton);
+
+    // After clicking, it should show a checkmark (success state)
+    await waitFor(() => {
+      // The checkmark SVG path
+      const checkmark = shareButton.querySelector('path[d="M5 13l4 4L19 7"]');
+      expect(checkmark).toBeInTheDocument();
+    });
+
+    // Restore
+    Object.defineProperty(navigator, 'clipboard', {
+      value: originalClipboard,
+      configurable: true,
+    });
+  });
 });
