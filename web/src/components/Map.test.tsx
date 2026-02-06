@@ -9,6 +9,7 @@ describe('Map', () => {
   const defaultProps = {
     onTreeSelect: vi.fn(),
     selectedSpecies: null,
+    selectedCCZ: null,
     reportMode: false,
     onReportClick: vi.fn(),
   };

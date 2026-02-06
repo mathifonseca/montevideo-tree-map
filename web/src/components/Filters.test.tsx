@@ -20,13 +20,16 @@ describe('Filters', () => {
     species: mockSpecies,
     selectedSpecies: null,
     onSpeciesChange: vi.fn(),
+    selectedCCZ: null,
+    onCCZChange: vi.fn(),
+    onLocationSelect: vi.fn(),
   };
 
   it('renders the header with tree count', () => {
     render(<Filters {...defaultProps} />);
 
     expect(screen.getByText('Arbolado urbano de Montevideo')).toBeInTheDocument();
-    expect(screen.getByText('234,464 árboles')).toBeInTheDocument();
+    expect(screen.getByText('234.464 árboles')).toBeInTheDocument();
   });
 
   it('renders the search input', () => {
@@ -141,6 +144,15 @@ describe('Filters', () => {
     expect(onSpeciesChange).toHaveBeenCalledWith('Paraíso');
   });
 
+  it('shows filtered count when species is selected with speciesCounts', () => {
+    const speciesCounts = { 'Paraíso': 51795 };
+    render(
+      <Filters {...defaultProps} selectedSpecies="Paraíso" speciesCounts={speciesCounts} />
+    );
+
+    expect(screen.getByText('51.795 de 234.464 árboles')).toBeInTheDocument();
+  });
+
   it('limits dropdown to 20 species and shows count', async () => {
     const manySpecies = Array.from({ length: 30 }, (_, i) => `Species ${i + 1}`);
     const { user } = render(
@@ -151,5 +163,31 @@ describe('Filters', () => {
     await user.type(input, 'Species');
 
     expect(screen.getByText('+10 más...')).toBeInTheDocument();
+  });
+
+  it('renders CCZ dropdown with all zones', () => {
+    render(<Filters {...defaultProps} />);
+
+    const select = screen.getByRole('combobox');
+    expect(select).toBeInTheDocument();
+    expect(screen.getByText('Todas las zonas')).toBeInTheDocument();
+  });
+
+  it('calls onCCZChange when a zone is selected', async () => {
+    const onCCZChange = vi.fn();
+    const { user } = render(
+      <Filters {...defaultProps} onCCZChange={onCCZChange} />
+    );
+
+    const select = screen.getByRole('combobox');
+    await user.selectOptions(select, '5');
+
+    expect(onCCZChange).toHaveBeenCalledWith(5);
+  });
+
+  it('shows zone description when CCZ is selected', () => {
+    render(<Filters {...defaultProps} selectedCCZ={5} />);
+
+    expect(screen.getByText('Cerro, Casabó, Pajas Blancas')).toBeInTheDocument();
   });
 });

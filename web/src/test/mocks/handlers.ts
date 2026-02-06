@@ -1,4 +1,5 @@
 import { http, HttpResponse } from 'msw';
+import pako from 'pako';
 
 // Sample tree data for tests
 export const mockTreesData: Record<string, any> = {
@@ -56,17 +57,30 @@ export const mockSpecies = [
   'Olmo europeo',
 ];
 
+export const mockSpeciesCounts: Record<string, number> = {
+  'Paraíso': 51795,
+  'Fresno americano': 48092,
+  'Plátano de sombra': 23235,
+  'Tipa': 12354,
+  'Arce negundo': 7701,
+  'Fresno europeo': 6849,
+  'Laurel rosa': 6191,
+  'Anacahuita': 5687,
+  'Jacarandá': 5032,
+  'Olmo europeo': 3861,
+};
+
 export const mockTreesGeoJSON = {
   type: 'FeatureCollection',
   features: [
     {
       type: 'Feature',
-      properties: { i: 1, e: 'Paraíso' },
+      properties: { i: 1, e: 'Paraíso', c: 1 },
       geometry: { type: 'Point', coordinates: [-56.1645, -34.9011] },
     },
     {
       type: 'Feature',
-      properties: { i: 2, e: 'Fresno americano' },
+      properties: { i: 2, e: 'Fresno americano', c: 2 },
       geometry: { type: 'Point', coordinates: [-56.17, -34.905] },
     },
   ],
@@ -101,12 +115,20 @@ export const handlers = [
     return HttpResponse.json(mockTreesGeoJSON);
   }),
 
-  http.get('/trees-data.json', () => {
-    return HttpResponse.json(mockTreesData);
+  http.get('/trees-data.json.gz', () => {
+    const jsonString = JSON.stringify(mockTreesData);
+    const compressed = pako.gzip(jsonString);
+    return new HttpResponse(compressed, {
+      headers: { 'Content-Type': 'application/gzip' },
+    });
   }),
 
   http.get('/species.json', () => {
     return HttpResponse.json(mockSpecies);
+  }),
+
+  http.get('/species-counts.json', () => {
+    return HttpResponse.json(mockSpeciesCounts);
   }),
 
   // Wikipedia API

@@ -8,6 +8,7 @@ import { Protocol } from 'pmtiles';
 interface MapProps {
   onTreeSelect: (treeId: number | null) => void;
   selectedSpecies: string | null;
+  selectedCCZ: number | null;
   reportMode?: boolean;
   onReportClick?: (lat: number, lng: number) => void;
   mapRef?: React.MutableRefObject<mapboxgl.Map | null>;
@@ -40,7 +41,7 @@ const colorExpression = [
   '#4ade80', // default
 ] as mapboxgl.ExpressionSpecification;
 
-export default function Map({ onTreeSelect, selectedSpecies, reportMode, onReportClick, mapRef }: MapProps) {
+export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, reportMode, onReportClick, mapRef }: MapProps) {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const onTreeSelectRef = useRef(onTreeSelect);
@@ -157,17 +158,27 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
     };
   }, []);
 
-  // Filter by species
+  // Filter by species and/or CCZ
   useEffect(() => {
     if (!map.current) return;
 
     const applyFilter = () => {
       if (!map.current?.getLayer('trees-point')) return;
 
+      const filters: mapboxgl.ExpressionSpecification[] = [];
       if (selectedSpecies) {
-        map.current.setFilter('trees-point', ['==', ['get', 'e'], selectedSpecies]);
-      } else {
+        filters.push(['==', ['get', 'e'], selectedSpecies]);
+      }
+      if (selectedCCZ) {
+        filters.push(['==', ['get', 'c'], selectedCCZ]);
+      }
+
+      if (filters.length === 0) {
         map.current.setFilter('trees-point', null);
+      } else if (filters.length === 1) {
+        map.current.setFilter('trees-point', filters[0]);
+      } else {
+        map.current.setFilter('trees-point', ['all', ...filters] as mapboxgl.ExpressionSpecification);
       }
     };
 
@@ -176,7 +187,7 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
     } else {
       map.current.once('idle', applyFilter);
     }
-  }, [selectedSpecies]);
+  }, [selectedSpecies, selectedCCZ]);
 
   return (
     <div className="relative w-full h-full">

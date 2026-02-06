@@ -89,9 +89,12 @@ describe('TreePanel', () => {
       expect(screen.getByText('Paraíso')).toBeInTheDocument();
     });
 
-    // Find close button in header
-    const closeButton = screen.getAllByRole('button')[0];
-    await user.click(closeButton);
+    // Find close button (has X icon path)
+    const buttons = screen.getAllByRole('button');
+    const closeButton = buttons.find(btn =>
+      btn.querySelector('path[d="M6 18L18 6M6 6l12 12"]')
+    );
+    await user.click(closeButton!);
 
     expect(onClose).toHaveBeenCalled();
   });

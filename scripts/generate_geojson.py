@@ -43,6 +43,7 @@ def main():
             "properties": {
                 "i": int(row["Arbol"]),
                 "e": row["Nombre común"] if pd.notna(row["Nombre común"]) else "",
+                "c": int(row["CCZ"]) if pd.notna(row["CCZ"]) else 0,
             },
         }
         features.append(feature)

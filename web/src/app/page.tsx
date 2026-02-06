@@ -3,11 +3,13 @@
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
 import type mapboxgl from 'mapbox-gl';
+import pako from 'pako';
 import TreePanel from '@/components/TreePanel';
 import Filters from '@/components/Filters';
 import ReportModal from '@/components/ReportModal';
 import FeedbackModal from '@/components/FeedbackModal';
 import AboutModal from '@/components/AboutModal';
+import StatsModal from '@/components/StatsModal';
 
 // Dynamic import to avoid SSR issues with Mapbox
 const Map = dynamic(() => import('@/components/Map'), {
@@ -36,14 +38,53 @@ interface TreeData {
 export default function Home() {
   const [selectedTree, setSelectedTree] = useState<number | null>(null);
   const [selectedSpecies, setSelectedSpecies] = useState<string | null>(null);
+  const [selectedCCZ, setSelectedCCZ] = useState<number | null>(null);
   const [species, setSpecies] = useState<string[]>([]);
   const [treesData, setTreesData] = useState<Record<string, TreeData> | null>(null);
+  const [speciesCounts, setSpeciesCounts] = useState<Record<string, number> | null>(null);
   const [reportMode, setReportMode] = useState(false);
   const [reportCoords, setReportCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
+  const [statsOpen, setStatsOpen] = useState(false);
   const [locating, setLocating] = useState(false);
   const mapRef = useRef<mapboxgl.Map | null>(null);
+
+  // Read tree ID from URL on load
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const treeId = params.get('arbol');
+    if (treeId) {
+      const id = parseInt(treeId, 10);
+      if (!isNaN(id)) {
+        setSelectedTree(id);
+      }
+    }
+  }, []);
+
+  // Center map on selected tree from URL when data loads
+  useEffect(() => {
+    if (!selectedTree || !treesData || !mapRef.current) return;
+
+    const tree = treesData[selectedTree.toString()];
+    if (tree?.lat && tree?.lng) {
+      mapRef.current.flyTo({
+        center: [tree.lng, tree.lat],
+        zoom: 17,
+      });
+    }
+  }, [treesData]); // Only run when treesData first loads
+
+  // Update URL when tree is selected
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    if (selectedTree) {
+      url.searchParams.set('arbol', selectedTree.toString());
+    } else {
+      url.searchParams.delete('arbol');
+    }
+    window.history.replaceState({}, '', url.toString());
+  }, [selectedTree]);
 
   const handleLocateMe = () => {
     if (!mapRef.current) return;
@@ -66,18 +107,27 @@ export default function Home() {
     );
   };
 
-  // Load species list
+  // Load species list and counts
   useEffect(() => {
     fetch('/species.json')
       .then((res) => res.json())
       .then(setSpecies)
       .catch(console.error);
+
+    fetch('/species-counts.json')
+      .then((res) => res.json())
+      .then(setSpeciesCounts)
+      .catch(console.error);
   }, []);
 
-  // Load trees data (for panel info)
+  // Load trees data (for panel info) - gzipped for 92% smaller download
   useEffect(() => {
-    fetch('/trees-data.json')
-      .then((res) => res.json())
+    fetch('/trees-data.json.gz')
+      .then((res) => res.arrayBuffer())
+      .then((buffer) => {
+        const decompressed = pako.inflate(new Uint8Array(buffer), { to: 'string' });
+        return JSON.parse(decompressed);
+      })
       .then(setTreesData)
       .catch(console.error);
   }, []);
@@ -87,6 +137,7 @@ export default function Home() {
       <Map
         onTreeSelect={setSelectedTree}
         selectedSpecies={selectedSpecies}
+        selectedCCZ={selectedCCZ}
         reportMode={reportMode}
         onReportClick={(lat, lng) => {
           setReportCoords({ lat, lng });
@@ -102,6 +153,15 @@ export default function Home() {
             species={species}
             selectedSpecies={selectedSpecies}
             onSpeciesChange={setSelectedSpecies}
+            speciesCounts={speciesCounts ?? undefined}
+            selectedCCZ={selectedCCZ}
+            onCCZChange={setSelectedCCZ}
+            onLocationSelect={(lng, lat) => {
+              mapRef.current?.flyTo({
+                center: [lng, lat],
+                zoom: 17,
+              });
+            }}
           />
         </div>
 
@@ -128,6 +188,16 @@ export default function Home() {
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+            </svg>
+          </button>
+
+          <button
+            onClick={() => setStatsOpen(true)}
+            className="p-2.5 rounded-lg shadow-lg bg-gray-900 text-white border border-gray-700 hover:bg-gray-800"
+            title="Estadísticas"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
             </svg>
           </button>
 
@@ -189,6 +259,12 @@ export default function Home() {
       <AboutModal
         isOpen={aboutOpen}
         onClose={() => setAboutOpen(false)}
+      />
+
+      <StatsModal
+        isOpen={statsOpen}
+        onClose={() => setStatsOpen(false)}
+        speciesCounts={speciesCounts}
       />
     </main>
   );
