@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
+import { Protocol } from 'pmtiles';
 
 interface MapProps {
   onTreeSelect: (treeId: number | null) => void;
@@ -68,6 +69,10 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
     console.log('Mapbox token:', token ? 'present' : 'MISSING');
     mapboxgl.accessToken = token;
 
+    // Register PMTiles protocol
+    const protocol = new Protocol();
+    (mapboxgl as any).addProtocol('pmtiles', protocol.tile);
+
     map.current = new mapboxgl.Map({
       container: mapContainer.current!,
       style: 'mapbox://styles/mapbox/dark-v11',
@@ -82,24 +87,21 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
     });
 
     map.current.on('load', async () => {
-      console.log('Map loaded, fetching trees...');
+      console.log('Map loaded, adding PMTiles source...');
       try {
-        const response = await fetch('/trees.json');
-        console.log('Response received:', response.status);
-        const data = await response.json();
-        console.log('Data parsed, features:', data.features?.length);
-
+      // Use PMTiles for vector tiles (6MB vs 32MB GeoJSON)
       map.current!.addSource('trees', {
-        type: 'geojson',
-        data,
+        type: 'vector',
+        url: 'pmtiles:///trees.pmtiles',
       });
-      console.log('Source added');
+      console.log('PMTiles source added');
 
       // Trees layer with colors by species
       map.current!.addLayer({
         id: 'trees-point',
         type: 'circle',
         source: 'trees',
+        'source-layer': 'trees',
         paint: {
           'circle-color': colorExpression,
           'circle-radius': [
@@ -151,6 +153,7 @@ export default function Map({ onTreeSelect, selectedSpecies, reportMode, onRepor
       map.current?.remove();
       map.current = null;
       if (mapRef) mapRef.current = null;
+      (mapboxgl as any).removeProtocol('pmtiles');
     };
   }, []);
 

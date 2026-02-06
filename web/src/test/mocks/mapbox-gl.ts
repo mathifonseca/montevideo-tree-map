@@ -30,6 +30,8 @@ export class MapMock {
 const mapboxgl = {
   Map: MapMock as any,
   accessToken: '',
+  addProtocol: vi.fn(),
+  removeProtocol: vi.fn(),
   NavigationControl: vi.fn(),
   ScaleControl: vi.fn(),
   Marker: class {
