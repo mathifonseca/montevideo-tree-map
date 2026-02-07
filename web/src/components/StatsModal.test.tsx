@@ -11,10 +11,53 @@ describe('StatsModal', () => {
     'Arce negundo': 7701,
   };
 
+  const mockTreesData = {
+    '1': {
+      nombre_cientifico: 'Melia azedarach',
+      nombre_comun: 'Paraíso',
+      calle: 'Av. 18 de Julio',
+      numero: 1234,
+      ccz: 1,
+      altura: 8,
+      cap: 120,
+      diametro_copa: 6,
+      estado: 2,
+      lat: -34.9011,
+      lng: -56.1645,
+    },
+    '2': {
+      nombre_cientifico: 'Fraxinus americana',
+      nombre_comun: 'Fresno americano',
+      calle: 'Bulevar Artigas',
+      numero: 500,
+      ccz: 4,
+      altura: 12,
+      cap: 150,
+      diametro_copa: 8,
+      estado: 1,
+      lat: -34.9100,
+      lng: -56.1700,
+    },
+    '3': {
+      nombre_cientifico: 'Tipuana tipu',
+      nombre_comun: 'Tipa',
+      calle: 'Av. 18 de Julio',
+      numero: 2000,
+      ccz: 1,
+      altura: 15,
+      cap: 200,
+      diametro_copa: 10,
+      estado: 3,
+      lat: -34.9050,
+      lng: -56.1600,
+    },
+  };
+
   const defaultProps = {
     isOpen: true,
     onClose: vi.fn(),
     speciesCounts: mockSpeciesCounts,
+    treesData: mockTreesData,
   };
 
   it('returns null when not open', () => {
@@ -42,7 +85,7 @@ describe('StatsModal', () => {
   it('displays zone count', () => {
     render(<StatsModal {...defaultProps} />);
     expect(screen.getByText('18')).toBeInTheDocument();
-    expect(screen.getByText('Zonas (CCZ)')).toBeInTheDocument();
+    expect(screen.getByText('Zonas')).toBeInTheDocument();
   });
 
   it('displays top species chart', () => {
@@ -51,6 +94,42 @@ describe('StatsModal', () => {
     expect(screen.getByText('Paraíso')).toBeInTheDocument();
     expect(screen.getByText('Fresno americano')).toBeInTheDocument();
     expect(screen.getByText('51.795')).toBeInTheDocument();
+  });
+
+  it('displays estado vegetativo section', () => {
+    render(<StatsModal {...defaultProps} />);
+    expect(screen.getByText('Estado vegetativo')).toBeInTheDocument();
+    expect(screen.getByText('Muy bueno')).toBeInTheDocument();
+    expect(screen.getByText('Bueno')).toBeInTheDocument();
+    expect(screen.getByText('Regular')).toBeInTheDocument();
+  });
+
+  it('displays trees by CCZ section', () => {
+    render(<StatsModal {...defaultProps} />);
+    expect(screen.getByText('Árboles por zona (CCZ)')).toBeInTheDocument();
+    expect(screen.getByText('CCZ 1')).toBeInTheDocument();
+    expect(screen.getByText('CCZ 4')).toBeInTheDocument();
+  });
+
+  it('displays height distribution section', () => {
+    render(<StatsModal {...defaultProps} />);
+    expect(screen.getByText('Distribución de alturas')).toBeInTheDocument();
+    expect(screen.getByText('5-10m')).toBeInTheDocument();
+    expect(screen.getByText('10-15m')).toBeInTheDocument();
+  });
+
+  it('displays top streets section', () => {
+    render(<StatsModal {...defaultProps} />);
+    expect(screen.getByText('Calles con más árboles')).toBeInTheDocument();
+    expect(screen.getByText('Av. 18 de Julio')).toBeInTheDocument();
+    expect(screen.getByText('Bulevar Artigas')).toBeInTheDocument();
+  });
+
+  it('displays average dimensions', () => {
+    render(<StatsModal {...defaultProps} />);
+    expect(screen.getByText('Altura prom.')).toBeInTheDocument();
+    expect(screen.getByText('CAP prom.')).toBeInTheDocument();
+    expect(screen.getByText('Copa prom.')).toBeInTheDocument();
   });
 
   it('calls onClose when close button is clicked', async () => {

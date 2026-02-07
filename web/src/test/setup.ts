@@ -4,8 +4,15 @@ import { afterAll, afterEach, beforeAll, vi } from 'vitest';
 import { server } from './mocks/server';
 import { setupGeolocationMock } from './mocks/geolocation';
 
-// Mock mapbox-gl
-vi.mock('mapbox-gl', () => import('./mocks/mapbox-gl'));
+// Mock maplibre-gl
+vi.mock('maplibre-gl', () => import('./mocks/maplibre-gl'));
+
+// Mock framer-motion to render components without animation
+vi.mock('framer-motion', () => import('./mocks/framer-motion'));
+
+// Mock next-intl
+vi.mock('next-intl', () => import('./mocks/next-intl'));
+vi.mock('next-intl/server', () => import('./mocks/next-intl'));
 
 // Mock next/dynamic to render components directly
 vi.mock('next/dynamic', () => ({

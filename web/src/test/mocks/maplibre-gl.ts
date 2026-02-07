@@ -27,11 +27,14 @@ export class MapMock {
   static _constructorSpy = vi.fn();
 }
 
-const mapboxgl = {
+// Named export for addProtocol
+export const addProtocol = vi.fn();
+export const removeProtocol = vi.fn();
+
+const maplibregl = {
   Map: MapMock as any,
-  accessToken: '',
-  addProtocol: vi.fn(),
-  removeProtocol: vi.fn(),
+  addProtocol,
+  removeProtocol,
   NavigationControl: vi.fn(),
   ScaleControl: vi.fn(),
   Marker: class {
@@ -47,4 +50,4 @@ const mapboxgl = {
   },
 };
 
-export default mapboxgl;
+export default maplibregl;

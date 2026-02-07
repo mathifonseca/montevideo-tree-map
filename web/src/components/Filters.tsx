@@ -1,6 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslations } from 'next-intl';
 
 // Colors for legend (must match Map.tsx)
 const SPECIES_COLORS: [string, string][] = [
@@ -28,33 +30,13 @@ interface FiltersProps {
 
 const TOTAL_TREES = 234464;
 
-const CCZ_LABELS: Record<number, string> = {
-  1: 'CCZ 1 - Ciudad Vieja, Centro, Barrio Sur, Palermo, Parque Rodó',
-  2: 'CCZ 2 - Aguada, Cordón, La Comercial, Tres Cruces, Brazo Oriental',
-  3: 'CCZ 3 - Prado, Capurro, Bella Vista, Reducto, Atahualpa, Jacinto Vera',
-  4: 'CCZ 4 - Cerrito, La Teja, Paso Molino, Belvedere',
-  5: 'CCZ 5 - Cerro, Casabó, Pajas Blancas',
-  6: 'CCZ 6 - Villa del Cerro, Santa Catalina, La Paloma',
-  7: 'CCZ 7 - Colón, Lezica, Melilla, Nuevo París',
-  8: 'CCZ 8 - Sayago, Conciliación, Peñarol',
-  9: 'CCZ 9 - Arroyo Seco, Paso de la Arena, Santiago Vázquez',
-  10: 'CCZ 10 - Pocitos, Punta Carretas, Parque Batlle',
-  11: 'CCZ 11 - Buceo, Parque Batlle, Villa Dolores, Malvín Norte',
-  12: 'CCZ 12 - Malvín, Punta Gorda, Carrasco',
-  13: 'CCZ 13 - Unión, Mercado Modelo, Villa Española',
-  14: 'CCZ 14 - La Blanqueada, Larrañaga, Aires Puros',
-  15: 'CCZ 15 - Maroñas, Villa García, Manga',
-  16: 'CCZ 16 - Piedras Blancas, Villa Española Norte',
-  17: 'CCZ 17 - Casavalle, Jardines del Hipódromo, Las Acacias',
-  18: 'CCZ 18 - Carrasco Norte, Barra de Carrasco, Paso Carrasco',
-};
-
 interface GeocodingResult {
   place_name: string;
   center: [number, number];
 }
 
 export default function Filters({ species, selectedSpecies, onSpeciesChange, speciesCounts, selectedCCZ, onCCZChange, onLocationSelect }: FiltersProps) {
+  const t = useTranslations();
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -94,8 +76,21 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
   const selectedCount = selectedSpecies && speciesCounts ? speciesCounts[selectedSpecies] : null;
   const displayCount = selectedCount
-    ? `${selectedCount.toLocaleString('es-UY')} de ${TOTAL_TREES.toLocaleString('es-UY')} árboles`
-    : `${TOTAL_TREES.toLocaleString('es-UY')} árboles`;
+    ? t('header.filteredCount', { filtered: selectedCount.toLocaleString('es-UY'), total: TOTAL_TREES.toLocaleString('es-UY') })
+    : t('header.treeCount', { count: TOTAL_TREES.toLocaleString('es-UY') });
+
+  // Get translated species name for legend
+  const getTranslatedSpeciesName = (name: string) => {
+    try {
+      const translated = t.raw(`species.${name}`) as string | undefined;
+      if (translated && !translated.startsWith('species.')) {
+        return translated;
+      }
+    } catch {
+      // Translation doesn't exist
+    }
+    return name;
+  };
 
   return (
     <div className="absolute top-4 left-4">
@@ -106,7 +101,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
           onClick={() => setExpanded(!expanded)}
         >
           <div>
-            <h2 className="text-white font-semibold text-xs md:text-sm">Arbolado urbano de Montevideo</h2>
+            <h2 className="text-white font-semibold text-xs md:text-sm">{t('header.title')}</h2>
             <p className="text-gray-400 text-xs">{displayCount}</p>
           </div>
           <svg
@@ -124,11 +119,11 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
           {/* Address search */}
           {onLocationSelect && (
             <div className="p-3 border-b border-gray-700">
-              <label className="text-gray-400 text-xs block mb-2">Buscar dirección</label>
+              <label className="text-gray-400 text-xs block mb-2">{t('filters.searchAddress')}</label>
               <div className="relative">
                 <input
                   type="text"
-                  placeholder="Ej: 18 de Julio 1234"
+                  placeholder={t('filters.addressPlaceholder')}
                   value={addressSearch}
                   onChange={(e) => setAddressSearch(e.target.value)}
                   className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:border-green-500 focus:outline-none"
@@ -142,33 +137,41 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                   </div>
                 )}
               </div>
-              {addressResults.length > 0 && (
-                <div className="mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-40 overflow-auto shadow-xl">
-                  {addressResults.map((result, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        onLocationSelect(result.center[0], result.center[1]);
-                        setAddressSearch('');
-                        setAddressResults([]);
-                      }}
-                      className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700"
-                    >
-                      {result.place_name}
-                    </button>
-                  ))}
-                </div>
-              )}
+              <AnimatePresence>
+                {addressResults.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.15 }}
+                    className="mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-40 overflow-auto shadow-xl"
+                  >
+                    {addressResults.map((result, i) => (
+                      <button
+                        key={i}
+                        onClick={() => {
+                          onLocationSelect(result.center[0], result.center[1]);
+                          setAddressSearch('');
+                          setAddressResults([]);
+                        }}
+                        className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700"
+                      >
+                        {result.place_name}
+                      </button>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           )}
 
           {/* Species filter */}
           <div className="p-3">
-          <label className="text-gray-400 text-xs block mb-2">Filtrar por especie</label>
+          <label className="text-gray-400 text-xs block mb-2">{t('filters.filterBySpecies')}</label>
           <div className="relative">
             <input
               type="text"
-              placeholder="Buscar especie..."
+              placeholder={t('filters.speciesPlaceholder')}
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -194,50 +197,66 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
           </div>
 
           {/* Dropdown */}
-          {isOpen && search && (
-            <div className="absolute left-3 right-3 mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-60 overflow-auto shadow-xl">
-              {filteredSpecies.slice(0, 20).map((s) => (
-                <button
-                  key={s}
-                  onClick={() => {
-                    onSpeciesChange(s);
-                    setSearch(s);
-                    setIsOpen(false);
-                  }}
-                  className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700"
-                >
-                  {s}
-                </button>
-              ))}
-              {filteredSpecies.length === 0 && (
-                <p className="px-3 py-2 text-sm text-gray-400">No se encontraron especies</p>
-              )}
-              {filteredSpecies.length > 20 && (
-                <p className="px-3 py-2 text-xs text-gray-500">
-                  +{filteredSpecies.length - 20} más...
-                </p>
-              )}
-            </div>
-          )}
+          <AnimatePresence>
+            {isOpen && search && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.15 }}
+                className="absolute left-3 right-3 mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-60 overflow-auto shadow-xl z-10"
+              >
+                {filteredSpecies.slice(0, 20).map((s) => (
+                  <button
+                    key={s}
+                    onClick={() => {
+                      onSpeciesChange(s);
+                      setSearch(s);
+                      setIsOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700"
+                  >
+                    {s}
+                  </button>
+                ))}
+                {filteredSpecies.length === 0 && (
+                  <p className="px-3 py-2 text-sm text-gray-400">{t('common.noResults')}</p>
+                )}
+                {filteredSpecies.length > 20 && (
+                  <p className="px-3 py-2 text-xs text-gray-500">
+                    +{filteredSpecies.length - 20} {t('common.more')}...
+                  </p>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Selected species badge */}
-          {selectedSpecies && (
-            <div className="mt-2 flex items-center gap-2">
-              <span className="bg-green-600 text-white text-xs px-2 py-1 rounded">
-                {selectedSpecies}
-              </span>
-            </div>
-          )}
+          <AnimatePresence>
+            {selectedSpecies && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.15 }}
+                className="mt-2 flex items-center gap-2"
+              >
+                <span className="bg-green-600 text-white text-xs px-2 py-1 rounded">
+                  {selectedSpecies}
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* CCZ filter */}
           <div className="mt-3">
-            <label className="text-gray-400 text-xs block mb-2">Filtrar por zona</label>
+            <label className="text-gray-400 text-xs block mb-2">{t('filters.filterByZone')}</label>
             <select
               value={selectedCCZ ?? ''}
               onChange={(e) => onCCZChange(e.target.value ? parseInt(e.target.value) : null)}
               className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:border-green-500 focus:outline-none"
             >
-              <option value="">Todas las zonas</option>
+              <option value="">{t('filters.allZones')}</option>
               {Array.from({ length: 18 }, (_, i) => i + 1).map((ccz) => (
                 <option key={ccz} value={ccz}>
                   CCZ {ccz}
@@ -245,8 +264,8 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
               ))}
             </select>
             {selectedCCZ && (
-              <p className="text-gray-500 text-xs mt-1 truncate" title={CCZ_LABELS[selectedCCZ]}>
-                {CCZ_LABELS[selectedCCZ]?.split(' - ')[1]}
+              <p className="text-gray-500 text-xs mt-1 truncate" title={t(`ccz.${selectedCCZ}`)}>
+                {t(`ccz.${selectedCCZ}`)}
               </p>
             )}
           </div>
@@ -254,7 +273,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
           {/* Legend - always visible on desktop */}
           <div className="hidden md:block p-3 border-t border-gray-700">
-            <p className="text-gray-400 text-xs mb-2">Especies más comunes</p>
+            <p className="text-gray-400 text-xs mb-2">{t('filters.mostCommonSpecies')}</p>
             <div className="space-y-1">
               {SPECIES_COLORS.map(([name, color]) => (
                 <button
@@ -266,12 +285,12 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                     className="w-3 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: color }}
                   />
-                  <span className="text-gray-300 text-xs truncate">{name}</span>
+                  <span className="text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
                 </button>
               ))}
               <div className="flex items-center gap-2 px-1 py-0.5">
                 <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-                <span className="text-gray-500 text-xs">Otras especies</span>
+                <span className="text-gray-500 text-xs">{t('common.otherSpecies')}</span>
               </div>
             </div>
           </div>
@@ -282,7 +301,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
               onClick={() => setLegendOpen(!legendOpen)}
               className="flex items-center justify-between w-full text-gray-400 text-xs"
             >
-              <span>Especies más comunes</span>
+              <span>{t('filters.mostCommonSpecies')}</span>
               <svg
                 className={`w-4 h-4 transition-transform ${legendOpen ? 'rotate-180' : ''}`}
                 fill="none"
@@ -292,27 +311,37 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
-            {legendOpen && (
-              <div className="space-y-1 mt-2">
-                {SPECIES_COLORS.map(([name, color]) => (
-                  <button
-                    key={name}
-                    onClick={() => onSpeciesChange(name)}
-                    className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
-                  >
-                    <span
-                      className="w-3 h-3 rounded-full flex-shrink-0"
-                      style={{ backgroundColor: color }}
-                    />
-                    <span className="text-gray-300 text-xs truncate">{name}</span>
-                  </button>
-                ))}
-                <div className="flex items-center gap-2 px-1 py-0.5">
-                  <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-                  <span className="text-gray-500 text-xs">Otras especies</span>
-                </div>
-              </div>
-            )}
+            <AnimatePresence>
+              {legendOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="space-y-1 mt-2">
+                    {SPECIES_COLORS.map(([name, color]) => (
+                      <button
+                        key={name}
+                        onClick={() => onSpeciesChange(name)}
+                        className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+                      >
+                        <span
+                          className="w-3 h-3 rounded-full flex-shrink-0"
+                          style={{ backgroundColor: color }}
+                        />
+                        <span className="text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
+                      </button>
+                    ))}
+                    <div className="flex items-center gap-2 px-1 py-0.5">
+                      <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
+                      <span className="text-gray-500 text-xs">{t('common.otherSpecies')}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>

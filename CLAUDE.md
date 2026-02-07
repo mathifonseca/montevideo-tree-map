@@ -29,7 +29,12 @@ arbolesmvd/
 │   └── generate_report.py      # Generate HTML report
 └── web/                        # Next.js application
     ├── vitest.config.ts        # Test configuration
+    ├── messages/
+    │   ├── es.json             # Spanish translations
+    │   └── en.json             # English translations
     ├── src/
+    │   ├── i18n/
+    │   │   └── request.ts      # Locale configuration
     │   ├── app/
     │   │   ├── layout.tsx
     │   │   ├── page.tsx
@@ -42,7 +47,8 @@ arbolesmvd/
     │   │   ├── FeedbackModal.tsx
     │   │   ├── AboutModal.tsx
     │   │   ├── StatsModal.tsx
-    │   │   └── *.test.tsx      # Component tests (92 tests)
+    │   │   ├── LanguageSelector.tsx
+    │   │   └── *.test.tsx      # Component tests (97 tests)
     │   └── test/               # Test infrastructure
     │       ├── setup.ts        # Global setup
     │       ├── mocks/          # Mapbox, geolocation, API mocks
@@ -72,6 +78,7 @@ arbolesmvd/
 - Next.js 16 with App Router
 - Mapbox GL JS + PMTiles (vector tiles)
 - Tailwind CSS
+- next-intl (internationalization)
 - Formspree (forms)
 - Vitest + React Testing Library + MSW (testing)
 - Vercel (deploy)
@@ -93,6 +100,7 @@ arbolesmvd/
 - "About this project" modal
 - Geolocation button
 - Responsive design (bottom sheet on mobile)
+- Internationalization (Spanish/English)
 
 ### Environment Variables
 ```
@@ -112,8 +120,8 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **92 tests** across 8 test files covering all components and page integration
-- Mocks for Mapbox GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs
+- **97 tests** across 8 test files covering all components and page integration
+- Mocks for Mapbox GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs, next-intl
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
 
@@ -315,6 +323,40 @@ tippecanoe -o web/public/trees.pmtiles \
 - GitHub Actions workflow for automated testing
 - Runs on push/PR to main branch
 - Steps: checkout → setup Node.js → install → test → build
+
+### Phase 6: Internationalization (web/)
+
+#### next-intl Setup
+- Library: next-intl for Next.js App Router
+- Server-side locale detection via cookies
+- NextIntlClientProvider wraps entire app
+- Default language: Spanish (es)
+
+#### Translation Files
+- `messages/es.json`: Spanish translations (~140 UI strings + 359 species)
+- `messages/en.json`: English translations (~140 UI strings + 359 species)
+- Species names translated for common species (~70), rest keep Spanish name
+
+#### Language Selector
+- Dropdown in top-right corner with flag icons
+- Options: 🇺🇾 Español / 🇬🇧 English
+- Saves preference in cookie (`locale`)
+- Persists across sessions
+
+#### Locale-aware Features
+- Wikipedia API fetches from es.wikipedia.org or en.wikipedia.org based on locale
+- Species names translated in TreePanel, Filters legend, and StatsModal
+- Fallback to original name if translation missing
+
+#### Components Updated
+All 9 main components use `useTranslations` hook:
+- page.tsx, Map.tsx, TreePanel.tsx, Filters.tsx
+- ReportModal.tsx, FeedbackModal.tsx, AboutModal.tsx, StatsModal.tsx
+- LanguageSelector.tsx (new)
+
+#### Test Updates
+- Mock for next-intl in `src/test/mocks/next-intl.tsx`
+- All 97 tests pass with mock translations
 
 ---
 

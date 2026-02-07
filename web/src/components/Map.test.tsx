@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, waitFor } from '../test/utils/render';
-import { mockMapInstance, MapMock } from '../test/mocks/mapbox-gl';
+import { mockMapInstance, MapMock } from '../test/mocks/maplibre-gl';
 
 // The mock is automatically applied via the setup file
 import Map from './Map';
@@ -44,7 +44,7 @@ describe('Map', () => {
 
     expect(MapMock._constructorSpy).toHaveBeenCalledWith(
       expect.objectContaining({
-        style: 'mapbox://styles/mapbox/dark-v11',
+        style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
         center: [-56.1645, -34.9011],
         zoom: 12,
       })

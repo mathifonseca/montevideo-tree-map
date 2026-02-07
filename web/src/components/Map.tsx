@@ -1,9 +1,10 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import maplibregl, { addProtocol } from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
+import { useTranslations } from 'next-intl';
 
 interface MapProps {
   onTreeSelect: (treeId: number | null) => void;
@@ -11,7 +12,7 @@ interface MapProps {
   selectedCCZ: number | null;
   reportMode?: boolean;
   onReportClick?: (lat: number, lng: number) => void;
-  mapRef?: React.MutableRefObject<mapboxgl.Map | null>;
+  mapRef?: React.MutableRefObject<maplibregl.Map | null>;
 }
 
 // Color palette for top species
@@ -34,16 +35,17 @@ const SPECIES_COLORS: [string, string][] = [
 ];
 
 // Build color expression for Mapbox
-const colorExpression = [
+const colorExpression: any = [
   'match',
   ['get', 'e'],
   ...SPECIES_COLORS.flat(),
   '#4ade80', // default
-] as mapboxgl.ExpressionSpecification;
+];
 
 export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, reportMode, onReportClick, mapRef }: MapProps) {
+  const t = useTranslations('map');
   const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
+  const map = useRef<maplibregl.Map | null>(null);
   const onTreeSelectRef = useRef(onTreeSelect);
   const reportModeRef = useRef(reportMode);
   const onReportClickRef = useRef(onReportClick);
@@ -66,17 +68,13 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
   useEffect(() => {
     if (map.current) return;
 
-    const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN || '';
-    console.log('Mapbox token:', token ? 'present' : 'MISSING');
-    mapboxgl.accessToken = token;
-
     // Register PMTiles protocol
     const protocol = new Protocol();
-    (mapboxgl as any).addProtocol('pmtiles', protocol.tile);
+    addProtocol('pmtiles', protocol.tile);
 
-    map.current = new mapboxgl.Map({
+    map.current = new maplibregl.Map({
       container: mapContainer.current!,
-      style: 'mapbox://styles/mapbox/dark-v11',
+      style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
       center: [-56.1645, -34.9011], // Montevideo
       zoom: 12,
     });
@@ -154,7 +152,7 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
       map.current?.remove();
       map.current = null;
       if (mapRef) mapRef.current = null;
-      (mapboxgl as any).removeProtocol('pmtiles');
+      (maplibregl as any).removeProtocol('pmtiles');
     };
   }, []);
 
@@ -165,7 +163,7 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
     const applyFilter = () => {
       if (!map.current?.getLayer('trees-point')) return;
 
-      const filters: mapboxgl.ExpressionSpecification[] = [];
+      const filters: maplibregl.ExpressionSpecification[] = [];
       if (selectedSpecies) {
         filters.push(['==', ['get', 'e'], selectedSpecies]);
       }
@@ -178,7 +176,7 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
       } else if (filters.length === 1) {
         map.current.setFilter('trees-point', filters[0]);
       } else {
-        map.current.setFilter('trees-point', ['all', ...filters] as mapboxgl.ExpressionSpecification);
+        map.current.setFilter('trees-point', ['all', ...filters] as maplibregl.ExpressionSpecification);
       }
     };
 
@@ -194,7 +192,7 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
       <div ref={mapContainer} className="w-full h-full" />
       {loading && (
         <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80">
-          <div className="text-white text-lg">Cargando árboles...</div>
+          <div className="text-white text-lg">{t('loadingTrees')}</div>
         </div>
       )}
 

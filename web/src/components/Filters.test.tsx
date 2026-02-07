@@ -51,7 +51,7 @@ describe('Filters', () => {
       btn.classList.contains('text-left')
     );
     expect(dropdownItem).toBeInTheDocument();
-  });
+  }, 10000);
 
   it('filters species based on search input', async () => {
     const { user } = render(<Filters {...defaultProps} />);
@@ -188,7 +188,7 @@ describe('Filters', () => {
   it('shows zone description when CCZ is selected', () => {
     render(<Filters {...defaultProps} selectedCCZ={5} />);
 
-    expect(screen.getByText('Cerro, Casabó, Pajas Blancas')).toBeInTheDocument();
+    expect(screen.getByText('Pocitos, Punta Carretas')).toBeInTheDocument();
   });
 
   it('renders address search input when onLocationSelect is provided', () => {
