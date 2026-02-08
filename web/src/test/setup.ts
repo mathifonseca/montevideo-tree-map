@@ -14,6 +14,9 @@ vi.mock('framer-motion', () => import('./mocks/framer-motion'));
 vi.mock('next-intl', () => import('./mocks/next-intl'));
 vi.mock('next-intl/server', () => import('./mocks/next-intl'));
 
+// Mock next-themes
+vi.mock('next-themes', () => import('./mocks/next-themes'));
+
 // Mock next/dynamic to render components directly
 vi.mock('next/dynamic', () => ({
   default: (fn: () => Promise<{ default: React.ComponentType<any> }>) => {

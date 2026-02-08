@@ -210,20 +210,20 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
     return (
       <>
         {/* Header */}
-        <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4">
+        <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-xl font-bold text-white">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
                 {displayName}
               </h2>
               {tree.nombre_cientifico && (
-                <p className="text-gray-400 italic text-sm">{tree.nombre_cientifico}</p>
+                <p className="text-gray-500 dark:text-gray-400 italic text-sm">{tree.nombre_cientifico}</p>
               )}
             </div>
             <div className="flex items-center gap-1">
               <button
                 onClick={handleShare}
-                className="text-gray-400 hover:text-white p-1 relative"
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-1 relative"
                 title={t('buttons.share')}
               >
                 {copied ? (
@@ -238,7 +238,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
               </button>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white p-1"
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-1"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -250,12 +250,12 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
 
         {/* Dead tree indicator */}
         {(tree.nombre_cientifico === 'Ejemplar seco' || tree.nombre_comun === 'Ejemplar seco') && (
-          <div className="h-32 bg-gray-800 flex items-center justify-center">
+          <div className="h-32 bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
             <div className="text-center">
-              <svg className="w-12 h-12 mx-auto text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-12 h-12 mx-auto text-gray-400 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
               </svg>
-              <p className="text-gray-500 text-sm mt-2">{t('treePanel.deadTree')}</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">{t('treePanel.deadTree')}</p>
             </div>
           </div>
         )}
@@ -263,12 +263,12 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
         {/* Species Image */}
         {(speciesInfo.images.length > 0 || infoLoading) && (
           <div
-            className="relative h-48 bg-gray-800 cursor-pointer group"
+            className="relative h-48 bg-gray-100 dark:bg-gray-800 cursor-pointer group"
             onClick={() => speciesInfo.images.length > 0 && setCarouselOpen(true)}
           >
             {infoLoading ? (
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-gray-400 text-sm">{t('common.loading')}</div>
+                <div className="text-gray-500 dark:text-gray-400 text-sm">{t('common.loading')}</div>
               </div>
             ) : speciesInfo.images[0] ? (
               <>
@@ -289,8 +289,8 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
 
         {/* Species Description */}
         {speciesInfo.description && (
-          <div className="px-4 py-3 bg-gray-800/50 border-b border-gray-700">
-            <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
+          <div className="px-4 py-3 bg-gray-100/50 dark:bg-gray-800/50 border-b border-gray-200 dark:border-gray-700">
+            <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed line-clamp-3">
               {speciesInfo.description}
             </p>
             {speciesInfo.wikipediaUrl && (
@@ -314,10 +314,10 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
           {/* Estado */}
           {tree.estado && (
             <div>
-              <h3 className="text-gray-400 text-sm mb-2">{t('treePanel.vegetativeState')}</h3>
+              <h3 className="text-gray-500 dark:text-gray-400 text-sm mb-2">{t('treePanel.vegetativeState')}</h3>
               <div className="flex items-center gap-2">
                 <span className={`w-3 h-3 rounded-full ${ESTADO_COLORS[tree.estado] || 'bg-gray-500'}`} />
-                <span className="text-white">{t(`vegetativeState.${tree.estado}`) || t('common.unknown')}</span>
+                <span className="text-gray-900 dark:text-white">{t(`vegetativeState.${tree.estado}`) || t('common.unknown')}</span>
               </div>
             </div>
           )}
@@ -325,34 +325,34 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
           {/* Ubicación */}
           {(tree.calle || tree.ccz) && (
             <div>
-              <h3 className="text-gray-400 text-sm mb-2">{t('treePanel.location')}</h3>
-              <div className="text-white">
+              <h3 className="text-gray-500 dark:text-gray-400 text-sm mb-2">{t('treePanel.location')}</h3>
+              <div className="text-gray-900 dark:text-white">
                 {tree.calle && (
                   <p>
                     {tree.calle}
                     {tree.numero && ` ${tree.numero}`}
                   </p>
                 )}
-                {tree.ccz && <p className="text-gray-400 text-sm">CCZ {tree.ccz}</p>}
+                {tree.ccz && <p className="text-gray-500 dark:text-gray-400 text-sm">CCZ {tree.ccz}</p>}
               </div>
             </div>
           )}
 
           {/* Características */}
           <div>
-            <h3 className="text-gray-400 text-sm mb-2">{t('treePanel.characteristics')}</h3>
+            <h3 className="text-gray-500 dark:text-gray-400 text-sm mb-2">{t('treePanel.characteristics')}</h3>
             <div className="grid grid-cols-3 gap-4">
               {tree.altura && (
-                <div className="bg-gray-800 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-bold text-green-400">{tree.altura}</p>
-                  <p className="text-gray-400 text-xs">{t('treePanel.height')}</p>
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3 text-center">
+                  <p className="text-2xl font-bold text-green-500 dark:text-green-400">{tree.altura}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">{t('treePanel.height')}</p>
                 </div>
               )}
               {tree.cap && (
-                <div className="bg-gray-800 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-bold text-green-400">{tree.cap}</p>
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3 text-center">
+                  <p className="text-2xl font-bold text-green-500 dark:text-green-400">{tree.cap}</p>
                   <p
-                    className="text-gray-400 text-xs cursor-help underline decoration-dotted"
+                    className="text-gray-500 dark:text-gray-400 text-xs cursor-help underline decoration-dotted"
                     title={t('treePanel.capTooltip')}
                   >
                     {t('treePanel.cap')}
@@ -360,9 +360,9 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
                 </div>
               )}
               {tree.diametro_copa && (
-                <div className="bg-gray-800 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-bold text-green-400">{tree.diametro_copa}</p>
-                  <p className="text-gray-400 text-xs">{t('treePanel.crown')}</p>
+                <div className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3 text-center">
+                  <p className="text-2xl font-bold text-green-500 dark:text-green-400">{tree.diametro_copa}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-xs">{t('treePanel.crown')}</p>
                 </div>
               )}
             </div>
@@ -370,14 +370,14 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
 
           {/* Coordenadas */}
           <div>
-            <h3 className="text-gray-400 text-sm mb-2">{t('treePanel.coordinates')}</h3>
-            <p className="text-white font-mono text-sm">
+            <h3 className="text-gray-500 dark:text-gray-400 text-sm mb-2">{t('treePanel.coordinates')}</h3>
+            <p className="text-gray-900 dark:text-white font-mono text-sm">
               {tree.lat.toFixed(6)}, {tree.lng.toFixed(6)}
             </p>
           </div>
 
           {/* ID */}
-          <div className="text-gray-500 text-xs">
+          <div className="text-gray-400 dark:text-gray-500 text-xs">
             {t('treePanel.id')}: {treeId}
           </div>
         </div>
@@ -396,7 +396,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="fixed inset-0 bg-black/50 z-10 md:hidden"
+              className="fixed inset-0 bg-black/30 dark:bg-black/50 z-10 md:hidden"
               onClick={onClose}
             />
 
@@ -406,7 +406,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
               animate={{ y: 0 }}
               exit={{ y: '100%' }}
               transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed bottom-0 left-0 right-0 h-[70vh] bg-gray-900 border-t border-gray-700 shadow-xl overflow-auto z-20 rounded-t-2xl md:hidden"
+              className="fixed bottom-0 left-0 right-0 h-[70vh] bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 shadow-xl overflow-auto z-20 rounded-t-2xl md:hidden"
             >
               {renderPanelContent()}
             </motion.div>
@@ -417,7 +417,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-              className="hidden md:block absolute top-0 right-0 w-96 h-full bg-gray-900 border-l border-gray-700 shadow-xl overflow-auto z-20"
+              className="hidden md:block absolute top-0 right-0 w-96 h-full bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 shadow-xl overflow-auto z-20"
             >
               {renderPanelContent()}
             </motion.div>

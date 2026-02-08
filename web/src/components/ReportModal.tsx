@@ -79,7 +79,7 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-black/30 dark:bg-black/50"
             onClick={onClose}
           />
 
@@ -89,12 +89,12 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-full max-w-md"
+            className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-md"
           >
             {/* Header */}
-            <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <h2 className="text-white font-semibold">{t('reportModal.title')}</h2>
-              <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-gray-900 dark:text-white font-semibold">{t('reportModal.title')}</h2>
+              <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -120,8 +120,8 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   </motion.div>
-                  <p className="text-white text-lg mb-2">{t('reportModal.success')}</p>
-                  <p className="text-gray-400 text-sm mb-4">{t('reportModal.thankYou')}</p>
+                  <p className="text-gray-900 dark:text-white text-lg mb-2">{t('reportModal.success')}</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">{t('reportModal.thankYou')}</p>
                   <button
                     onClick={onClose}
                     className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 transition-colors"
@@ -139,15 +139,15 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
                 >
                   {/* Coordinates */}
                   <div>
-                    <label className="text-gray-400 text-xs block mb-1">{t('reportModal.location')}</label>
-                    <p className="text-white font-mono text-sm bg-gray-800 rounded px-3 py-2">
+                    <label className="text-gray-500 dark:text-gray-400 text-xs block mb-1">{t('reportModal.location')}</label>
+                    <p className="text-gray-900 dark:text-white font-mono text-sm bg-gray-100 dark:bg-gray-800 rounded px-3 py-2">
                       {coords.lat.toFixed(6)}, {coords.lng.toFixed(6)}
                     </p>
                   </div>
 
                   {/* Species */}
                   <div className="relative">
-                    <label className="text-gray-400 text-xs block mb-1">{t('reportModal.species')}</label>
+                    <label className="text-gray-500 dark:text-gray-400 text-xs block mb-1">{t('reportModal.species')}</label>
                     <input
                       type="text"
                       placeholder={t('reportModal.speciesPlaceholder')}
@@ -157,7 +157,7 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
                         setShowDropdown(true);
                       }}
                       onFocus={() => setShowDropdown(true)}
-                      className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
+                      className="w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 focus:border-green-500 focus:outline-none transition-colors"
                     />
                     <AnimatePresence>
                       {showDropdown && search && (
@@ -166,7 +166,7 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
                           transition={{ duration: 0.15 }}
-                          className="absolute left-0 right-0 mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-40 overflow-auto z-10"
+                          className="absolute left-0 right-0 mt-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg max-h-40 overflow-auto z-10"
                         >
                           {filteredSpecies.slice(0, 10).map((s) => (
                             <button
@@ -176,7 +176,7 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
                                 setSearch(s);
                                 setShowDropdown(false);
                               }}
-                              className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700 transition-colors"
+                              className="w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
                             >
                               {s}
                             </button>
@@ -188,13 +188,13 @@ export default function ReportModal({ coords, onClose, species }: ReportModalPro
 
                   {/* Notes */}
                   <div>
-                    <label className="text-gray-400 text-xs block mb-1">{t('reportModal.notes')}</label>
+                    <label className="text-gray-500 dark:text-gray-400 text-xs block mb-1">{t('reportModal.notes')}</label>
                     <textarea
                       placeholder={t('reportModal.notesPlaceholder')}
                       value={notes}
                       onChange={(e) => setNotes(e.target.value)}
                       rows={2}
-                      className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:border-green-500 focus:outline-none resize-none transition-colors"
+                      className="w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 focus:border-green-500 focus:outline-none resize-none transition-colors"
                     />
                   </div>
 

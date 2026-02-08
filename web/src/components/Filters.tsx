@@ -94,18 +94,18 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
   return (
     <div className="absolute top-4 left-4">
-      <div className="bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-52 md:w-72">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 w-52 md:w-72">
         {/* Header */}
         <div
-          className="p-3 border-b border-gray-700 md:cursor-default cursor-pointer flex justify-between items-center"
+          className="p-3 border-b border-gray-200 dark:border-gray-700 md:cursor-default cursor-pointer flex justify-between items-center"
           onClick={() => setExpanded(!expanded)}
         >
           <div>
-            <h2 className="text-white font-semibold text-xs md:text-sm">{t('header.title')}</h2>
-            <p className="text-gray-400 text-xs">{displayCount}</p>
+            <h2 className="text-gray-900 dark:text-white font-semibold text-xs md:text-sm">{t('header.title')}</h2>
+            <p className="text-gray-500 dark:text-gray-400 text-xs">{displayCount}</p>
           </div>
           <svg
-            className={`w-5 h-5 text-gray-400 md:hidden transition-transform ${expanded ? 'rotate-180' : ''}`}
+            className={`w-5 h-5 text-gray-500 dark:text-gray-400 md:hidden transition-transform ${expanded ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -118,19 +118,19 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
         <div className={`${expanded ? 'block' : 'hidden'} md:block`}>
           {/* Address search */}
           {onLocationSelect && (
-            <div className="p-3 border-b border-gray-700">
-              <label className="text-gray-400 text-xs block mb-2">{t('filters.searchAddress')}</label>
+            <div className="p-3 border-b border-gray-200 dark:border-gray-700">
+              <label className="text-gray-500 dark:text-gray-400 text-xs block mb-2">{t('filters.searchAddress')}</label>
               <div className="relative">
                 <input
                   type="text"
                   placeholder={t('filters.addressPlaceholder')}
                   value={addressSearch}
                   onChange={(e) => setAddressSearch(e.target.value)}
-                  className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:border-green-500 focus:outline-none"
+                  className="w-full bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg px-3 py-2 text-sm border border-gray-200 dark:border-gray-700 focus:border-green-500 focus:outline-none"
                 />
                 {addressLoading && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2">
-                    <svg className="w-4 h-4 animate-spin text-gray-400" fill="none" viewBox="0 0 24 24">
+                    <svg className="w-4 h-4 animate-spin text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                     </svg>
@@ -144,7 +144,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -10 }}
                     transition={{ duration: 0.15 }}
-                    className="mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-40 overflow-auto shadow-xl"
+                    className="mt-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg max-h-40 overflow-auto shadow-xl"
                   >
                     {addressResults.map((result, i) => (
                       <button
@@ -154,7 +154,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                           setAddressSearch('');
                           setAddressResults([]);
                         }}
-                        className="w-full text-left px-3 py-2 text-sm text-white hover:bg-gray-700"
+                        className="w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-700"
                       >
                         {result.place_name}
                       </button>
@@ -167,7 +167,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
           {/* Species filter */}
           <div className="p-3">
-          <label className="text-gray-400 text-xs block mb-2">{t('filters.filterBySpecies')}</label>
+          <label className="text-gray-500 dark:text-gray-400 text-xs block mb-2">{t('filters.filterBySpecies')}</label>
           <div className="relative">
             <input
               type="text"
@@ -187,7 +187,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                   onSpeciesChange(null);
                   setSearch('');
                 }}
-                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
               >
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -204,7 +204,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
                 transition={{ duration: 0.15 }}
-                className="absolute left-3 right-3 mt-1 bg-gray-800 border border-gray-700 rounded-lg max-h-60 overflow-auto shadow-xl z-10"
+                className="absolute left-3 right-3 mt-1 bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg max-h-60 overflow-auto shadow-xl z-10"
               >
                 {filteredSpecies.slice(0, 20).map((s) => (
                   <button
@@ -220,10 +220,10 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                   </button>
                 ))}
                 {filteredSpecies.length === 0 && (
-                  <p className="px-3 py-2 text-sm text-gray-400">{t('common.noResults')}</p>
+                  <p className="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">{t('common.noResults')}</p>
                 )}
                 {filteredSpecies.length > 20 && (
-                  <p className="px-3 py-2 text-xs text-gray-500">
+                  <p className="px-3 py-2 text-xs text-gray-400 dark:text-gray-500">
                     +{filteredSpecies.length - 20} {t('common.more')}...
                   </p>
                 )}
@@ -250,7 +250,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
           {/* CCZ filter */}
           <div className="mt-3">
-            <label className="text-gray-400 text-xs block mb-2">{t('filters.filterByZone')}</label>
+            <label className="text-gray-500 dark:text-gray-400 text-xs block mb-2">{t('filters.filterByZone')}</label>
             <select
               value={selectedCCZ ?? ''}
               onChange={(e) => onCCZChange(e.target.value ? parseInt(e.target.value) : null)}
@@ -264,7 +264,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
               ))}
             </select>
             {selectedCCZ && (
-              <p className="text-gray-500 text-xs mt-1 truncate" title={t(`ccz.${selectedCCZ}`)}>
+              <p className="text-gray-400 dark:text-gray-500 text-xs mt-1 truncate" title={t(`ccz.${selectedCCZ}`)}>
                 {t(`ccz.${selectedCCZ}`)}
               </p>
             )}
@@ -272,8 +272,8 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
         </div>
 
           {/* Legend - always visible on desktop */}
-          <div className="hidden md:block p-3 border-t border-gray-700">
-            <p className="text-gray-400 text-xs mb-2">{t('filters.mostCommonSpecies')}</p>
+          <div className="hidden md:block p-3 border-t border-gray-200 dark:border-gray-700">
+            <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">{t('filters.mostCommonSpecies')}</p>
             <div className="space-y-1">
               {SPECIES_COLORS.map(([name, color]) => (
                 <button
@@ -285,21 +285,21 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                     className="w-3 h-3 rounded-full flex-shrink-0"
                     style={{ backgroundColor: color }}
                   />
-                  <span className="text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
                 </button>
               ))}
               <div className="flex items-center gap-2 px-1 py-0.5">
                 <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-                <span className="text-gray-500 text-xs">{t('common.otherSpecies')}</span>
+                <span className="text-gray-400 dark:text-gray-500 text-xs">{t('common.otherSpecies')}</span>
               </div>
             </div>
           </div>
 
           {/* Legend toggle - mobile only */}
-          <div className="md:hidden p-3 border-t border-gray-700">
+          <div className="md:hidden p-3 border-t border-gray-200 dark:border-gray-700">
             <button
               onClick={() => setLegendOpen(!legendOpen)}
-              className="flex items-center justify-between w-full text-gray-400 text-xs"
+              className="flex items-center justify-between w-full text-gray-500 dark:text-gray-400 text-xs"
             >
               <span>{t('filters.mostCommonSpecies')}</span>
               <svg
@@ -325,18 +325,18 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                       <button
                         key={name}
                         onClick={() => onSpeciesChange(name)}
-                        className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+                        className="flex items-center gap-2 w-full hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
                       >
                         <span
                           className="w-3 h-3 rounded-full flex-shrink-0"
                           style={{ backgroundColor: color }}
                         />
-                        <span className="text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
+                        <span className="text-gray-600 dark:text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
                       </button>
                     ))}
                     <div className="flex items-center gap-2 px-1 py-0.5">
                       <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-                      <span className="text-gray-500 text-xs">{t('common.otherSpecies')}</span>
+                      <span className="text-gray-400 dark:text-gray-500 text-xs">{t('common.otherSpecies')}</span>
                     </div>
                   </div>
                 </motion.div>

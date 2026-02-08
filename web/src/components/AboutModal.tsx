@@ -22,7 +22,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-black/30 dark:bg-black/50"
             onClick={onClose}
           />
 
@@ -32,12 +32,12 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative bg-gray-900 rounded-lg shadow-xl border border-gray-700 w-full max-w-lg"
+            className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-lg"
           >
             {/* Header */}
-            <div className="flex justify-between items-center p-4 border-b border-gray-700">
-              <h2 className="text-white font-semibold">{t('title')}</h2>
-              <button onClick={onClose} className="text-gray-400 hover:text-white transition-colors">
+            <div className="flex justify-between items-center p-4 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-gray-900 dark:text-white font-semibold">{t('title')}</h2>
+              <button onClick={onClose} className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors">
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -47,16 +47,17 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             <div className="p-5 space-y-4">
               {/* What */}
               <div>
-                <p
-                  className="text-gray-300 text-sm leading-relaxed"
-                  dangerouslySetInnerHTML={{ __html: t('description') }}
-                />
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                  {t.rich('description', {
+                    strong: (chunks) => <strong className="font-semibold">{chunks}</strong>,
+                  })}
+                </p>
               </div>
 
               {/* Inspiration */}
               <div>
-                <h3 className="text-gray-400 text-xs uppercase tracking-wide mb-2">{t('inspiration')}</h3>
-                <p className="text-gray-300 text-sm">
+                <h3 className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide mb-2">{t('inspiration')}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm">
                   {t.rich('inspirationText', {
                     link: (chunks) => (
                       <a
@@ -74,8 +75,8 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
 
               {/* Data sources */}
               <div>
-                <h3 className="text-gray-400 text-xs uppercase tracking-wide mb-2">{t('dataSources')}</h3>
-                <ul className="text-gray-300 text-sm space-y-1">
+                <h3 className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide mb-2">{t('dataSources')}</h3>
+                <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-1">
                   <li>
                     <a
                       href="https://catalogodatos.gub.uy/dataset/intendencia-montevideo-censo-de-arbolado-2008"
@@ -102,8 +103,8 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
               </div>
 
               {/* Author */}
-              <div className="pt-2 border-t border-gray-700">
-                <p className="text-gray-300 text-sm">
+              <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+                <p className="text-gray-600 dark:text-gray-300 text-sm">
                   {t('createdBy')}{' '}
                   <a
                     href="https://mathifonseca.me"
@@ -114,16 +115,16 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                     Mathi Fonseca
                   </a>
                 </p>
-                <p className="text-gray-500 text-xs mt-1">
+                <p className="text-gray-400 dark:text-gray-500 text-xs mt-1">
                   {t('openToIdeas')}
                 </p>
               </div>
             </div>
 
-            <div className="p-4 border-t border-gray-700">
+            <div className="p-4 border-t border-gray-200 dark:border-gray-700">
               <button
                 onClick={onClose}
-                className="w-full py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                className="w-full py-2 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
                 {tCommon('close')}
               </button>

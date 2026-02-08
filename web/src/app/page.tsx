@@ -12,14 +12,15 @@ import FeedbackModal from '@/components/FeedbackModal';
 import AboutModal from '@/components/AboutModal';
 import StatsModal from '@/components/StatsModal';
 import LanguageSelector from '@/components/LanguageSelector';
+import ThemeToggle from '@/components/ThemeToggle';
 
 // Dynamic import to avoid SSR issues with Mapbox
 const Map = dynamic(() => import('@/components/Map'), {
   ssr: false,
   loading: () => {
     return (
-      <div className="w-full h-full bg-gray-900 flex items-center justify-center">
-        <p className="text-white">Cargando mapa...</p>
+      <div className="w-full h-full bg-gray-100 dark:bg-gray-900 flex items-center justify-center">
+        <p className="text-gray-900 dark:text-white">Cargando mapa...</p>
       </div>
     );
   },
@@ -172,6 +173,7 @@ export default function Home() {
 
         {/* Top right buttons */}
         <div className="absolute top-4 right-4 flex gap-2 pointer-events-auto">
+          <ThemeToggle />
           <LanguageSelector />
 
           <button
@@ -179,7 +181,7 @@ export default function Home() {
             className={`p-2.5 rounded-lg shadow-lg transition-colors ${
               reportMode
                 ? 'bg-amber-600 text-white'
-                : 'bg-gray-900 text-white border border-gray-700 hover:bg-gray-800'
+                : 'bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800'
             }`}
             title={reportMode ? t('buttons.reportTreeActive') : t('buttons.reportTree')}
           >
@@ -190,7 +192,7 @@ export default function Home() {
 
           <button
             onClick={() => setFeedbackOpen(true)}
-            className="p-2.5 rounded-lg shadow-lg bg-gray-900 text-white border border-gray-700 hover:bg-gray-800"
+            className="p-2.5 rounded-lg shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"
             title={t('buttons.sendFeedback')}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -200,7 +202,7 @@ export default function Home() {
 
           <button
             onClick={() => setStatsOpen(true)}
-            className="p-2.5 rounded-lg shadow-lg bg-gray-900 text-white border border-gray-700 hover:bg-gray-800"
+            className="p-2.5 rounded-lg shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"
             title={t('buttons.statistics')}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -210,7 +212,7 @@ export default function Home() {
 
           <button
             onClick={() => setAboutOpen(true)}
-            className="p-2.5 rounded-lg shadow-lg bg-gray-900 text-white border border-gray-700 hover:bg-gray-800"
+            className="p-2.5 rounded-lg shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800"
             title={t('buttons.about')}
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -221,7 +223,7 @@ export default function Home() {
 
         {/* Report mode indicator */}
         {reportMode && (
-          <div className="absolute top-16 right-4 bg-amber-600 text-white text-sm px-3 py-1.5 rounded-lg shadow-lg pointer-events-auto">
+          <div className="absolute top-16 right-4 bg-amber-500 dark:bg-amber-600 text-white text-sm px-3 py-1.5 rounded-lg shadow-lg pointer-events-auto">
             {t('buttons.reportTreeActive')}
           </div>
         )}
@@ -230,7 +232,7 @@ export default function Home() {
         <button
           onClick={handleLocateMe}
           disabled={locating}
-          className="absolute bottom-24 md:bottom-6 right-4 p-3 bg-gray-900 text-white border border-gray-700 rounded-lg shadow-lg hover:bg-gray-800 disabled:opacity-50 pointer-events-auto"
+          className="absolute bottom-24 md:bottom-6 right-4 p-3 bg-white dark:bg-gray-900 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg hover:bg-gray-200 dark:hover:bg-gray-800 disabled:opacity-50 pointer-events-auto"
           title={t('buttons.myLocation')}
         >
           {locating ? (

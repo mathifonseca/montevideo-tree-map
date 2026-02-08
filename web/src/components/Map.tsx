@@ -5,6 +5,10 @@ import maplibregl, { addProtocol } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { Protocol } from 'pmtiles';
 import { useTranslations } from 'next-intl';
+import { useTheme } from 'next-themes';
+
+const DARK_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
+const LIGHT_STYLE = 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json';
 
 interface MapProps {
   onTreeSelect: (treeId: number | null) => void;
@@ -44,12 +48,19 @@ const colorExpression: any = [
 
 export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, reportMode, onReportClick, mapRef }: MapProps) {
   const t = useTranslations('map');
+  const { resolvedTheme } = useTheme();
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<maplibregl.Map | null>(null);
   const onTreeSelectRef = useRef(onTreeSelect);
   const reportModeRef = useRef(reportMode);
   const onReportClickRef = useRef(onReportClick);
   const [loading, setLoading] = useState(true);
+  const [mounted, setMounted] = useState(false);
+
+  // Wait for client-side mount to avoid hydration mismatch
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Keep refs updated
   useEffect(() => {
@@ -66,15 +77,17 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
   }, [reportMode, onReportClick]);
 
   useEffect(() => {
-    if (map.current) return;
+    if (map.current || !mounted) return;
 
     // Register PMTiles protocol
     const protocol = new Protocol();
     addProtocol('pmtiles', protocol.tile);
 
+    const initialStyle = resolvedTheme === 'light' ? LIGHT_STYLE : DARK_STYLE;
+
     map.current = new maplibregl.Map({
       container: mapContainer.current!,
-      style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+      style: initialStyle,
       center: [-56.1645, -34.9011], // Montevideo
       zoom: 12,
     });
@@ -114,7 +127,7 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
             10, 0,
             14, 1
           ],
-          'circle-stroke-color': '#000',
+          'circle-stroke-color': resolvedTheme === 'light' ? '#666' : '#000',
         },
       });
 
@@ -154,7 +167,73 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
       if (mapRef) mapRef.current = null;
       (maplibregl as any).removeProtocol('pmtiles');
     };
-  }, []);
+  }, [mounted]);
+
+  // Track the current style to avoid unnecessary changes
+  const currentStyleRef = useRef<string | null>(null);
+
+  // Change basemap when theme changes
+  useEffect(() => {
+    if (!map.current || !mounted) return;
+
+    const newStyle = resolvedTheme === 'light' ? LIGHT_STYLE : DARK_STYLE;
+
+    // Skip if this is the same style we already have
+    if (currentStyleRef.current === newStyle) return;
+
+    // Skip on initial mount (the map is initialized with the correct style)
+    if (currentStyleRef.current === null) {
+      currentStyleRef.current = newStyle;
+      return;
+    }
+
+    currentStyleRef.current = newStyle;
+
+    // Store current center and zoom
+    const center = map.current.getCenter();
+    const zoom = map.current.getZoom();
+
+    // Set the new style
+    map.current.setStyle(newStyle);
+
+    // Re-add the trees layer after style loads
+    map.current.once('style.load', () => {
+      if (!map.current) return;
+
+      // Re-add PMTiles source (setStyle removes all sources)
+      map.current.addSource('trees', {
+        type: 'vector',
+        url: 'pmtiles:///trees.pmtiles',
+      });
+
+      // Re-add trees layer
+      map.current.addLayer({
+        id: 'trees-point',
+        type: 'circle',
+        source: 'trees',
+        'source-layer': 'trees',
+        paint: {
+          'circle-color': colorExpression,
+          'circle-radius': [
+            'interpolate', ['linear'], ['zoom'],
+            10, 1.5,
+            14, 4,
+            18, 8
+          ],
+          'circle-stroke-width': [
+            'interpolate', ['linear'], ['zoom'],
+            10, 0,
+            14, 1
+          ],
+          'circle-stroke-color': resolvedTheme === 'light' ? '#666' : '#000',
+        },
+      });
+
+      // Restore center and zoom
+      map.current.setCenter(center);
+      map.current.setZoom(zoom);
+    });
+  }, [resolvedTheme, mounted]);
 
   // Filter by species and/or CCZ
   useEffect(() => {
@@ -190,12 +269,11 @@ export default function Map({ onTreeSelect, selectedSpecies, selectedCCZ, report
   return (
     <div className="relative w-full h-full">
       <div ref={mapContainer} className="w-full h-full" />
-      {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-gray-900/80">
-          <div className="text-white text-lg">{t('loadingTrees')}</div>
+      {(loading || !mounted) && (
+        <div className="absolute inset-0 flex items-center justify-center bg-gray-100/80 dark:bg-gray-900/80">
+          <div className="text-gray-900 dark:text-white text-lg">{t('loadingTrees')}</div>
         </div>
       )}
-
     </div>
   );
 }

@@ -48,7 +48,9 @@ arbolesmvd/
     │   │   ├── AboutModal.tsx
     │   │   ├── StatsModal.tsx
     │   │   ├── LanguageSelector.tsx
-    │   │   └── *.test.tsx      # Component tests (97 tests)
+    │   │   ├── ThemeToggle.tsx
+    │   │   ├── ThemeProvider.tsx
+    │   │   └── *.test.tsx      # Component tests (114 tests)
     │   └── test/               # Test infrastructure
     │       ├── setup.ts        # Global setup
     │       ├── mocks/          # Mapbox, geolocation, API mocks
@@ -76,8 +78,9 @@ arbolesmvd/
 
 ### Stack
 - Next.js 16 with App Router
-- Mapbox GL JS + PMTiles (vector tiles)
+- MapLibre GL JS + PMTiles (vector tiles)
 - Tailwind CSS
+- next-themes (dark/light mode)
 - next-intl (internationalization)
 - Formspree (forms)
 - Vitest + React Testing Library + MSW (testing)
@@ -101,6 +104,7 @@ arbolesmvd/
 - Geolocation button
 - Responsive design (bottom sheet on mobile)
 - Internationalization (Spanish/English)
+- Dark/Light mode toggle (dynamic basemap)
 
 ### Environment Variables
 ```
@@ -120,8 +124,8 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **97 tests** across 8 test files covering all components and page integration
-- Mocks for Mapbox GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs, next-intl
+- **114 tests** across 11 test files covering all components and page integration
+- Mocks for MapLibre GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs, next-intl, next-themes
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
 
@@ -356,7 +360,46 @@ All 9 main components use `useTranslations` hook:
 
 #### Test Updates
 - Mock for next-intl in `src/test/mocks/next-intl.tsx`
-- All 97 tests pass with mock translations
+- All tests pass with mock translations
+
+### Phase 7: Dark/Light Mode (web/)
+
+#### next-themes Setup
+- Library: next-themes for Next.js App Router
+- Configured with `darkMode: 'class'` in Tailwind
+- ThemeProvider wraps app (inside NextIntlClientProvider)
+- Default theme: dark (maintains original experience)
+- System preference support enabled
+
+#### ThemeToggle Component
+- Button in top-right corner (first in row)
+- Sun icon in dark mode, moon icon in light mode
+- Click toggles between light/dark
+- Persists preference in localStorage
+
+#### Dynamic Basemap
+- Map switches between CartoDB styles:
+  - Dark: `dark-matter-gl-style`
+  - Light: `positron-gl-style`
+- Trees layer re-added after style change
+- Center/zoom preserved during switch
+
+#### Updated Components
+All components updated with light/dark color classes:
+- `bg-gray-900` → `bg-white dark:bg-gray-900`
+- `text-white` → `text-gray-900 dark:text-white`
+- `border-gray-700` → `border-gray-200 dark:border-gray-700`
+- etc.
+
+#### New Files
+- `tailwind.config.ts`: darkMode configuration
+- `ThemeProvider.tsx`: next-themes wrapper
+- `ThemeToggle.tsx`: toggle button component
+
+#### Test Updates
+- Mock for next-themes in `src/test/mocks/next-themes.tsx`
+- Tests for ThemeToggle (7), LanguageSelector (7), ThemeProvider (3)
+- All 114 tests pass
 
 ---
 

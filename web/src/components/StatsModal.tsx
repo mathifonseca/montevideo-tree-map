@@ -166,7 +166,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-0 bg-black/70"
+            className="absolute inset-0 bg-black/40 dark:bg-black/70"
             onClick={onClose}
           />
 
@@ -176,14 +176,14 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 10 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
-            className="relative bg-gray-900 rounded-lg shadow-xl border border-gray-700 max-w-4xl w-full max-h-[90vh] overflow-auto"
+            className="relative bg-white dark:bg-gray-900 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 max-w-4xl w-full max-h-[90vh] overflow-auto"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-gray-900 border-b border-gray-700 p-4 flex justify-between items-center z-10">
-              <h2 className="text-xl font-bold text-white">{t('statsModal.title')}</h2>
+            <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4 flex justify-between items-center z-10">
+              <h2 className="text-xl font-bold text-gray-900 dark:text-white">{t('statsModal.title')}</h2>
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white p-1 transition-colors"
+                className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white p-1 transition-colors"
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -207,11 +207,11 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.05, duration: 0.3 }}
-                    className="bg-gray-800 rounded-lg p-3 text-center"
+                    className="bg-gray-100 dark:bg-gray-800 rounded-lg p-3 text-center"
                   >
-                    <p className="text-2xl font-bold text-green-400">{stat.value}</p>
+                    <p className="text-2xl font-bold text-green-500 dark:text-green-400">{stat.value}</p>
                     <p
-                      className={`text-gray-400 text-xs ${stat.tooltip ? 'cursor-help underline decoration-dotted' : ''}`}
+                      className={`text-gray-500 dark:text-gray-400 text-xs ${stat.tooltip ? 'cursor-help underline decoration-dotted' : ''}`}
                       title={stat.tooltip}
                     >
                       {stat.label}
@@ -224,7 +224,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Top Species */}
                 <div>
-                  <h3 className="text-white font-semibold mb-3">{t('statsModal.mostCommonSpecies')}</h3>
+                  <h3 className="text-gray-900 dark:text-white font-semibold mb-3">{t('statsModal.mostCommonSpecies')}</h3>
                   <div className="space-y-2">
                     {topSpecies.map(([species, count], i) => (
                       <motion.div
@@ -234,10 +234,10 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                         transition={{ delay: 0.2 + i * 0.03, duration: 0.3 }}
                         className="flex items-center gap-2"
                       >
-                        <div className="w-24 text-gray-300 text-xs truncate" title={getTranslatedSpeciesName(species)}>
+                        <div className="w-24 text-gray-600 dark:text-gray-300 text-xs truncate" title={getTranslatedSpeciesName(species)}>
                           {getTranslatedSpeciesName(species)}
                         </div>
-                        <div className="flex-1 bg-gray-800 rounded-full h-4 overflow-hidden">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${(count / maxCount) * 100}%` }}
@@ -245,7 +245,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                             className="bg-green-500 h-full rounded-full"
                           />
                         </div>
-                        <div className="w-14 text-right text-gray-400 text-xs">
+                        <div className="w-14 text-right text-gray-500 dark:text-gray-400 text-xs">
                           {count.toLocaleString('es-UY')}
                         </div>
                       </motion.div>
@@ -255,7 +255,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
 
                 {/* Estado Vegetativo */}
                 <div>
-                  <h3 className="text-white font-semibold mb-3">{t('statsModal.vegetativeState')}</h3>
+                  <h3 className="text-gray-900 dark:text-white font-semibold mb-3">{t('statsModal.vegetativeState')}</h3>
                   <div className="space-y-2">
                     {stats?.estado.map(({ estado, count, pct }, i) => (
                       <motion.div
@@ -267,9 +267,9 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                       >
                         <div className="w-20 flex items-center gap-2">
                           <span className={`w-2 h-2 rounded-full ${ESTADO_COLORS[estado] || 'bg-gray-500'}`} />
-                          <span className="text-gray-300 text-xs">{t(`vegetativeState.${estado}`)}</span>
+                          <span className="text-gray-600 dark:text-gray-300 text-xs">{t(`vegetativeState.${estado}`)}</span>
                         </div>
-                        <div className="flex-1 bg-gray-800 rounded-full h-4 overflow-hidden">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${pct}%` }}
@@ -277,7 +277,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                             className={`h-full rounded-full ${ESTADO_COLORS[estado] || 'bg-gray-500'}`}
                           />
                         </div>
-                        <div className="w-12 text-right text-gray-400 text-xs">
+                        <div className="w-12 text-right text-gray-500 dark:text-gray-400 text-xs">
                           {pct.toFixed(1)}%
                         </div>
                       </motion.div>
@@ -287,7 +287,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
 
                 {/* Trees by CCZ */}
                 <div>
-                  <h3 className="text-white font-semibold mb-3">{t('statsModal.treesByZone')}</h3>
+                  <h3 className="text-gray-900 dark:text-white font-semibold mb-3">{t('statsModal.treesByZone')}</h3>
                   <div className="space-y-2 max-h-64 overflow-auto">
                     {stats?.ccz.map(({ ccz, count }, i) => (
                       <motion.div
@@ -297,10 +297,10 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                         transition={{ delay: 0.2 + i * 0.02, duration: 0.3 }}
                         className="flex items-center gap-2"
                       >
-                        <div className="w-12 text-gray-300 text-xs">
+                        <div className="w-12 text-gray-600 dark:text-gray-300 text-xs">
                           CCZ {ccz}
                         </div>
-                        <div className="flex-1 bg-gray-800 rounded-full h-4 overflow-hidden">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${(count / maxCczCount) * 100}%` }}
@@ -308,7 +308,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                             className="bg-blue-500 h-full rounded-full"
                           />
                         </div>
-                        <div className="w-14 text-right text-gray-400 text-xs">
+                        <div className="w-14 text-right text-gray-500 dark:text-gray-400 text-xs">
                           {count.toLocaleString('es-UY')}
                         </div>
                       </motion.div>
@@ -318,7 +318,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
 
                 {/* Height Distribution */}
                 <div>
-                  <h3 className="text-white font-semibold mb-3">{t('statsModal.heightDistribution')}</h3>
+                  <h3 className="text-gray-900 dark:text-white font-semibold mb-3">{t('statsModal.heightDistribution')}</h3>
                   <div className="space-y-2">
                     {stats?.heightRanges.map(([range, count], i) => (
                       <motion.div
@@ -328,10 +328,10 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                         transition={{ delay: 0.2 + i * 0.03, duration: 0.3 }}
                         className="flex items-center gap-2"
                       >
-                        <div className="w-14 text-gray-300 text-xs">
+                        <div className="w-14 text-gray-600 dark:text-gray-300 text-xs">
                           {range}
                         </div>
-                        <div className="flex-1 bg-gray-800 rounded-full h-4 overflow-hidden">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-4 overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${(count / maxHeightCount) * 100}%` }}
@@ -339,7 +339,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                             className="bg-purple-500 h-full rounded-full"
                           />
                         </div>
-                        <div className="w-14 text-right text-gray-400 text-xs">
+                        <div className="w-14 text-right text-gray-500 dark:text-gray-400 text-xs">
                           {count.toLocaleString('es-UY')}
                         </div>
                       </motion.div>
@@ -350,7 +350,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
 
               {/* Top Streets - Full width */}
               <div>
-                <h3 className="text-white font-semibold mb-3">{t('statsModal.streetsWithMostTrees')}</h3>
+                <h3 className="text-gray-900 dark:text-white font-semibold mb-3">{t('statsModal.streetsWithMostTrees')}</h3>
                 <div className="grid md:grid-cols-2 gap-x-6 gap-y-2">
                   {stats?.topStreets.map(([street, count], i) => (
                     <motion.div
@@ -360,13 +360,13 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                       transition={{ delay: 0.2 + i * 0.03, duration: 0.3 }}
                       className="flex items-center gap-2"
                     >
-                      <div className="w-6 text-gray-500 text-xs">
+                      <div className="w-6 text-gray-400 dark:text-gray-500 text-xs">
                         {i + 1}.
                       </div>
-                      <div className="flex-1 text-gray-300 text-sm truncate" title={street}>
+                      <div className="flex-1 text-gray-600 dark:text-gray-300 text-sm truncate" title={street}>
                         {street}
                       </div>
-                      <div className="flex-1 bg-gray-800 rounded-full h-3 overflow-hidden max-w-24">
+                      <div className="flex-1 bg-gray-200 dark:bg-gray-800 rounded-full h-3 overflow-hidden max-w-24">
                         <motion.div
                           initial={{ width: 0 }}
                           animate={{ width: `${(count / maxStreetCount) * 100}%` }}
@@ -374,7 +374,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                           className="bg-amber-500 h-full rounded-full"
                         />
                       </div>
-                      <div className="w-12 text-right text-gray-400 text-xs">
+                      <div className="w-12 text-right text-gray-500 dark:text-gray-400 text-xs">
                         {count.toLocaleString('es-UY')}
                       </div>
                     </motion.div>
@@ -383,7 +383,7 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
               </div>
 
               {/* Data source */}
-              <div className="text-gray-500 text-xs text-center pt-4 border-t border-gray-700">
+              <div className="text-gray-400 dark:text-gray-500 text-xs text-center pt-4 border-t border-gray-200 dark:border-gray-700">
                 {t('statsModal.dataSource')}
               </div>
             </div>

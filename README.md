@@ -18,6 +18,8 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 - 🔗 **Share tree** via URL deep linking
 - 📍 **Geolocation** to center the map on your location
 - 📝 **Report missing tree** to contribute to the map
+- 🌙 **Dark/Light mode** with dynamic map basemap
+- 🌐 **Internationalization** (Spanish/English)
 - 📱 **Responsive** - works on mobile and desktop
 
 ## Tech Stack
@@ -25,8 +27,10 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 | Component | Technology |
 |-----------|------------|
 | Framework | [Next.js 16](https://nextjs.org/) |
-| Map | [Mapbox GL JS](https://docs.mapbox.com/mapbox-gl-js/) + [PMTiles](https://github.com/protomaps/PMTiles) |
+| Map | [MapLibre GL JS](https://maplibre.org/) + [PMTiles](https://github.com/protomaps/PMTiles) |
 | Styles | [Tailwind CSS](https://tailwindcss.com/) |
+| Theme | [next-themes](https://github.com/pacocoursey/next-themes) |
+| i18n | [next-intl](https://next-intl-docs.vercel.app/) |
 | Forms | [Formspree](https://formspree.io/) |
 | Images | Wikipedia / Wikimedia Commons API |
 | Testing | [Vitest](https://vitest.dev/) + [React Testing Library](https://testing-library.com/) + [MSW](https://mswjs.io/) |
