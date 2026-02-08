@@ -100,9 +100,12 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
           className="p-3 border-b border-gray-200 dark:border-gray-700 md:cursor-default cursor-pointer flex justify-between items-center"
           onClick={() => setExpanded(!expanded)}
         >
-          <div>
-            <h2 className="text-gray-900 dark:text-white font-semibold text-xs md:text-sm">{t('header.title')}</h2>
-            <p className="text-gray-500 dark:text-gray-400 text-xs">{displayCount}</p>
+          <div className="flex items-center gap-2">
+            <img src="/icons/icon-192.png" alt="" className="w-8 h-8 md:w-10 md:h-10" />
+            <div>
+              <h2 className="text-gray-900 dark:text-white font-semibold text-xs md:text-sm">{t('header.title')}</h2>
+              <p className="text-gray-500 dark:text-gray-400 text-xs">{displayCount}</p>
+            </div>
           </div>
           <svg
             className={`w-5 h-5 text-gray-500 dark:text-gray-400 md:hidden transition-transform ${expanded ? 'rotate-180' : ''}`}
