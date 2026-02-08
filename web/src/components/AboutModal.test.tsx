@@ -20,7 +20,7 @@ describe('AboutModal', () => {
 
   it('displays tree count', () => {
     render(<AboutModal {...defaultProps} />);
-    expect(screen.getByText(/234,464 árboles/)).toBeInTheDocument();
+    expect(screen.getByText(/234\.464 árboles/)).toBeInTheDocument();
   });
 
   it('displays inspiration section with Gieß den Kiez link', () => {

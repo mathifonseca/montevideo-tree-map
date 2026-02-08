@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Arbolado urbano de Montevideo",
-    "description": "Mapa interactivo de los 234,464 árboles en veredas de Montevideo"
+    "description": "Mapa interactivo de los 234.464 árboles en veredas de Montevideo"
   },
   "common": {
     "loading": "Cargando...",
@@ -92,7 +92,7 @@
   },
   "aboutModal": {
     "title": "Sobre este proyecto",
-    "description": "Un mapa interactivo para explorar los <strong>234,464 árboles</strong> que adornan las veredas de Montevideo. Podés buscar por especie, ver información de cada árbol, y reportar árboles que falten en el mapa.",
+    "description": "Un mapa interactivo para explorar los <strong>234.464 árboles</strong> que adornan las veredas de Montevideo. Podés buscar por especie, ver información de cada árbol, y reportar árboles que falten en el mapa.",
     "inspiration": "Inspiración",
     "inspirationText": "Basado en <link>Gieß den Kiez</link>, un proyecto de Berlín que mapea árboles urbanos.",
     "dataSources": "Fuentes de datos",
