@@ -68,6 +68,50 @@ export const mockSpeciesCounts: Record<string, number> = {
   'Anacahuita': 5687,
   'Jacarandá': 5032,
   'Olmo europeo': 3861,
+  'Ejemplar seco': 2261,
+};
+
+export const mockSpeciesMetadata: Record<string, any> = {
+  'Paraíso': {
+    native: false,
+    origin: 'Asia (India, China)',
+    foliage: 'deciduous',
+    bloomingSeason: 'spring',
+    uses: ['ornamental', 'shade'],
+    scientificName: 'Melia azedarach',
+  },
+  'Fresno americano': {
+    native: false,
+    origin: 'América del Norte',
+    foliage: 'deciduous',
+    bloomingSeason: 'spring',
+    uses: ['ornamental', 'shade', 'timber'],
+    scientificName: 'Fraxinus americana',
+  },
+  'Anacahuita': {
+    native: true,
+    origin: 'Uruguay, Argentina, Brasil',
+    foliage: 'evergreen',
+    bloomingSeason: 'spring',
+    uses: ['ornamental', 'medicinal', 'shade'],
+    scientificName: 'Blepharocalyx salicifolius',
+  },
+  'Ceibo': {
+    native: true,
+    origin: 'Uruguay, Argentina, Brasil',
+    foliage: 'deciduous',
+    bloomingSeason: 'spring',
+    uses: ['ornamental'],
+    scientificName: 'Erythrina crista-galli',
+  },
+  'Ejemplar seco': {
+    native: false,
+    origin: null,
+    foliage: null,
+    bloomingSeason: null,
+    uses: [],
+    scientificName: null,
+  },
 };
 
 export const mockTreesGeoJSON = {
@@ -129,6 +173,10 @@ export const handlers = [
 
   http.get('/species-counts.json', () => {
     return HttpResponse.json(mockSpeciesCounts);
+  }),
+
+  http.get('/species-metadata.json', () => {
+    return HttpResponse.json(mockSpeciesMetadata);
   }),
 
   // Wikipedia API

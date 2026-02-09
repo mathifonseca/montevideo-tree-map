@@ -81,7 +81,7 @@ describe('ThemeToggle', () => {
       const button = screen.getByRole('button');
       const svg = button.querySelector('svg');
       expect(svg).toBeInTheDocument();
-      expect(svg).toHaveClass('w-4', 'h-4');
+      expect(svg).toHaveClass('w-5', 'h-5');
     });
   });
 });

@@ -17,6 +17,9 @@ vi.mock('next-intl/server', () => import('./mocks/next-intl'));
 // Mock next-themes
 vi.mock('next-themes', () => import('./mocks/next-themes'));
 
+// Mock useOnlineStatus hook
+vi.mock('@/hooks/useOnlineStatus', () => import('./mocks/useOnlineStatus'));
+
 // Mock next/dynamic to render components directly
 vi.mock('next/dynamic', () => ({
   default: (fn: () => Promise<{ default: React.ComponentType<any> }>) => {

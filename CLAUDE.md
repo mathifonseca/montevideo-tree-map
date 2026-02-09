@@ -50,7 +50,10 @@ arbolesmvd/
     │   │   ├── LanguageSelector.tsx
     │   │   ├── ThemeToggle.tsx
     │   │   ├── ThemeProvider.tsx
-    │   │   └── *.test.tsx      # Component tests (114 tests)
+    │   │   ├── ServiceWorkerRegistration.tsx
+    │   │   └── *.test.tsx      # Component tests (125 tests)
+    │   ├── hooks/
+    │   │   └── useOnlineStatus.ts  # Online/offline detection
     │   └── test/               # Test infrastructure
     │       ├── setup.ts        # Global setup
     │       ├── mocks/          # Mapbox, geolocation, API mocks
@@ -59,7 +62,9 @@ arbolesmvd/
         ├── trees.pmtiles       # Vector tiles for the map (4.5MB)
         ├── trees-data.json.gz  # Detailed data by ID, gzipped (4.1MB)
         ├── species.json        # Species list (359 species)
-        └── species-counts.json # Tree count by species
+        ├── species-counts.json # Tree count by species
+        ├── species-metadata.json # Species metadata (native, origin, foliage, etc.)
+        └── sw.js               # Service worker for offline support
 ```
 
 ## Main Dataset Columns
@@ -105,6 +110,10 @@ arbolesmvd/
 - Responsive design (bottom sheet on mobile)
 - Internationalization (Spanish/English)
 - Dark/Light mode toggle (dynamic basemap)
+- Native/introduced species badges
+- Species metadata (origin, foliage, blooming season, uses)
+- Fun facts section in statistics ("Did you know...")
+- Offline support with service worker
 
 ### Environment Variables
 ```
@@ -124,7 +133,7 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **114 tests** across 11 test files covering all components and page integration
+- **125 tests** across 11 test files covering all components and page integration
 - Mocks for MapLibre GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs, next-intl, next-themes
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
@@ -400,6 +409,55 @@ All components updated with light/dark color classes:
 - Mock for next-themes in `src/test/mocks/next-themes.tsx`
 - Tests for ThemeToggle (7), LanguageSelector (7), ThemeProvider (3)
 - All 114 tests pass
+
+### Phase 8: Species Metadata & Offline Support (web/)
+
+#### Species Metadata (`public/species-metadata.json`)
+Comprehensive data for all 359 species:
+- **native** (boolean): ~65 native Uruguayan species identified
+- **origin**: Geographic origin (e.g., "Uruguay, Argentina, Brasil")
+- **foliage**: "evergreen", "deciduous", or "semi-deciduous"
+- **bloomingSeason**: "spring", "summer", "fall", "winter", "year-round"
+- **uses**: Array of ["ornamental", "shade", "fruit", "medicinal", "timber"]
+- **scientificName**: Scientific name for reference
+
+#### Native/Introduced Badges
+- Green badge "Nativa" for native species
+- Blue badge "Introducida" for non-native species
+- Displayed in TreePanel header next to species name
+
+#### "About this species" Section
+Collapsible accordion in TreePanel showing:
+- Origin
+- Foliage type (translated)
+- Blooming season (translated)
+- Uses (translated)
+
+#### Fun Facts ("Sabías que...")
+New section in StatsModal with interesting facts:
+- Most common species percentage
+- Number of rare species (single specimen)
+- Native vs introduced percentage
+- Dead trees count
+- Tallest tree height
+
+#### Offline Support
+- **Service Worker** (`public/sw.js`): Cache-first for static assets (~8.7MB)
+- **Registration** (`ServiceWorkerRegistration.tsx`): Registers SW in production
+- **Online Status Hook** (`useOnlineStatus.ts`): Detects connection state
+- **Offline Indicators**: Address search hidden, placeholder for Wikipedia images
+
+#### New Files
+- `public/species-metadata.json`: 359 species with metadata
+- `public/sw.js`: Service worker
+- `src/components/ServiceWorkerRegistration.tsx`: SW registration
+- `src/hooks/useOnlineStatus.ts`: Online/offline detection
+- `src/test/mocks/useOnlineStatus.tsx`: Test mock
+
+#### Test Updates
+- Mock for useOnlineStatus hook
+- 11 new tests for species metadata, fun facts, offline behavior
+- All 125 tests pass
 
 ---
 

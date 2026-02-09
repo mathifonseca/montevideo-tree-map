@@ -18,11 +18,21 @@ interface TreeData {
   lng: number;
 }
 
+interface SpeciesMetadata {
+  native: boolean;
+  origin: string | null;
+  foliage: 'evergreen' | 'deciduous' | 'semi-deciduous' | null;
+  bloomingSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | null;
+  uses: string[];
+  scientificName: string | null;
+}
+
 interface StatsModalProps {
   isOpen: boolean;
   onClose: () => void;
   speciesCounts: Record<string, number> | null;
   treesData: Record<string, TreeData> | null;
+  speciesMetadata?: Record<string, SpeciesMetadata> | null;
 }
 
 const TOTAL_TREES = 234464;
@@ -37,7 +47,7 @@ const ESTADO_COLORS: Record<number, string> = {
   7: 'bg-gray-700',
 };
 
-export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }: StatsModalProps) {
+export default function StatsModal({ isOpen, onClose, speciesCounts, treesData, speciesMetadata }: StatsModalProps) {
   const t = useTranslations();
 
   // Calculate all statistics
@@ -142,6 +152,59 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
   const maxCczCount = stats?.ccz[0]?.count || 1;
   const maxStreetCount = stats?.topStreets[0]?.[1] || 1;
   const maxHeightCount = stats ? Math.max(...stats.heightRanges.map(([, c]) => c)) : 1;
+
+  // Calculate fun facts
+  const funFacts = useMemo(() => {
+    if (!speciesCounts || !treesData) return [];
+
+    const facts: { key: string; params: Record<string, string | number> }[] = [];
+
+    // Most common species
+    const topSpeciesEntry = Object.entries(speciesCounts).sort((a, b) => b[1] - a[1])[0];
+    if (topSpeciesEntry) {
+      const percentage = ((topSpeciesEntry[1] / TOTAL_TREES) * 100).toFixed(1);
+      facts.push({ key: 'mostCommon', params: { species: topSpeciesEntry[0], percentage } });
+    }
+
+    // Rare species (1 specimen)
+    const rareCount = Object.values(speciesCounts).filter((c) => c === 1).length;
+    if (rareCount > 0) {
+      facts.push({ key: 'rareSpecies', params: { count: rareCount } });
+    }
+
+    // Native vs introduced
+    if (speciesMetadata) {
+      let nativeCount = 0;
+      for (const [species, count] of Object.entries(speciesCounts)) {
+        const meta = speciesMetadata[species];
+        if (meta?.native) {
+          nativeCount += count;
+        }
+      }
+      const nativePercentage = ((nativeCount / TOTAL_TREES) * 100).toFixed(1);
+      facts.push({ key: 'nativePercentage', params: { percentage: nativePercentage } });
+    }
+
+    // Dead trees
+    const deadCount = speciesCounts['Ejemplar seco'] || 0;
+    if (deadCount > 0) {
+      facts.push({ key: 'deadTrees', params: { count: deadCount.toLocaleString('es-UY') } });
+    }
+
+    // Tallest tree
+    const trees = Object.values(treesData);
+    let maxHeight = 0;
+    for (const tree of trees) {
+      if (tree.altura && tree.altura > maxHeight) {
+        maxHeight = tree.altura;
+      }
+    }
+    if (maxHeight > 0) {
+      facts.push({ key: 'tallestTree', params: { height: maxHeight } });
+    }
+
+    return facts;
+  }, [speciesCounts, treesData, speciesMetadata]);
 
   // Get translated species name
   const getTranslatedSpeciesName = (name: string) => {
@@ -381,6 +444,30 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData }
                   ))}
                 </div>
               </div>
+
+              {/* Fun Facts */}
+              {funFacts.length > 0 && (
+                <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                  <h3 className="text-gray-900 dark:text-white font-semibold mb-3 flex items-center gap-2">
+                    <span className="text-lg">💡</span>
+                    {t('funFacts.title')}
+                  </h3>
+                  <ul className="space-y-2">
+                    {funFacts.map((fact, i) => (
+                      <motion.li
+                        key={fact.key}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.6 + i * 0.1, duration: 0.3 }}
+                        className="text-gray-700 dark:text-gray-300 text-sm flex items-start gap-2"
+                      >
+                        <span className="text-green-500 dark:text-green-400 mt-0.5">•</span>
+                        <span>{t(`funFacts.${fact.key}`, fact.params)}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {/* Data source */}
               <div className="text-gray-400 dark:text-gray-500 text-xs text-center pt-4 border-t border-gray-200 dark:border-gray-700">

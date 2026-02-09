@@ -40,6 +40,15 @@ interface TreeData {
   lng: number;
 }
 
+interface SpeciesMetadata {
+  native: boolean;
+  origin: string | null;
+  foliage: 'evergreen' | 'deciduous' | 'semi-deciduous' | null;
+  bloomingSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | null;
+  uses: string[];
+  scientificName: string | null;
+}
+
 export default function Home() {
   const t = useTranslations();
   const [selectedTree, setSelectedTree] = useState<number | null>(null);
@@ -48,6 +57,7 @@ export default function Home() {
   const [species, setSpecies] = useState<string[]>([]);
   const [treesData, setTreesData] = useState<Record<string, TreeData> | null>(null);
   const [speciesCounts, setSpeciesCounts] = useState<Record<string, number> | null>(null);
+  const [speciesMetadata, setSpeciesMetadata] = useState<Record<string, SpeciesMetadata> | null>(null);
   const [reportMode, setReportMode] = useState(false);
   const [reportCoords, setReportCoords] = useState<{ lat: number; lng: number } | null>(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
@@ -113,7 +123,7 @@ export default function Home() {
     );
   };
 
-  // Load species list and counts
+  // Load species list, counts, and metadata
   useEffect(() => {
     fetch('/species.json')
       .then((res) => res.json())
@@ -123,6 +133,11 @@ export default function Home() {
     fetch('/species-counts.json')
       .then((res) => res.json())
       .then(setSpeciesCounts)
+      .catch(console.error);
+
+    fetch('/species-metadata.json')
+      .then((res) => res.json())
+      .then(setSpeciesMetadata)
       .catch(console.error);
   }, []);
 
@@ -252,6 +267,7 @@ export default function Home() {
         treeId={selectedTree}
         onClose={() => setSelectedTree(null)}
         treesData={treesData}
+        speciesMetadata={speciesMetadata}
       />
 
       <ReportModal
@@ -275,6 +291,7 @@ export default function Home() {
         onClose={() => setStatsOpen(false)}
         speciesCounts={speciesCounts}
         treesData={treesData}
+        speciesMetadata={speciesMetadata}
       />
     </main>
   );

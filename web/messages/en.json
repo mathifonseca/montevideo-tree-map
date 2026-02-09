@@ -27,7 +27,7 @@
     "filteredCount": "{filtered} of {total} trees"
   },
   "filters": {
-    "searchAddress": "Search address",
+    "searchAddress": "Search by address",
     "addressPlaceholder": "E.g.: 18 de Julio 1234",
     "filterBySpecies": "Filter by species",
     "speciesPlaceholder": "Search species...",
@@ -92,7 +92,14 @@
   },
   "aboutModal": {
     "title": "About this project",
-    "description": "An interactive map to explore the <strong>234,464 trees</strong> that grace Montevideo's sidewalks. You can search by species, view information about each tree, and report trees that are missing from the map.",
+    "description": "An interactive map to explore the <strong>234,464 trees</strong> that grace Montevideo's sidewalks. Unfortunately, the dataset is from 2008 and there haven't been any more censuses since then. It also doesn't include trees in parks and plazas.",
+    "features": "Features",
+    "featuresList": "Search by species or address, filter by zone (CCZ), view information about each tree with Wikipedia photos, share specific trees, and report missing ones.",
+    "installApp": "Install as app",
+    "installInstructions": "You can install this website as an app on your device:",
+    "installIOS": "<strong>iPhone/iPad:</strong> In Safari, tap the share button and then \"Add to Home Screen\".",
+    "installAndroid": "<strong>Android:</strong> In Chrome, tap the menu (⋮) and then \"Install app\" or \"Add to Home screen\".",
+    "installDesktop": "<strong>Desktop:</strong> In Chrome/Edge, click the install icon in the address bar.",
     "inspiration": "Inspiration",
     "inspirationText": "Based on <link>Gieß den Kiez</link>, a Berlin project that maps urban trees.",
     "dataSources": "Data sources",
@@ -142,6 +149,47 @@
   "language": {
     "es": "Español",
     "en": "English"
+  },
+  "speciesInfo": {
+    "native": "Native",
+    "introduced": "Introduced",
+    "origin": "Origin",
+    "foliage": "Foliage",
+    "bloomingSeason": "Blooming",
+    "uses": "Uses",
+    "aboutSpecies": "About this species"
+  },
+  "foliage": {
+    "evergreen": "Evergreen",
+    "deciduous": "Deciduous",
+    "semi-deciduous": "Semi-deciduous"
+  },
+  "bloomingSeasons": {
+    "spring": "Spring",
+    "summer": "Summer",
+    "fall": "Fall",
+    "winter": "Winter",
+    "year-round": "Year-round"
+  },
+  "uses": {
+    "ornamental": "Ornamental",
+    "shade": "Shade",
+    "fruit": "Fruit",
+    "medicinal": "Medicinal",
+    "timber": "Timber"
+  },
+  "funFacts": {
+    "title": "Did you know?",
+    "mostCommon": "The {species} makes up {percentage}% of all trees in Montevideo.",
+    "rareSpecies": "There are {count} species with only one specimen in the entire city.",
+    "nativePercentage": "Only {percentage}% of trees are species native to Uruguay.",
+    "deadTrees": "{count} trees are marked as dead specimens.",
+    "tallestTree": "The tallest recorded tree measures {height} meters."
+  },
+  "offline": {
+    "noConnection": "Offline",
+    "photosUnavailable": "Photos not available offline",
+    "searchUnavailable": "Search not available offline"
   },
   "species": {
     "Abedul": "Birch",

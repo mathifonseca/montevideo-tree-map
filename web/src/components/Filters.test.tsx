@@ -194,13 +194,20 @@ describe('Filters', () => {
   it('renders address search input when onLocationSelect is provided', () => {
     render(<Filters {...defaultProps} />);
 
-    expect(screen.getByText('Buscar dirección')).toBeInTheDocument();
+    expect(screen.getByText('Buscar por dirección')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Ej: 18 de Julio 1234')).toBeInTheDocument();
   });
 
   it('does not render address search when onLocationSelect is not provided', () => {
     render(<Filters {...defaultProps} onLocationSelect={undefined} />);
 
-    expect(screen.queryByText('Buscar dirección')).not.toBeInTheDocument();
+    expect(screen.queryByText('Buscar por dirección')).not.toBeInTheDocument();
+  });
+
+  describe('Offline behavior', () => {
+    it('renders address search when online (default mock)', () => {
+      render(<Filters {...defaultProps} />);
+      expect(screen.getByText('Buscar por dirección')).toBeInTheDocument();
+    });
   });
 });

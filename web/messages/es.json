@@ -27,7 +27,7 @@
     "filteredCount": "{filtered} de {total} árboles"
   },
   "filters": {
-    "searchAddress": "Buscar dirección",
+    "searchAddress": "Buscar por dirección",
     "addressPlaceholder": "Ej: 18 de Julio 1234",
     "filterBySpecies": "Filtrar por especie",
     "speciesPlaceholder": "Buscar especie...",
@@ -92,7 +92,14 @@
   },
   "aboutModal": {
     "title": "Sobre este proyecto",
-    "description": "Un mapa interactivo para explorar los <strong>234.464 árboles</strong> que adornan las veredas de Montevideo. Podés buscar por especie, ver información de cada árbol, y reportar árboles que falten en el mapa.",
+    "description": "Un mapa interactivo para explorar los <strong>234.464 árboles</strong> que adornan las veredas de Montevideo. Lamentablemente el dataset es de 2008 y no han habido más censos desde entonces. Tampoco incluye los árboles de parques y plazas.",
+    "features": "Funcionalidades",
+    "featuresList": "Buscá por especie o dirección, filtrá por zona (CCZ), consultá información de cada árbol con fotos de Wikipedia, compartí árboles específicos, y reportá los que falten en el mapa.",
+    "installApp": "Instalar como app",
+    "installInstructions": "Podés instalar esta web como aplicación en tu dispositivo:",
+    "installIOS": "<strong>iPhone/iPad:</strong> En Safari, tocá el botón compartir y luego \"Agregar a inicio\".",
+    "installAndroid": "<strong>Android:</strong> En Chrome, tocá el menú (⋮) y luego \"Instalar aplicación\" o \"Agregar a pantalla de inicio\".",
+    "installDesktop": "<strong>Escritorio:</strong> En Chrome/Edge, hacé clic en el ícono de instalación en la barra de direcciones.",
     "inspiration": "Inspiración",
     "inspirationText": "Basado en <link>Gieß den Kiez</link>, un proyecto de Berlín que mapea árboles urbanos.",
     "dataSources": "Fuentes de datos",
@@ -142,6 +149,47 @@
   "language": {
     "es": "Español",
     "en": "English"
+  },
+  "speciesInfo": {
+    "native": "Nativa",
+    "introduced": "Introducida",
+    "origin": "Origen",
+    "foliage": "Follaje",
+    "bloomingSeason": "Floración",
+    "uses": "Usos",
+    "aboutSpecies": "Sobre esta especie"
+  },
+  "foliage": {
+    "evergreen": "Perenne",
+    "deciduous": "Caduco",
+    "semi-deciduous": "Semi-caduco"
+  },
+  "bloomingSeasons": {
+    "spring": "Primavera",
+    "summer": "Verano",
+    "fall": "Otoño",
+    "winter": "Invierno",
+    "year-round": "Todo el año"
+  },
+  "uses": {
+    "ornamental": "Ornamental",
+    "shade": "Sombra",
+    "fruit": "Frutal",
+    "medicinal": "Medicinal",
+    "timber": "Madera"
+  },
+  "funFacts": {
+    "title": "Sabías que...",
+    "mostCommon": "El {species} representa el {percentage}% de todos los árboles de Montevideo.",
+    "rareSpecies": "Hay {count} especies con un solo ejemplar en toda la ciudad.",
+    "nativePercentage": "Solo el {percentage}% de los árboles son especies nativas de Uruguay.",
+    "deadTrees": "{count} árboles están marcados como ejemplares secos.",
+    "tallestTree": "El árbol más alto registrado mide {height} metros."
+  },
+  "offline": {
+    "noConnection": "Sin conexión",
+    "photosUnavailable": "Fotos no disponibles offline",
+    "searchUnavailable": "Búsqueda no disponible offline"
   },
   "species": {
     "Abedul": "Abedul",

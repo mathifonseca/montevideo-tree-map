@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 // Colors for legend (must match Map.tsx)
 const SPECIES_COLORS: [string, string][] = [
@@ -37,6 +38,7 @@ interface GeocodingResult {
 
 export default function Filters({ species, selectedSpecies, onSpeciesChange, speciesCounts, selectedCCZ, onCCZChange, onLocationSelect }: FiltersProps) {
   const t = useTranslations();
+  const isOnline = useOnlineStatus();
   const [search, setSearch] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [expanded, setExpanded] = useState(false);
@@ -119,8 +121,8 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
         {/* Collapsible content - always visible on desktop, toggle on mobile */}
         <div className={`${expanded ? 'block' : 'hidden'} md:block`}>
-          {/* Address search */}
-          {onLocationSelect && (
+          {/* Address search - hidden when offline */}
+          {onLocationSelect && isOnline && (
             <div className="p-3 border-b border-gray-200 dark:border-gray-700">
               <label className="text-gray-500 dark:text-gray-400 text-xs block mb-2">{t('filters.searchAddress')}</label>
               <div className="relative">

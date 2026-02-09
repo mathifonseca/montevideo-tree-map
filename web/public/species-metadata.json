@@ -1,0 +1,2874 @@
+{
+  "Abedul": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Betula spp."
+  },
+  "Abelia": {
+    "native": false,
+    "origin": "Asia Oriental",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Abelia x grandiflora"
+  },
+  "Abeto nordmaniana": {
+    "native": false,
+    "origin": "Cáucaso",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Abies nordmanniana"
+  },
+  "Abutilón": {
+    "native": false,
+    "origin": "América del Sur",
+    "foliage": "evergreen",
+    "bloomingSeason": "year-round",
+    "uses": ["ornamental"],
+    "scientificName": "Abutilon spp."
+  },
+  "Acacia": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Acacia spp."
+  },
+  "Acacia baileyana": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia baileyana"
+  },
+  "Acacia blanca": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Robinia pseudoacacia"
+  },
+  "Acacia de Constantinopla": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Albizia julibrissin"
+  },
+  "Acacia de bañado": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Sesbania punicea"
+  },
+  "Acacia negra": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Acacia mearnsii"
+  },
+  "Acacia podalyriifolia": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia podalyriifolia"
+  },
+  "Acacia semperflorens": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "year-round",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia retinodes"
+  },
+  "Acacia tres espinas": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Gleditsia triacanthos"
+  },
+  "Acacia trinervis": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia longifolia"
+  },
+  "Acacia verticillata": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia verticillata"
+  },
+  "Acanto": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Acanthus mollis"
+  },
+  "Achira": {
+    "native": true,
+    "origin": "América del Sur",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Canna indica"
+  },
+  "Acokanthera": {
+    "native": false,
+    "origin": "África",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acokanthera oblongifolia"
+  },
+  "Adhatoda vasica": {
+    "native": false,
+    "origin": "India",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["medicinal"],
+    "scientificName": "Justicia adhatoda"
+  },
+  "Alcanfor": {
+    "native": false,
+    "origin": "Asia Oriental",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade", "medicinal"],
+    "scientificName": "Cinnamomum camphora"
+  },
+  "Alcornoque": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Quercus suber"
+  },
+  "Algarrobo europeo": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Ceratonia siliqua"
+  },
+  "Aliso común": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Alnus glutinosa"
+  },
+  "Aliso hoja cordada": {
+    "native": false,
+    "origin": "Italia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Alnus cordata"
+  },
+  "Almendro": {
+    "native": false,
+    "origin": "Asia Central",
+    "foliage": "deciduous",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Prunus dulcis"
+  },
+  "Almez": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Celtis australis"
+  },
+  "Almezo": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Celtis australis"
+  },
+  "Aloe": {
+    "native": false,
+    "origin": "África",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Aloe spp."
+  },
+  "Anacahuita": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "medicinal", "shade"],
+    "scientificName": "Blepharocalyx salicifolius"
+  },
+  "Angico": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Parapiptadenia rigida"
+  },
+  "Araucaria": {
+    "native": false,
+    "origin": "América del Sur (Chile, Argentina)",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Araucaria araucana"
+  },
+  "Araucaria bidwillii": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Araucaria bidwillii"
+  },
+  "Araucaria excelsa": {
+    "native": false,
+    "origin": "Isla Norfolk",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Araucaria heterophylla"
+  },
+  "Arazá": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Psidium cattleianum"
+  },
+  "Arbol del pito": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Erythrina crista-galli"
+  },
+  "Arce": {
+    "native": false,
+    "origin": "Hemisferio Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Acer spp."
+  },
+  "Arce campestre": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Acer campestre"
+  },
+  "Arce japonés": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acer palmatum"
+  },
+  "Arce negundo": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Acer negundo"
+  },
+  "Arce negundo bordes amarillos": {
+    "native": false,
+    "origin": "América del Norte (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acer negundo 'Aureomarginatum'"
+  },
+  "Arce negundo variegado": {
+    "native": false,
+    "origin": "América del Norte (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acer negundo 'Variegatum'"
+  },
+  "Arce noruego": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Acer platanoides"
+  },
+  "Arce plateado": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Acer saccharinum"
+  },
+  "Arce sicómoro": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade", "timber"],
+    "scientificName": "Acer pseudoplatanus"
+  },
+  "Aroeira": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Schinus lentiscifolius"
+  },
+  "Aromo": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia dealbata"
+  },
+  "Arrayán": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Blepharocalyx salicifolius"
+  },
+  "Aruera": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Lithraea molleoides"
+  },
+  "Ave del paraíso": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Strelitzia reginae"
+  },
+  "Ave del paraíso gigante": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Strelitzia nicolai"
+  },
+  "Azalea": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Rhododendron spp."
+  },
+  "Azarero": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Pittosporum tobira"
+  },
+  "Azarero variegado": {
+    "native": false,
+    "origin": "Japón (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Pittosporum tobira 'Variegatum'"
+  },
+  "Azufaifo": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Ziziphus jujuba"
+  },
+  "Bambú dorado": {
+    "native": false,
+    "origin": "China",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Phyllostachys aurea"
+  },
+  "Bananero": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "year-round",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Musa spp."
+  },
+  "Berberis": {
+    "native": false,
+    "origin": "Asia, América",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Berberis spp."
+  },
+  "Berberis purpura": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Berberis thunbergii var. atropurpurea"
+  },
+  "Boj": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Buxus sempervirens"
+  },
+  "Braquiquito": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Brachychiton populneus"
+  },
+  "Butiá": {
+    "native": true,
+    "origin": "Uruguay, Brasil, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Butia odorata"
+  },
+  "Cactus": {
+    "native": false,
+    "origin": "América",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Cactaceae spp."
+  },
+  "Cambará": {
+    "native": true,
+    "origin": "Uruguay, Brasil, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Gochnatia polymorpha"
+  },
+  "Camelia": {
+    "native": false,
+    "origin": "Asia Oriental",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Camellia japonica"
+  },
+  "Canelo": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Cinnamomum spp."
+  },
+  "Canelón": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Myrsine laetevirens"
+  },
+  "Caqui": {
+    "native": false,
+    "origin": "Asia Oriental",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Diospyros kaki"
+  },
+  "Carpino": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Carpinus betulus"
+  },
+  "Castanospermo": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Castanospermum australe"
+  },
+  "Castaño": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "timber", "ornamental"],
+    "scientificName": "Castanea sativa"
+  },
+  "Castaño de Indias": {
+    "native": false,
+    "origin": "Balcanes",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Aesculus hippocastanum"
+  },
+  "Castaño de Indias rojo": {
+    "native": false,
+    "origin": "Híbrido cultivado",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Aesculus x carnea"
+  },
+  "Casuarina": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Casuarina cunninghamiana"
+  },
+  "Casuarina glauca": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Casuarina glauca"
+  },
+  "Catalpa": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Catalpa bignonioides"
+  },
+  "Cañafístula": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Cassia fistula"
+  },
+  "Cedro blanco": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Thuja occidentalis"
+  },
+  "Cedro del Atlas": {
+    "native": false,
+    "origin": "Norte de África",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Cedrus atlantica"
+  },
+  "Cedro del Himalaya": {
+    "native": false,
+    "origin": "Himalaya",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Cedrus deodara"
+  },
+  "Cedro del Himalaya péndulo": {
+    "native": false,
+    "origin": "Himalaya (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Cedrus deodara 'Pendula'"
+  },
+  "Cedro rojo": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Thuja plicata"
+  },
+  "Cedro rojo variegado": {
+    "native": false,
+    "origin": "América del Norte (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Thuja plicata 'Zebrina'"
+  },
+  "Cedrón": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Chile",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["medicinal", "ornamental"],
+    "scientificName": "Aloysia citrodora"
+  },
+  "Cedrón del monte": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["medicinal"],
+    "scientificName": "Aloysia gratissima"
+  },
+  "Ceibo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Erythrina crista-galli"
+  },
+  "Celinda": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Philadelphus coronarius"
+  },
+  "Cerezo": {
+    "native": false,
+    "origin": "Asia, Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Prunus avium"
+  },
+  "Cerezo de flor": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Prunus serrulata"
+  },
+  "Chirca": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Eupatorium buniifolium"
+  },
+  "Chumbera": {
+    "native": false,
+    "origin": "México",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Opuntia ficus-indica"
+  },
+  "Cica": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cycas revoluta"
+  },
+  "Cina-cina": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Parkinsonia aculeata"
+  },
+  "Ciprés": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cupressus sempervirens"
+  },
+  "Ciprés calvo": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Taxodium distichum"
+  },
+  "Ciprés calvo (mex)": {
+    "native": false,
+    "origin": "México",
+    "foliage": "deciduous",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Taxodium mucronatum"
+  },
+  "Ciprés de Arizona": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cupressus arizonica"
+  },
+  "Ciprés de Lawson": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Chamaecyparis lawsoniana"
+  },
+  "Ciprés de Monterrey": {
+    "native": false,
+    "origin": "California",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cupressus macrocarpa"
+  },
+  "Ciprés de la cordillera": {
+    "native": false,
+    "origin": "Chile, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Austrocedrus chilensis"
+  },
+  "Ciprés del Himalaya": {
+    "native": false,
+    "origin": "Himalaya",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cupressus torulosa"
+  },
+  "Ciprés fúnebre": {
+    "native": false,
+    "origin": "China",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cupressus funebris"
+  },
+  "Ciprés mediterráneo": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cupressus sempervirens"
+  },
+  "Ciruela cafre": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Harpephyllum caffrum"
+  },
+  "Ciruelo": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Prunus domestica"
+  },
+  "Ciruelo rojo": {
+    "native": false,
+    "origin": "Asia (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Prunus cerasifera var. pissardii"
+  },
+  "Clivia": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Clivia miniata"
+  },
+  "Cocculus": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Cocculus laurifolius"
+  },
+  "Congorosa": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["medicinal"],
+    "scientificName": "Maytenus ilicifolia"
+  },
+  "Corona de Cristo": {
+    "native": false,
+    "origin": "Madagascar",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "year-round",
+    "uses": ["ornamental"],
+    "scientificName": "Euphorbia milii"
+  },
+  "Corona de novia": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Spiraea cantoniensis"
+  },
+  "Coronilla": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Scutia buxifolia"
+  },
+  "Costilla de Adán": {
+    "native": false,
+    "origin": "América Central",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Monstera deliciosa"
+  },
+  "Cotoneaster": {
+    "native": false,
+    "origin": "China",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Cotoneaster spp."
+  },
+  "Crasa": {
+    "native": false,
+    "origin": "Varios",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Crassulaceae spp."
+  },
+  "Crataegus": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Crataegus spp."
+  },
+  "Crespón": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Lagerstroemia indica"
+  },
+  "Criptomeria": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Cryptomeria japonica"
+  },
+  "Curupí": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Sapium haematospermum"
+  },
+  "Cítrico": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Citrus spp."
+  },
+  "Dama de la noche": {
+    "native": false,
+    "origin": "América Central",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Cestrum nocturnum"
+  },
+  "Damara": {
+    "native": false,
+    "origin": "Nueva Zelanda",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Agathis australis"
+  },
+  "Don Diego de la noche": {
+    "native": false,
+    "origin": "América del Sur",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Mirabilis jalapa"
+  },
+  "Drago": {
+    "native": false,
+    "origin": "Canarias",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Dracaena draco"
+  },
+  "Drácena": {
+    "native": false,
+    "origin": "África, Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Dracaena spp."
+  },
+  "Duraznero": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Prunus persica"
+  },
+  "Ejemplar seco": {
+    "native": false,
+    "origin": null,
+    "foliage": null,
+    "bloomingSeason": null,
+    "uses": [],
+    "scientificName": null
+  },
+  "Elaeagnus pungens": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Elaeagnus pungens"
+  },
+  "Encina": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Quercus ilex"
+  },
+  "Enebro": {
+    "native": false,
+    "origin": "Hemisferio Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Juniperus communis"
+  },
+  "Enebro de Siria": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Juniperus drupacea"
+  },
+  "Espina de corona": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Gleditsia amorphoides"
+  },
+  "Espina de la cruz": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Colletia paradoxa"
+  },
+  "Espinillo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Chile",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Vachellia caven"
+  },
+  "Espino albar": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Crataegus monogyna"
+  },
+  "Estrella federal": {
+    "native": false,
+    "origin": "México",
+    "foliage": "deciduous",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Euphorbia pulcherrima"
+  },
+  "Eucalipto": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Eucalyptus spp."
+  },
+  "Eucalipto blanco": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Eucalyptus globulus"
+  },
+  "Eucalipto colorado": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Eucalyptus camaldulensis"
+  },
+  "Eucalipto grandis": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["timber"],
+    "scientificName": "Eucalyptus grandis"
+  },
+  "Eucalipto limón": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Corymbia citriodora"
+  },
+  "Eucalipto plateado": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Eucalyptus cinerea"
+  },
+  "Eucalipto robusto": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Eucalyptus robusta"
+  },
+  "Eucalipto rojo": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["timber"],
+    "scientificName": "Eucalyptus tereticornis"
+  },
+  "Eucalipto rojo de flores": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Corymbia ficifolia"
+  },
+  "Evónimo": {
+    "native": false,
+    "origin": "Asia, Europa",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Euonymus japonicus"
+  },
+  "Evónimo hamiltoniano": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Euonymus hamiltonianus"
+  },
+  "Evónimo variegado": {
+    "native": false,
+    "origin": "Asia (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Euonymus japonicus 'Variegatus'"
+  },
+  "Falsa mandioca": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Manihot grahamii"
+  },
+  "Farolito japonés": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Hibiscus schizopetalus"
+  },
+  "Ficus": {
+    "native": false,
+    "origin": "Asia, África",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Ficus spp."
+  },
+  "Ficus bengalí": {
+    "native": false,
+    "origin": "India",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Ficus benghalensis"
+  },
+  "Filodendro": {
+    "native": false,
+    "origin": "América tropical",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Philodendron spp."
+  },
+  "Floripondio": {
+    "native": true,
+    "origin": "América del Sur",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Brugmansia spp."
+  },
+  "Formio": {
+    "native": false,
+    "origin": "Nueva Zelanda",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Phormium tenax"
+  },
+  "Formio variegado": {
+    "native": false,
+    "origin": "Nueva Zelanda (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Phormium tenax 'Variegatum'"
+  },
+  "Fotinia": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Photinia x fraseri"
+  },
+  "Francisco Álvarez": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Brunfelsia uniflora"
+  },
+  "Fresno americano": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade", "timber"],
+    "scientificName": "Fraxinus americana"
+  },
+  "Fresno de flor": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Fraxinus ornus"
+  },
+  "Fresno europeo": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade", "timber"],
+    "scientificName": "Fraxinus excelsior"
+  },
+  "Fumo bravo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Solanum granuloso-leprosum"
+  },
+  "Furcraea": {
+    "native": false,
+    "origin": "América tropical",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Furcraea foetida"
+  },
+  "Fénix paludosa": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Phoenix paludosa"
+  },
+  "Gardenia": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Gardenia jasminoides"
+  },
+  "Ginkgo": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Ginkgo biloba"
+  },
+  "Glicina": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Wisteria sinensis"
+  },
+  "Gomero": {
+    "native": false,
+    "origin": "India",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Ficus elastica"
+  },
+  "Gomero variegado": {
+    "native": false,
+    "origin": "India (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Ficus elastica 'Variegata'"
+  },
+  "Granado": {
+    "native": false,
+    "origin": "Asia Occidental",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Punica granatum"
+  },
+  "Grevillea": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Grevillea robusta"
+  },
+  "Guabiyú": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Myrcianthes pungens"
+  },
+  "Guayabo": {
+    "native": false,
+    "origin": "América tropical",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Psidium guajava"
+  },
+  "Guayabo colorado": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Acca sellowiana"
+  },
+  "Guayabo del país": {
+    "native": true,
+    "origin": "Uruguay, Brasil, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Acca sellowiana"
+  },
+  "Guayubira": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Cordia americana"
+  },
+  "Hakea": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Hakea spp."
+  },
+  "Helecho espárrago": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Asparagus setaceus"
+  },
+  "Hiedra": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Hedera helix"
+  },
+  "Hiedra alemana": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Delairea odorata"
+  },
+  "Higuera": {
+    "native": false,
+    "origin": "Asia Occidental",
+    "foliage": "deciduous",
+    "bloomingSeason": null,
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Ficus carica"
+  },
+  "Higuerón": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Ficus luschnathiana"
+  },
+  "Hortensia": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Hydrangea macrophylla"
+  },
+  "Ibirapitá": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade", "timber"],
+    "scientificName": "Peltophorum dubium"
+  },
+  "Ingá": {
+    "native": true,
+    "origin": "Uruguay, Brasil, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "shade"],
+    "scientificName": "Inga uruguensis"
+  },
+  "Jabonero de la China": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Koelreuteria paniculata"
+  },
+  "Jacarandá": {
+    "native": false,
+    "origin": "Argentina, Bolivia, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Jacaranda mimosifolia"
+  },
+  "Jazmín": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Jasminum spp."
+  },
+  "Jazmín Mango": {
+    "native": false,
+    "origin": "Tailandia",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Plumeria rubra"
+  },
+  "Jazmín amarillo": {
+    "native": false,
+    "origin": "China",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Jasminum nudiflorum"
+  },
+  "Jazmín de las Azores": {
+    "native": false,
+    "origin": "Madeira",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Jasminum azoricum"
+  },
+  "Jazmín del Cabo": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Gardenia jasminoides"
+  },
+  "Jazmín del Uruguay": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Guettarda uruguensis"
+  },
+  "Jazmín del cielo": {
+    "native": false,
+    "origin": "América del Sur",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Plumbago auriculata"
+  },
+  "Jazmín paraguayo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Paraguay, Brasil",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Brunfelsia australis"
+  },
+  "Junípero chino": {
+    "native": false,
+    "origin": "China, Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Juniperus chinensis"
+  },
+  "Junípero rastrero": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Juniperus horizontalis"
+  },
+  "Kentia": {
+    "native": false,
+    "origin": "Isla Lord Howe",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Howea forsteriana"
+  },
+  "Kiri": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Paulownia tomentosa"
+  },
+  "Lantana": {
+    "native": false,
+    "origin": "América tropical",
+    "foliage": "evergreen",
+    "bloomingSeason": "year-round",
+    "uses": ["ornamental"],
+    "scientificName": "Lantana camara"
+  },
+  "Lapachillo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Tecoma stans"
+  },
+  "Lapacho amarillo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Handroanthus pulcherrimus"
+  },
+  "Lapacho rosado": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Handroanthus impetiginosus"
+  },
+  "Latania": {
+    "native": false,
+    "origin": "Islas Mascareñas",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Latania spp."
+  },
+  "Laurel": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Laurus nobilis"
+  },
+  "Laurel rosa": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Nerium oleander"
+  },
+  "Laurel rosa variegado": {
+    "native": false,
+    "origin": "Mediterráneo (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Nerium oleander 'Variegatum'"
+  },
+  "Laurentino": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Viburnum tinus"
+  },
+  "Leptospermum": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Leptospermum scoparium"
+  },
+  "Libocedro": {
+    "native": false,
+    "origin": "Chile, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Austrocedrus chilensis"
+  },
+  "Libocedro disciplinado": {
+    "native": false,
+    "origin": "Chile, Argentina (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Austrocedrus chilensis 'Fastigiata'"
+  },
+  "Ligustrina": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ligustrum sinense"
+  },
+  "Ligustrina variegada": {
+    "native": false,
+    "origin": "Japón (cultivar)",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ligustrum sinense 'Variegatum'"
+  },
+  "Ligustro": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ligustrum lucidum"
+  },
+  "Ligustro variegado": {
+    "native": false,
+    "origin": "Asia (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ligustrum lucidum 'Variegatum'"
+  },
+  "Limpiatubos": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Callistemon citrinus"
+  },
+  "Liquidambar": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Liquidambar styraciflua"
+  },
+  "Madreselva": {
+    "native": false,
+    "origin": "Asia, Europa",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Lonicera japonica"
+  },
+  "Madroño": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Arbutus unedo"
+  },
+  "Magnolia": {
+    "native": false,
+    "origin": "Asia, América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Magnolia grandiflora"
+  },
+  "Magnolia liliflora": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Magnolia liliiflora"
+  },
+  "Malvón": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "year-round",
+    "uses": ["ornamental"],
+    "scientificName": "Pelargonium x hortorum"
+  },
+  "Manzano": {
+    "native": false,
+    "origin": "Asia Central",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Malus domestica"
+  },
+  "Membrillero chino": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Chaenomeles speciosa"
+  },
+  "Membrillero japonés": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "deciduous",
+    "bloomingSeason": "winter",
+    "uses": ["ornamental"],
+    "scientificName": "Chaenomeles japonica"
+  },
+  "Molle": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Schinus molle"
+  },
+  "Molle de beber": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "medicinal"],
+    "scientificName": "Schinus longifolius"
+  },
+  "Molle rastrero": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Schinus engleri"
+  },
+  "Morera": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "shade", "ornamental"],
+    "scientificName": "Morus alba"
+  },
+  "Morera de papel": {
+    "native": false,
+    "origin": "Asia Oriental",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Broussonetia papyrifera"
+  },
+  "Morera multicaule": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Morus multicaulis"
+  },
+  "Murta": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Chile",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Myrceugenia glaucescens"
+  },
+  "Naranjo de Luisiana": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Maclura pomifera"
+  },
+  "Nogal criollo": {
+    "native": true,
+    "origin": "Uruguay, Argentina",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "fruit"],
+    "scientificName": "Juglans australis"
+  },
+  "Nogal negro": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "fruit"],
+    "scientificName": "Juglans nigra"
+  },
+  "Nogal real": {
+    "native": false,
+    "origin": "Asia Central, Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "timber"],
+    "scientificName": "Juglans regia"
+  },
+  "Níspero": {
+    "native": false,
+    "origin": "China",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Eriobotrya japonica"
+  },
+  "Olivo": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Olea europaea"
+  },
+  "Olmo americano": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Ulmus americana"
+  },
+  "Olmo de montaña": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ulmus glabra"
+  },
+  "Olmo disciplinado": {
+    "native": false,
+    "origin": "Europa (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ulmus minor 'Fastigiata'"
+  },
+  "Olmo europeo": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade", "timber"],
+    "scientificName": "Ulmus minor"
+  },
+  "Olmo péndulo": {
+    "native": false,
+    "origin": "Europa (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ulmus glabra 'Pendula'"
+  },
+  "Ombú": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Phytolacca dioica"
+  },
+  "Paja penacho": {
+    "native": false,
+    "origin": "América del Sur",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Cortaderia selloana"
+  },
+  "Palmera canaria": {
+    "native": false,
+    "origin": "Islas Canarias",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Phoenix canariensis"
+  },
+  "Palmera china": {
+    "native": false,
+    "origin": "China",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Trachycarpus fortunei"
+  },
+  "Palmera datilera": {
+    "native": false,
+    "origin": "Norte de África, Medio Oriente",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Phoenix dactylifera"
+  },
+  "Palmera de Senegal": {
+    "native": false,
+    "origin": "África",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Phoenix reclinata"
+  },
+  "Palmera pindó": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Syagrus romanzoffiana"
+  },
+  "Palmera washingtonia": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Washingtonia robusta"
+  },
+  "Palmito": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Chamaerops humilis"
+  },
+  "Palo borracho amarillo": {
+    "native": false,
+    "origin": "Argentina, Paraguay, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Ceiba speciosa var. chorisia"
+  },
+  "Palo borracho rosa": {
+    "native": false,
+    "origin": "Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Ceiba speciosa"
+  },
+  "Palo de fierro": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Sideroxylon inerme"
+  },
+  "Palo de jabón": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Quillaja brasiliensis"
+  },
+  "Palto": {
+    "native": false,
+    "origin": "América Central",
+    "foliage": "evergreen",
+    "bloomingSeason": "winter",
+    "uses": ["fruit"],
+    "scientificName": "Persea americana"
+  },
+  "Palán palán": {
+    "native": true,
+    "origin": "Uruguay, Argentina",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Nicotiana glauca"
+  },
+  "Papiro": {
+    "native": false,
+    "origin": "África",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Cyperus papyrus"
+  },
+  "Parasol de la China": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Firmiana simplex"
+  },
+  "Paraíso": {
+    "native": false,
+    "origin": "Asia (India, China)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Melia azedarach"
+  },
+  "Paraíso variegado": {
+    "native": false,
+    "origin": "Asia (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Melia azedarach 'Variegata'"
+  },
+  "Pata de vaca": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Bauhinia variegata"
+  },
+  "Pecán": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "timber"],
+    "scientificName": "Carya illinoinensis"
+  },
+  "Peral": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Pyrus communis"
+  },
+  "Pino": {
+    "native": false,
+    "origin": "Hemisferio Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Pinus spp."
+  },
+  "Pino Brasil": {
+    "native": false,
+    "origin": "Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Araucaria angustifolia"
+  },
+  "Pino australiano": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Casuarina equisetifolia"
+  },
+  "Pino canario": {
+    "native": false,
+    "origin": "Islas Canarias",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Pinus canariensis"
+  },
+  "Pino de Alepo": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Pinus halepensis"
+  },
+  "Pino marítimo": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["timber"],
+    "scientificName": "Pinus pinaster"
+  },
+  "Pino mugo": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Pinus mugo"
+  },
+  "Pino patula": {
+    "native": false,
+    "origin": "México",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["timber"],
+    "scientificName": "Pinus patula"
+  },
+  "Pino piñonero": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Pinus pinea"
+  },
+  "Pino radiata": {
+    "native": false,
+    "origin": "California",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["timber"],
+    "scientificName": "Pinus radiata"
+  },
+  "Pino taeda": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["timber"],
+    "scientificName": "Pinus taeda"
+  },
+  "Pinsapo": {
+    "native": false,
+    "origin": "España",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Abies pinsapo"
+  },
+  "Pita": {
+    "native": false,
+    "origin": "México",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Agave americana"
+  },
+  "Pita de bordes amarillos": {
+    "native": false,
+    "origin": "México (cultivar)",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Agave americana 'Marginata'"
+  },
+  "Pitanga": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Eugenia uniflora"
+  },
+  "Pitósporo": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Pittosporum tobira"
+  },
+  "Plumerillo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Calliandra tweedii"
+  },
+  "Plumerillo rojo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Calliandra brevipes"
+  },
+  "Plátano": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["shade", "ornamental"],
+    "scientificName": "Platanus orientalis"
+  },
+  "Plátano de sombra": {
+    "native": false,
+    "origin": "Híbrido (Europa)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["shade", "ornamental"],
+    "scientificName": "Platanus x hispanica"
+  },
+  "Prunus": {
+    "native": false,
+    "origin": "Hemisferio Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Prunus spp."
+  },
+  "Pterocarya": {
+    "native": false,
+    "origin": "Cáucaso",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Pterocarya fraxinifolia"
+  },
+  "Quebracho flojo": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Jodina rhombifolia"
+  },
+  "Rabo de lagarto": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Heliotropium indicum"
+  },
+  "Raphiolepis": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Rhaphiolepis indica"
+  },
+  "Retama": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Retama sphaerocarpa"
+  },
+  "Ricino": {
+    "native": false,
+    "origin": "África",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Ricinus communis"
+  },
+  "Roble": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Quercus robur"
+  },
+  "Roble bicolor": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Quercus bicolor"
+  },
+  "Roble de los pantanos": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Quercus palustris"
+  },
+  "Roble laurel": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Quercus laurifolia"
+  },
+  "Roble rojo": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Quercus rubra"
+  },
+  "Rosa de Siria": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Hibiscus syriacus"
+  },
+  "Rosa de la China": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "year-round",
+    "uses": ["ornamental"],
+    "scientificName": "Hibiscus rosa-sinensis"
+  },
+  "Rosa del desierto": {
+    "native": false,
+    "origin": "África",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Adenium obesum"
+  },
+  "Rosa loca": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Kerria japonica"
+  },
+  "Rosal": {
+    "native": false,
+    "origin": "Asia, Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Rosa spp."
+  },
+  "Ruscus": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Ruscus aculeatus"
+  },
+  "Sabina": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Juniperus sabina"
+  },
+  "Santa Rita": {
+    "native": false,
+    "origin": "América del Sur",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Bougainvillea spp."
+  },
+  "Sauce blanco": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Salix alba"
+  },
+  "Sauce crespo": {
+    "native": false,
+    "origin": "Japón (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Salix matsudana 'Tortuosa'"
+  },
+  "Sauce criollo": {
+    "native": true,
+    "origin": "Uruguay, Argentina",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Salix humboldtiana"
+  },
+  "Sauce dorado": {
+    "native": false,
+    "origin": "Asia (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Salix alba 'Vitellina'"
+  },
+  "Sauce llorón": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Salix babylonica"
+  },
+  "Sauce llorón dorado": {
+    "native": false,
+    "origin": "Híbrido cultivado",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Salix x sepulcralis"
+  },
+  "Sauce tortuoso": {
+    "native": false,
+    "origin": "China (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Salix matsudana 'Tortuosa'"
+  },
+  "Seafortia": {
+    "native": false,
+    "origin": "Australia",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Archontophoenix cunninghamiana"
+  },
+  "Secuoya": {
+    "native": false,
+    "origin": "California",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Sequoia sempervirens"
+  },
+  "Siempreverde": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": "fall",
+    "uses": ["ornamental"],
+    "scientificName": "Ligustrum lucidum"
+  },
+  "Sin identificar": {
+    "native": false,
+    "origin": null,
+    "foliage": null,
+    "bloomingSeason": null,
+    "uses": [],
+    "scientificName": null
+  },
+  "Solanum": {
+    "native": false,
+    "origin": "América del Sur",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Solanum spp."
+  },
+  "Sófora": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Styphnolobium japonicum"
+  },
+  "Tabaquillo": {
+    "native": true,
+    "origin": "Uruguay, Argentina",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Polylepis australis"
+  },
+  "Tala": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "fruit", "timber"],
+    "scientificName": "Celtis tala"
+  },
+  "Tamarisco": {
+    "native": false,
+    "origin": "Mediterráneo, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Tamarix gallica"
+  },
+  "Tarumán": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Vitex megapotamica"
+  },
+  "Tecomaria capensis": {
+    "native": false,
+    "origin": "Sudáfrica",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Tecomaria capensis"
+  },
+  "Tejo japonés": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Podocarpus macrophyllus"
+  },
+  "Tejocote": {
+    "native": false,
+    "origin": "México",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit", "ornamental"],
+    "scientificName": "Crataegus mexicana"
+  },
+  "Tembetarí": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Zanthoxylum fagara"
+  },
+  "Teucrium": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Teucrium fruticans"
+  },
+  "Thevetia": {
+    "native": false,
+    "origin": "América Central",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Thevetia peruviana"
+  },
+  "Tilo moltkei": {
+    "native": false,
+    "origin": "Europa (híbrido)",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Tilia x moltkei"
+  },
+  "Tilo plateado": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Tilia tomentosa"
+  },
+  "Tilo platifilo": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Tilia platyphyllos"
+  },
+  "Timbó": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Enterolobium contortisiliquum"
+  },
+  "Tipa": {
+    "native": false,
+    "origin": "Argentina, Bolivia",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Tipuana tipu"
+  },
+  "Trompeta de fuego": {
+    "native": false,
+    "origin": "Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Pyrostegia venusta"
+  },
+  "Tulipanero": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Liriodendron tulipifera"
+  },
+  "Tuya occidental": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Thuja occidentalis"
+  },
+  "Tuya oriental": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental"],
+    "scientificName": "Platycladus orientalis"
+  },
+  "Tuya plicata": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "evergreen",
+    "bloomingSeason": null,
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Thuja plicata"
+  },
+  "Uva del Japón": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Hovenia dulcis"
+  },
+  "Viburno": {
+    "native": false,
+    "origin": "Asia, Europa",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Viburnum spp."
+  },
+  "Viburno henryi": {
+    "native": false,
+    "origin": "China",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Viburnum henryi"
+  },
+  "Vid": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["fruit"],
+    "scientificName": "Vitis vinifera"
+  },
+  "Viraró": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["timber", "ornamental"],
+    "scientificName": "Ruprechtia laxiflora"
+  },
+  "Visco": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Bolivia",
+    "foliage": "semi-deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Parasenegalia visco"
+  },
+  "Weigela": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Weigela florida"
+  },
+  "Yatay": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil",
+    "foliage": "evergreen",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "fruit"],
+    "scientificName": "Butia yatay"
+  },
+  "Yuca": {
+    "native": false,
+    "origin": "América Central",
+    "foliage": "evergreen",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Yucca spp."
+  },
+  "Zelkova": {
+    "native": false,
+    "origin": "Japón",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Zelkova serrata"
+  },
+  "Álamo": {
+    "native": false,
+    "origin": "Hemisferio Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Populus spp."
+  },
+  "Álamo Carolino": {
+    "native": false,
+    "origin": "América del Norte",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Populus deltoides"
+  },
+  "Álamo blanco": {
+    "native": false,
+    "origin": "Europa, Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Populus alba"
+  },
+  "Álamo blanco piramidal": {
+    "native": false,
+    "origin": "Europa (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Populus alba 'Pyramidalis'"
+  },
+  "Álamo euroamericano": {
+    "native": false,
+    "origin": "Europa (híbrido)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["timber"],
+    "scientificName": "Populus x canadensis"
+  },
+  "Álamo gris": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Populus x canescens"
+  },
+  "Álamo negro": {
+    "native": false,
+    "origin": "Europa",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "timber"],
+    "scientificName": "Populus nigra"
+  },
+  "Álamo piramidal": {
+    "native": false,
+    "origin": "Europa (cultivar)",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Populus nigra 'Italica'"
+  },
+  "Árbol de Judea": {
+    "native": false,
+    "origin": "Mediterráneo",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Cercis siliquastrum"
+  },
+  "Árbol del cielo": {
+    "native": false,
+    "origin": "China",
+    "foliage": "deciduous",
+    "bloomingSeason": "summer",
+    "uses": ["ornamental"],
+    "scientificName": "Ailanthus altissima"
+  },
+  "Árbol del paraíso": {
+    "native": false,
+    "origin": "Asia",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental", "shade"],
+    "scientificName": "Melia azedarach"
+  },
+  "Ñapindá": {
+    "native": true,
+    "origin": "Uruguay, Argentina, Brasil, Paraguay",
+    "foliage": "deciduous",
+    "bloomingSeason": "spring",
+    "uses": ["ornamental"],
+    "scientificName": "Acacia bonariensis"
+  }
+}

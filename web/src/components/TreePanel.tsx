@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations, useLocale } from 'next-intl';
+import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 interface TreeData {
   nombre_cientifico: string | null;
@@ -16,6 +17,15 @@ interface TreeData {
   estado: number | null;
   lat: number;
   lng: number;
+}
+
+interface SpeciesMetadata {
+  native: boolean;
+  origin: string | null;
+  foliage: 'evergreen' | 'deciduous' | 'semi-deciduous' | null;
+  bloomingSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | null;
+  uses: string[];
+  scientificName: string | null;
 }
 
 // Cache for species info
@@ -84,6 +94,7 @@ interface TreePanelProps {
   treeId: number | null;
   onClose: () => void;
   treesData: Record<string, TreeData> | null;
+  speciesMetadata?: Record<string, SpeciesMetadata> | null;
 }
 
 const ESTADO_COLORS: Record<number, string> = {
@@ -96,9 +107,10 @@ const ESTADO_COLORS: Record<number, string> = {
   7: 'bg-gray-700',
 };
 
-export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps) {
+export default function TreePanel({ treeId, onClose, treesData, speciesMetadata }: TreePanelProps) {
   const t = useTranslations();
   const locale = useLocale();
+  const isOnline = useOnlineStatus();
   const [tree, setTree] = useState<TreeData | null>(null);
   const [speciesInfo, setSpeciesInfo] = useState<SpeciesInfo>({ images: [], description: null, wikipediaUrl: null });
   const [infoLoading, setInfoLoading] = useState(false);
@@ -106,6 +118,8 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+  const [metadataExpanded, setMetadataExpanded] = useState(false);
+  const [fetchFailed, setFetchFailed] = useState(false);
 
   // Get translated species name
   const getTranslatedSpeciesName = (name: string | null) => {
@@ -162,16 +176,29 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
 
     if (shouldSkip) {
       setSpeciesInfo({ images: [], description: null, wikipediaUrl: null });
+      setFetchFailed(false);
+      return;
+    }
+
+    // Skip fetch if offline
+    if (!isOnline) {
+      setSpeciesInfo({ images: [], description: null, wikipediaUrl: null });
+      setFetchFailed(true);
       return;
     }
 
     setInfoLoading(true);
     setCarouselIndex(0);
+    setFetchFailed(false);
     fetchSpeciesInfo(scientificName, locale).then((info) => {
       setSpeciesInfo(info);
       setInfoLoading(false);
+      // If we got no images and no description, might be offline
+      if (!info.images.length && !info.description) {
+        setFetchFailed(!isOnline);
+      }
     });
-  }, [tree?.nombre_cientifico, tree?.nombre_comun, locale]);
+  }, [tree?.nombre_cientifico, tree?.nombre_comun, locale, isOnline]);
 
   const nextImage = () => {
     setCarouselIndex((i) => (i + 1) % speciesInfo.images.length);
@@ -206,6 +233,7 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
     if (!tree) return null;
 
     const displayName = getTranslatedSpeciesName(tree.nombre_comun);
+    const metadata = tree.nombre_comun && speciesMetadata ? speciesMetadata[tree.nombre_comun] : null;
 
     return (
       <>
@@ -213,9 +241,20 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
         <div className="sticky top-0 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 p-4">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {displayName}
-              </h2>
+              <div className="flex items-center gap-2">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+                  {displayName}
+                </h2>
+                {metadata && metadata.origin !== null && (
+                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                    metadata.native
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                      : 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
+                  }`}>
+                    {metadata.native ? t('speciesInfo.native') : t('speciesInfo.introduced')}
+                  </span>
+                )}
+              </div>
               {tree.nombre_cientifico && (
                 <p className="text-gray-500 dark:text-gray-400 italic text-sm">{tree.nombre_cientifico}</p>
               )}
@@ -260,8 +299,8 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
           </div>
         )}
 
-        {/* Species Image */}
-        {(speciesInfo.images.length > 0 || infoLoading) && (
+        {/* Species Image or Offline indicator */}
+        {(speciesInfo.images.length > 0 || infoLoading || fetchFailed) && (
           <div
             className="relative h-48 bg-gray-100 dark:bg-gray-800 cursor-pointer group"
             onClick={() => speciesInfo.images.length > 0 && setCarouselOpen(true)}
@@ -283,6 +322,13 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
                   </span>
                 </div>
               </>
+            ) : fetchFailed ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <svg className="w-10 h-10 text-gray-400 dark:text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18.364 5.636a9 9 0 010 12.728m0 0l-2.829-2.829m2.829 2.829L21 21M15.536 8.464a5 5 0 010 7.072m0 0l-2.829-2.829m-4.243 2.829a4.978 4.978 0 01-1.414-2.83m-1.414 5.658a9 9 0 01-2.167-9.238m7.824 2.167a1 1 0 111.414 1.414m-1.414-1.414L3 3m8.293 8.293l1.414 1.414" />
+                </svg>
+                <p className="text-gray-400 dark:text-gray-500 text-sm">{t('offline.photosUnavailable')}</p>
+              </div>
             ) : null}
           </div>
         )}
@@ -306,6 +352,70 @@ export default function TreePanel({ treeId, onClose, treesData }: TreePanelProps
                 </svg>
               </a>
             )}
+          </div>
+        )}
+
+        {/* About this species - collapsible section */}
+        {metadata && metadata.origin && (
+          <div className="border-b border-gray-200 dark:border-gray-700">
+            <button
+              onClick={() => setMetadataExpanded(!metadataExpanded)}
+              className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50"
+            >
+              <span className="text-gray-700 dark:text-gray-300 text-sm font-medium">
+                {t('speciesInfo.aboutSpecies')}
+              </span>
+              <svg
+                className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${metadataExpanded ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <AnimatePresence>
+              {metadataExpanded && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-4 pb-4 space-y-3">
+                    {/* Origin */}
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-500 dark:text-gray-400">{t('speciesInfo.origin')}</span>
+                      <span className="text-gray-900 dark:text-white text-right">{metadata.origin}</span>
+                    </div>
+                    {/* Foliage */}
+                    {metadata.foliage && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">{t('speciesInfo.foliage')}</span>
+                        <span className="text-gray-900 dark:text-white">{t(`foliage.${metadata.foliage}`)}</span>
+                      </div>
+                    )}
+                    {/* Blooming Season */}
+                    {metadata.bloomingSeason && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">{t('speciesInfo.bloomingSeason')}</span>
+                        <span className="text-gray-900 dark:text-white">{t(`bloomingSeasons.${metadata.bloomingSeason}`)}</span>
+                      </div>
+                    )}
+                    {/* Uses */}
+                    {metadata.uses && metadata.uses.length > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">{t('speciesInfo.uses')}</span>
+                        <span className="text-gray-900 dark:text-white text-right">
+                          {metadata.uses.map((use) => t(`uses.${use}`)).join(', ')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         )}
 

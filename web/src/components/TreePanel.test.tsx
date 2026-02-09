@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '../test/utils/render';
 import TreePanel from './TreePanel';
-import { mockTreesData } from '../test/mocks/handlers';
+import { mockTreesData, mockSpeciesMetadata } from '../test/mocks/handlers';
 
 describe('TreePanel', () => {
   const defaultProps = {
@@ -201,6 +201,102 @@ describe('TreePanel', () => {
     Object.defineProperty(navigator, 'clipboard', {
       value: originalClipboard,
       configurable: true,
+    });
+  });
+
+  describe('Species metadata', () => {
+    it('displays "Introducida" badge for non-native species', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Introducida').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('displays "Nativa" badge for native species', async () => {
+      const nativeTreeData = {
+        '4': {
+          ...mockTreesData['1'],
+          nombre_comun: 'Anacahuita',
+          nombre_cientifico: 'Blepharocalyx salicifolius',
+        },
+      };
+
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={4}
+          treesData={nativeTreeData}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Nativa').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('shows "Sobre esta especie" collapsible section', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Sobre esta especie').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('expands to show species origin, foliage, and uses when clicked', async () => {
+      const { user } = render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Sobre esta especie').length).toBeGreaterThanOrEqual(1);
+      });
+
+      // Click to expand
+      const expandButtons = screen.getAllByText('Sobre esta especie');
+      await user.click(expandButtons[0]);
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Origen').length).toBeGreaterThanOrEqual(1);
+        expect(screen.getAllByText('Asia (India, China)').length).toBeGreaterThanOrEqual(1);
+        expect(screen.getAllByText('Follaje').length).toBeGreaterThanOrEqual(1);
+        expect(screen.getAllByText('Caduco').length).toBeGreaterThanOrEqual(1);
+        expect(screen.getAllByText('Usos').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('does not show metadata section for "Ejemplar seco"', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={3}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Ejemplar seco').length).toBeGreaterThanOrEqual(2);
+      });
+
+      // Should not show the "Sobre esta especie" section for dead trees
+      expect(screen.queryByText('Sobre esta especie')).not.toBeInTheDocument();
     });
   });
 });

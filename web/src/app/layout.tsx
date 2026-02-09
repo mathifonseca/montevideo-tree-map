@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import { ThemeProvider } from '@/components/ThemeProvider';
+import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -55,6 +56,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
+            <ServiceWorkerRegistration />
             {children}
           </ThemeProvider>
         </NextIntlClientProvider>

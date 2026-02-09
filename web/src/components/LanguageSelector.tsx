@@ -19,7 +19,7 @@ export default function LanguageSelector() {
       value={locale}
       onChange={(e) => handleChange(e.target.value)}
       disabled={isPending}
-      className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm rounded-lg px-2 py-2.5 border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:border-green-500 disabled:opacity-50 cursor-pointer"
+      className="h-[42px] px-2 rounded-lg shadow-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white text-sm border border-gray-200 dark:border-gray-700 hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:border-green-500 disabled:opacity-50 cursor-pointer"
       aria-label="Select language"
     >
       <option value="es">ES</option>

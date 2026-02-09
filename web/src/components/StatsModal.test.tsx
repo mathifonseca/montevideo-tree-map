@@ -9,6 +9,15 @@ describe('StatsModal', () => {
     'Plátano de sombra': 23235,
     'Tipa': 12354,
     'Arce negundo': 7701,
+    'Ejemplar seco': 2261,
+    'Especie rara 1': 1,
+    'Especie rara 2': 1,
+  };
+
+  const mockSpeciesMetadata = {
+    'Paraíso': { native: false, origin: 'Asia' },
+    'Fresno americano': { native: false, origin: 'América del Norte' },
+    'Anacahuita': { native: true, origin: 'Uruguay' },
   };
 
   const mockTreesData = {
@@ -78,7 +87,7 @@ describe('StatsModal', () => {
 
   it('displays species count', () => {
     render(<StatsModal {...defaultProps} />);
-    expect(screen.getByText('5')).toBeInTheDocument(); // 5 species in mock
+    expect(screen.getByText('8')).toBeInTheDocument(); // 8 species in mock
     expect(screen.getByText('Especies')).toBeInTheDocument();
   });
 
@@ -147,5 +156,32 @@ describe('StatsModal', () => {
   it('displays data source attribution', () => {
     render(<StatsModal {...defaultProps} />);
     expect(screen.getByText(/Censo de Arbolado Urbano 2008/)).toBeInTheDocument();
+  });
+
+  describe('Fun Facts section', () => {
+    it('displays "Sabías que..." title', () => {
+      render(<StatsModal {...defaultProps} />);
+      expect(screen.getByText('Sabías que...')).toBeInTheDocument();
+    });
+
+    it('displays most common species fact', () => {
+      render(<StatsModal {...defaultProps} />);
+      expect(screen.getByText(/Paraíso representa el/)).toBeInTheDocument();
+    });
+
+    it('displays rare species count', () => {
+      render(<StatsModal {...defaultProps} />);
+      expect(screen.getByText(/2 especies con un solo ejemplar/)).toBeInTheDocument();
+    });
+
+    it('displays dead trees count', () => {
+      render(<StatsModal {...defaultProps} />);
+      expect(screen.getByText(/2\.261 árboles están marcados como ejemplares secos/)).toBeInTheDocument();
+    });
+
+    it('displays native percentage when metadata is provided', () => {
+      render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+      expect(screen.getByText(/especies nativas de Uruguay/)).toBeInTheDocument();
+    });
   });
 });

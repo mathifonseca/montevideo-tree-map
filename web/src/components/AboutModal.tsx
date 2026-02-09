@@ -44,7 +44,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
               </button>
             </div>
 
-            <div className="p-5 space-y-4">
+            <div className="p-5 space-y-4 max-h-[70vh] overflow-y-auto">
               {/* What */}
               <div>
                 <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
@@ -52,6 +52,37 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                     strong: (chunks) => <strong className="font-semibold">{chunks}</strong>,
                   })}
                 </p>
+              </div>
+
+              {/* Features */}
+              <div>
+                <h3 className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide mb-2">{t('features')}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                  {t('featuresList')}
+                </p>
+              </div>
+
+              {/* Install as PWA */}
+              <div>
+                <h3 className="text-gray-500 dark:text-gray-400 text-xs uppercase tracking-wide mb-2">{t('installApp')}</h3>
+                <p className="text-gray-600 dark:text-gray-300 text-sm mb-2">{t('installInstructions')}</p>
+                <ul className="text-gray-600 dark:text-gray-300 text-sm space-y-1.5">
+                  <li>
+                    {t.rich('installIOS', {
+                      strong: (chunks) => <strong className="font-semibold">{chunks}</strong>,
+                    })}
+                  </li>
+                  <li>
+                    {t.rich('installAndroid', {
+                      strong: (chunks) => <strong className="font-semibold">{chunks}</strong>,
+                    })}
+                  </li>
+                  <li>
+                    {t.rich('installDesktop', {
+                      strong: (chunks) => <strong className="font-semibold">{chunks}</strong>,
+                    })}
+                  </li>
+                </ul>
               </div>
 
               {/* Inspiration */}
