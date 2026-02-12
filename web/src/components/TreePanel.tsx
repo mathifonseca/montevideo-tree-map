@@ -118,7 +118,7 @@ export default function TreePanel({ treeId, onClose, treesData, speciesMetadata 
   const [carouselIndex, setCarouselIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
-  const [metadataExpanded, setMetadataExpanded] = useState(false);
+  const [metadataExpanded, setMetadataExpanded] = useState(true);
   const [fetchFailed, setFetchFailed] = useState(false);
 
   // Get translated species name

@@ -256,8 +256,8 @@ describe('TreePanel', () => {
       });
     });
 
-    it('expands to show species origin, foliage, and uses when clicked', async () => {
-      const { user } = render(
+    it('shows species origin, foliage, and uses (expanded by default)', async () => {
+      render(
         <TreePanel
           {...defaultProps}
           treeId={1}
@@ -267,13 +267,7 @@ describe('TreePanel', () => {
 
       await waitFor(() => {
         expect(screen.getAllByText('Sobre esta especie').length).toBeGreaterThanOrEqual(1);
-      });
-
-      // Click to expand
-      const expandButtons = screen.getAllByText('Sobre esta especie');
-      await user.click(expandButtons[0]);
-
-      await waitFor(() => {
+        // Content should be visible by default (starts expanded)
         expect(screen.getAllByText('Origen').length).toBeGreaterThanOrEqual(1);
         expect(screen.getAllByText('Asia (India, China)').length).toBeGreaterThanOrEqual(1);
         expect(screen.getAllByText('Follaje').length).toBeGreaterThanOrEqual(1);

@@ -191,11 +191,11 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData, 
       facts.push({ key: 'deadTrees', params: { count: deadCount.toLocaleString('es-UY') } });
     }
 
-    // Tallest tree
+    // Tallest tree (filter out heights > 50m as data errors)
     const trees = Object.values(treesData);
     let maxHeight = 0;
     for (const tree of trees) {
-      if (tree.altura && tree.altura > maxHeight) {
+      if (tree.altura && tree.altura <= 50 && tree.altura > maxHeight) {
         maxHeight = tree.altura;
       }
     }
