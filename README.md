@@ -20,6 +20,9 @@ Interactive map to explore the **234,464 trees** lining the sidewalks of Montevi
 - 📝 **Report missing tree** to contribute to the map
 - 🌙 **Dark/Light mode** with dynamic map basemap
 - 🌐 **Internationalization** (Spanish/English)
+- 🌸 **Species details** - blooming calendar, height ranges, flower colors, growth rates
+- 🌿 **Native/introduced badges** with species origin info
+- 📶 **Offline support** with service worker caching
 - 📱 **Responsive** - works on mobile and desktop
 
 ## Tech Stack
@@ -84,7 +87,7 @@ The raw census data was cleaned and normalized:
 - **359 unique species** - duplicates and variants unified
 - **566 scientific name corrections** - fixed typos (Bahuinia→Bauhinia, etc.)
 - **2,553 data entry fixes** - corrected mismatched species names
-- **Vector tiles** - PMTiles format (4.5MB vs 32MB GeoJSON)
+- **Vector tiles** - PMTiles format (17MB, all points at all zoom levels)
 - **Gzip compression** - trees-data.json.gz (4.1MB vs 54MB)
 
 Run the data pipeline:
@@ -93,7 +96,7 @@ python scripts/clean_common_names.py  # Clean species names
 python scripts/generate_geojson.py    # Generate web files
 tippecanoe -o web/public/trees.pmtiles --force --layer=trees \
   --minimum-zoom=10 --maximum-zoom=16 \
-  --drop-densest-as-needed web/public/trees.json
+  --no-feature-limit --no-tile-size-limit -r1 web/public/trees.json
 gzip -k -9 web/public/trees-data.json  # Compress data
 ```
 

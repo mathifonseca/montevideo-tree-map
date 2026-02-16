@@ -61,10 +61,14 @@ async function fetchSpeciesInfo(scientificName: string, locale: string): Promise
   const result: SpeciesInfo = { images: [], description: null, wikipediaUrl: null };
   const wikiLang = locale === 'en' ? 'en' : 'es';
 
+  // Strip informal hybrid "x" notation (e.g., "Platanus x acerifolia" → "Platanus acerifolia")
+  // Wikipedia uses "×" (Unicode) and redirects from the name without the hybrid marker
+  const wikiName = scientificName.replace(/ x /gi, ' ');
+
   try {
     // Fetch Wikipedia summary and images in parallel
     const [wikiResponse, commonsResponse] = await Promise.all([
-      fetch(`https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(scientificName)}`),
+      fetch(`https://${wikiLang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(wikiName)}`),
       fetch(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrnamespace=6&gsrsearch=${encodeURIComponent(scientificName)}&gsrlimit=10&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json&origin=*`),
     ]);
 

@@ -371,7 +371,7 @@ describe('TreePanel', () => {
       await waitFor(() => {
         const links = screen.getAllByText('Fuente de datos');
         expect(links.length).toBeGreaterThanOrEqual(1);
-        expect(links[0].closest('a')).toHaveAttribute('href', 'https://municipioc.montevideo.gub.uy/node/79');
+        expect(links[0].closest('a')).toHaveAttribute('href', 'https://municipioc.montevideo.gub.uy/paraíso');
       });
     });
 
@@ -403,6 +403,24 @@ describe('TreePanel', () => {
       });
 
       global.Date = realDate;
+    });
+
+    it('fetches Wikipedia description for hybrid species (strips "x" notation)', async () => {
+      const hybridTreeData = {
+        '5': {
+          ...mockTreesData['1'],
+          nombre_comun: 'Plátano de sombra',
+          nombre_cientifico: 'Platanus x acerifolia',
+        },
+      };
+
+      render(<TreePanel {...defaultProps} treeId={5} treesData={hybridTreeData} />);
+
+      // Should successfully fetch Wikipedia (the "x" is stripped so "Platanus acerifolia" is used)
+      // The mock returns the same extract for all valid scientific names
+      await waitFor(() => {
+        expect(screen.getAllByText(/Melia azedarach es un arbol/).length).toBeGreaterThanOrEqual(1);
+      }, { timeout: 3000 });
     });
 
     it('does not show blooming months for species without bloomingMonths', async () => {

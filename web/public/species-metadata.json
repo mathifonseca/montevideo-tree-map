@@ -783,7 +783,7 @@
     ],
     "flowerColor": "white",
     "growthRate": "slow",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Blepharocalyx_salicifolius"
   },
   "Angico": {
     "native": true,
@@ -1035,7 +1035,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Acer_negundo"
   },
   "Arce negundo bordes amarillos": {
     "native": false,
@@ -1139,7 +1139,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Acer_saccharinum"
   },
   "Arce sicómoro": {
     "native": false,
@@ -3529,7 +3529,7 @@
     ],
     "flowerColor": "white",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Eucalyptus_globulus"
   },
   "Eucalipto colorado": {
     "native": false,
@@ -4068,7 +4068,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Fraxinus_americana"
   },
   "Fresno de flor": {
     "native": false,
@@ -4121,7 +4121,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Fraxinus_excelsior"
   },
   "Fumo bravo": {
     "native": true,
@@ -4789,7 +4789,7 @@
     ],
     "flowerColor": "purple",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://municipioc.montevideo.gub.uy/jacarandá"
   },
   "Jazmín": {
     "native": false,
@@ -5281,7 +5281,7 @@
     ],
     "flowerColor": "pink",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Nerium_oleander"
   },
   "Laurel rosa variegado": {
     "native": false,
@@ -6232,7 +6232,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Ulmus_minor"
   },
   "Olmo péndulo": {
     "native": false,
@@ -6538,7 +6538,7 @@
     ],
     "flowerColor": "pink",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://municipioc.montevideo.gub.uy/palo-borracho"
   },
   "Palo de fierro": {
     "native": false,
@@ -6716,7 +6716,7 @@
     ],
     "flowerColor": "purple",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://municipioc.montevideo.gub.uy/paraíso"
   },
   "Paraíso variegado": {
     "native": false,
@@ -7327,7 +7327,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Platanus_x_hispanica"
   },
   "Prunus": {
     "native": false,
@@ -7979,7 +7979,7 @@
     ],
     "flowerColor": "yellow",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Salix_babylonica"
   },
   "Sauce llorón dorado": {
     "native": false,
@@ -8563,7 +8563,7 @@
     ],
     "flowerColor": "yellow",
     "growthRate": "medium",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://municipioc.montevideo.gub.uy/tipa"
   },
   "Trompeta de fuego": {
     "native": false,
@@ -8998,7 +8998,7 @@
     ],
     "flowerColor": "green",
     "growthRate": "fast",
-    "source": "https://municipioc.montevideo.gub.uy/node/79"
+    "source": "https://es.wikipedia.org/wiki/Populus_deltoides"
   },
   "Álamo blanco": {
     "native": false,

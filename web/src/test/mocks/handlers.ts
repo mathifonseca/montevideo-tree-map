@@ -84,7 +84,7 @@ export const mockSpeciesMetadata: Record<string, any> = {
     crownRange: [6, 10],
     flowerColor: 'purple',
     growthRate: 'fast',
-    source: 'https://municipioc.montevideo.gub.uy/node/79',
+    source: 'https://municipioc.montevideo.gub.uy/paraíso',
   },
   'Fresno americano': {
     native: false,
@@ -98,7 +98,7 @@ export const mockSpeciesMetadata: Record<string, any> = {
     crownRange: [8, 12],
     flowerColor: 'green',
     growthRate: 'medium',
-    source: 'https://municipioc.montevideo.gub.uy/node/79',
+    source: 'https://es.wikipedia.org/wiki/Fraxinus_americana',
   },
   'Anacahuita': {
     native: true,
@@ -112,7 +112,7 @@ export const mockSpeciesMetadata: Record<string, any> = {
     crownRange: [3, 6],
     flowerColor: 'white',
     growthRate: 'slow',
-    source: 'https://municipioc.montevideo.gub.uy/node/79',
+    source: 'https://es.wikipedia.org/wiki/Blepharocalyx_salicifolius',
   },
   'Ceibo': {
     native: true,

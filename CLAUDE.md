@@ -134,7 +134,7 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **138 tests** across 11 test files covering all components and page integration
+- **139 tests** across 11 test files covering all components and page integration
 - Mocks for MapLibre GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs, next-intl, next-themes
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
@@ -294,8 +294,9 @@ tippecanoe -o web/public/trees.pmtiles \
   --layer=trees \
   --minimum-zoom=10 \
   --maximum-zoom=16 \
-  --drop-densest-as-needed \
-  --extend-zooms-if-still-dropping \
+  --no-feature-limit \
+  --no-tile-size-limit \
+  -r1 \
   --force \
   web/public/trees.json
 ```
@@ -508,6 +509,41 @@ Both `es.json` and `en.json` updated with:
 - 7 new TreePanel tests: blooming grid, flower color, growth rate, height comparison, source link, in-bloom badge, no blooming for dead trees
 - 6 new StatsModal tests: calendar visibility, expand/collapse, month species list, current month highlight, new fun facts
 - All 138 tests pass
+
+### Phase 10: Bug Fixes — PMTiles & Data Quality (web/)
+
+#### PMTiles Service Worker Fix
+- **Problem**: "Wrong magic number for PMTiles archive" error on deployed site
+- **Root cause**: Service worker was pre-caching the full PMTiles file, which Vercel served with Brotli compression. The compressed bytes were served for subsequent range requests, corrupting the data.
+- **Fix**: Excluded `.pmtiles` from service worker entirely (early return in fetch handler + removed from `isStaticAsset`), bumped cache to v2
+- **File**: `web/public/sw.js`
+
+#### PMTiles Point Dropping Fix
+- **Problem**: Points disappeared when zooming out (density-based dropping still active)
+- **Root cause**: `--no-feature-limit --no-tile-size-limit` only removes per-tile limits; tippecanoe still applies drop-rate=2.5 by default
+- **Fix**: Regenerated PMTiles with `-r1` flag to keep ALL features at ALL zoom levels (4.7MB → 17MB)
+- **Command**: `tippecanoe -o trees.pmtiles --layer=trees --minimum-zoom=10 --maximum-zoom=16 --no-feature-limit --no-tile-size-limit -r1 --force trees.json`
+
+#### Vercel PMTiles Headers
+- **File**: `web/vercel.json` — `Content-Encoding: identity` + CORS headers for `.pmtiles` files
+- Prevents Vercel edge CDN from applying Brotli compression to PMTiles range requests
+
+#### Broken Source Links Fix
+- **Problem**: 15 species had invalid source URL (`municipioc.montevideo.gub.uy/node/79`, 404)
+- **Fix**: Mapped 4 species to correct Municipio C URLs, 11 to Wikipedia articles
+- **File**: `web/public/species-metadata.json`
+
+#### Hybrid Species Wikipedia Fix
+- **Problem**: Species with hybrid `x` notation (e.g., `Platanus x acerifolia`) failed Wikipedia API lookup
+- **Root cause**: Wikipedia doesn't resolve `Platanus x acerifolia` (with lowercase ASCII `x`), but does resolve `Platanus acerifolia` (redirects to `Platanus × hispanica`)
+- **Fix**: Strip ` x ` from scientific name before Wikipedia API call in `fetchSpeciesInfo()`
+- **Affected species**: Platanus x acerifolia, Eucalyptus x trabutii, Populus x euroamericana, Salix x erythroflexuosa, Eucalyptus cinerea x E globulus
+- **File**: `web/src/components/TreePanel.tsx`
+
+#### Test Updates
+- Updated mock source URLs in `handlers.ts`
+- New test: hybrid species Wikipedia lookup (strips "x" notation)
+- All 139 tests pass
 
 ---
 
