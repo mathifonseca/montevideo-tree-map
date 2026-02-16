@@ -1,7 +1,6 @@
-const CACHE_NAME = 'arboles-mvd-v1';
+const CACHE_NAME = 'arboles-mvd-v2';
 const STATIC_ASSETS = [
   '/',
-  '/trees.pmtiles',
   '/trees-data.json.gz',
   '/species.json',
   '/species-counts.json',
@@ -45,6 +44,11 @@ self.addEventListener('fetch', (event) => {
 
   // Only handle same-origin and GET requests
   if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // Never cache PMTiles — it uses range requests that are incompatible with cache API
+  if (url.pathname.endsWith('.pmtiles')) {
     return;
   }
 
@@ -97,7 +101,6 @@ self.addEventListener('fetch', (event) => {
 
 function isStaticAsset(pathname) {
   return STATIC_ASSETS.includes(pathname) ||
-    pathname.endsWith('.pmtiles') ||
     pathname.endsWith('.json') ||
     pathname.endsWith('.json.gz') ||
     pathname.endsWith('.png') ||
