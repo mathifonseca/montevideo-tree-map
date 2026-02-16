@@ -6,18 +6,20 @@ import { useTranslations } from 'next-intl';
 import { useOnlineStatus } from '@/hooks/useOnlineStatus';
 
 // Colors for legend (must match Map.tsx)
-const SPECIES_COLORS: [string, string][] = [
-  ['Paraíso', '#f59e0b'],
-  ['Fresno americano', '#3b82f6'],
-  ['Plátano de sombra', '#7c3aed'],
-  ['Tipa', '#ec4899'],
-  ['Arce negundo', '#ef4444'],
-  ['Fresno europeo', '#06b6d4'],
-  ['Laurel rosa', '#f43f5e'],
-  ['Anacahuita', '#84cc16'],
-  ['Jacarandá', '#a855f7'],
-  ['Olmo europeo', '#14b8a6'],
-];
+const SPECIES_COLORS_MAP: Record<string, string> = {
+  'Paraíso': '#f59e0b',
+  'Fresno americano': '#3b82f6',
+  'Plátano de sombra': '#7c3aed',
+  'Tipa': '#ec4899',
+  'Arce negundo': '#ef4444',
+  'Fresno europeo': '#06b6d4',
+  'Laurel rosa': '#f43f5e',
+  'Anacahuita': '#84cc16',
+  'Jacarandá': '#a855f7',
+  'Olmo europeo': '#14b8a6',
+};
+
+const DEFAULT_COLOR = '#4ade80'; // green-400
 
 interface FiltersProps {
   species: string[];
@@ -80,6 +82,13 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
   const displayCount = selectedCount
     ? t('header.filteredCount', { filtered: selectedCount.toLocaleString('es-UY'), total: TOTAL_TREES.toLocaleString('es-UY') })
     : t('header.treeCount', { count: TOTAL_TREES.toLocaleString('es-UY') });
+
+  // All species sorted by count (most common first)
+  const sortedSpecies = speciesCounts
+    ? Object.entries(speciesCounts)
+        .sort((a, b) => b[1] - a[1])
+        .map(([name, count]) => ({ name, count, color: SPECIES_COLORS_MAP[name] || DEFAULT_COLOR }))
+    : [];
 
   // Get translated species name for legend
   const getTranslatedSpeciesName = (name: string) => {
@@ -278,25 +287,24 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
 
           {/* Legend - always visible on desktop */}
           <div className="hidden md:block p-3 border-t border-gray-200 dark:border-gray-700">
-            <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">{t('filters.mostCommonSpecies')}</p>
-            <div className="space-y-1">
-              {SPECIES_COLORS.map(([name, color]) => (
+            <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">{t('common.species')}</p>
+            <div className="space-y-0.5 max-h-[45vh] overflow-auto">
+              {sortedSpecies.map(({ name, count, color }) => (
                 <button
                   key={name}
                   onClick={() => onSpeciesChange(name)}
-                  className="flex items-center gap-2 w-full hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+                  className={`flex items-center gap-2 w-full hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1 py-0.5 -mx-1 ${
+                    selectedSpecies === name ? 'bg-gray-100 dark:bg-gray-800' : ''
+                  }`}
                 >
                   <span
-                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: color }}
                   />
-                  <span className="text-gray-600 dark:text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
+                  <span className="text-gray-600 dark:text-gray-300 text-xs truncate flex-1 text-left">{getTranslatedSpeciesName(name)}</span>
+                  <span className="text-gray-400 dark:text-gray-500 text-xs tabular-nums">{count.toLocaleString('es-UY')}</span>
                 </button>
               ))}
-              <div className="flex items-center gap-2 px-1 py-0.5">
-                <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-                <span className="text-gray-400 dark:text-gray-500 text-xs">{t('common.otherSpecies')}</span>
-              </div>
             </div>
           </div>
 
@@ -306,7 +314,7 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
               onClick={() => setLegendOpen(!legendOpen)}
               className="flex items-center justify-between w-full text-gray-500 dark:text-gray-400 text-xs"
             >
-              <span>{t('filters.mostCommonSpecies')}</span>
+              <span>{t('common.species')}</span>
               <svg
                 className={`w-4 h-4 transition-transform ${legendOpen ? 'rotate-180' : ''}`}
                 fill="none"
@@ -325,24 +333,23 @@ export default function Filters({ species, selectedSpecies, onSpeciesChange, spe
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="space-y-1 mt-2">
-                    {SPECIES_COLORS.map(([name, color]) => (
+                  <div className="space-y-0.5 mt-2 max-h-[40vh] overflow-auto">
+                    {sortedSpecies.map(({ name, count, color }) => (
                       <button
                         key={name}
                         onClick={() => onSpeciesChange(name)}
-                        className="flex items-center gap-2 w-full hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1 py-0.5 -mx-1"
+                        className={`flex items-center gap-2 w-full hover:bg-gray-100 dark:hover:bg-gray-800 rounded px-1 py-0.5 -mx-1 ${
+                          selectedSpecies === name ? 'bg-gray-100 dark:bg-gray-800' : ''
+                        }`}
                       >
                         <span
-                          className="w-3 h-3 rounded-full flex-shrink-0"
+                          className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                           style={{ backgroundColor: color }}
                         />
-                        <span className="text-gray-600 dark:text-gray-300 text-xs truncate">{getTranslatedSpeciesName(name)}</span>
+                        <span className="text-gray-600 dark:text-gray-300 text-xs truncate flex-1 text-left">{getTranslatedSpeciesName(name)}</span>
+                        <span className="text-gray-400 dark:text-gray-500 text-xs tabular-nums">{count.toLocaleString('es-UY')}</span>
                       </button>
                     ))}
-                    <div className="flex items-center gap-2 px-1 py-0.5">
-                      <span className="w-3 h-3 rounded-full flex-shrink-0 bg-green-400" />
-                      <span className="text-gray-400 dark:text-gray-500 text-xs">{t('common.otherSpecies')}</span>
-                    </div>
                   </div>
                 </motion.div>
               )}

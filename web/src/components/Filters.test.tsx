@@ -123,18 +123,18 @@ describe('Filters', () => {
     expect(screen.getByText('No se encontraron especies')).toBeInTheDocument();
   });
 
-  it('shows legend with common species colors', () => {
-    render(<Filters {...defaultProps} />);
+  it('shows legend with species list', () => {
+    render(<Filters {...defaultProps} speciesCounts={{ 'Paraíso': 51795, 'Fresno americano': 48092 }} />);
 
-    // Both desktop and mobile have the legend text
-    const legendHeaders = screen.getAllByText('Especies más comunes');
-    expect(legendHeaders.length).toBe(2); // desktop + mobile
+    // Both desktop and mobile have the legend header
+    const legendHeaders = screen.getAllByText('Especies');
+    expect(legendHeaders.length).toBeGreaterThanOrEqual(2); // desktop + mobile
   });
 
   it('calls onSpeciesChange when legend item is clicked', async () => {
     const onSpeciesChange = vi.fn();
     const { user } = render(
-      <Filters {...defaultProps} onSpeciesChange={onSpeciesChange} />
+      <Filters {...defaultProps} onSpeciesChange={onSpeciesChange} speciesCounts={{ 'Paraíso': 51795 }} />
     );
 
     // Find legend buttons (they have gap-2 class unlike dropdown buttons)
