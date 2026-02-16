@@ -12,6 +12,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@swc/helpers": "^0.5.18",
     "framer-motion": "^12.33.0",
     "maplibre-gl": "^5.17.0",
     "next": "16.1.4",
