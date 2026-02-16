@@ -124,7 +124,10 @@
     "treesByZone": "Trees by zone (CCZ)",
     "heightDistribution": "Height distribution",
     "streetsWithMostTrees": "Streets with most trees",
-    "dataSource": "Data from Urban Tree Census 2008 - Municipality of Montevideo"
+    "dataSource": "Data from Urban Tree Census 2008 - Municipality of Montevideo",
+    "bloomingCalendar": "Blooming calendar",
+    "speciesBlooming": "{count} species in bloom",
+    "speciesBloomingIn": "Species blooming in {month}"
   },
   "ccz": {
     "1": "Ciudad Vieja, Centro, Barrio Sur, Palermo, Parque Rodó",
@@ -156,6 +159,12 @@
     "origin": "Origin",
     "foliage": "Foliage",
     "bloomingSeason": "Blooming",
+    "bloomingMonths": "Blooming months",
+    "inBloomNow": "In bloom now",
+    "flowerColor": "Flower color",
+    "growthRate": "Growth rate",
+    "typicalHeight": "Typical height: {min}-{max}m",
+    "dataSource": "Data source",
     "uses": "Uses",
     "aboutSpecies": "About this species"
   },
@@ -178,13 +187,58 @@
     "medicinal": "Medicinal",
     "timber": "Timber"
   },
+  "months": {
+    "1": "Jan",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Apr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Aug",
+    "9": "Sep",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dec"
+  },
+  "monthsFull": {
+    "1": "January",
+    "2": "February",
+    "3": "March",
+    "4": "April",
+    "5": "May",
+    "6": "June",
+    "7": "July",
+    "8": "August",
+    "9": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
+  },
+  "flowerColors": {
+    "purple": "Purple",
+    "white": "White",
+    "yellow": "Yellow",
+    "pink": "Pink",
+    "red": "Red",
+    "orange": "Orange",
+    "green": "Green",
+    "cream": "Cream"
+  },
+  "growthRates": {
+    "fast": "Fast",
+    "medium": "Medium",
+    "slow": "Slow"
+  },
   "funFacts": {
     "title": "Did you know?",
     "mostCommon": "The {species} makes up {percentage}% of all trees in Montevideo.",
     "rareSpecies": "There are {count} species with only one specimen in the entire city.",
     "nativePercentage": "Only {percentage}% of trees are species native to Uruguay.",
     "deadTrees": "{count} trees are marked as dead specimens.",
-    "tallestTree": "The tallest recorded tree measures {height} meters."
+    "tallestTree": "The tallest recorded tree measures {height} meters.",
+    "peakBlooming": "The month with the most species in bloom is {month}, with {count} species flowering.",
+    "fastGrowing": "There are {count} fast-growing species among the city's trees."
   },
   "offline": {
     "noConnection": "Offline",

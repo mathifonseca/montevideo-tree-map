@@ -25,6 +25,7 @@ arbolesmvd/
 │   ├── geocode_nominatim.py    # Geocoding with OSM
 │   ├── clean_common_names.py   # Species name normalization (~33k fixes)
 │   ├── generate_geojson.py     # Generate web JSON/PMTiles files
+│   ├── enrich_species_metadata.py  # Add botanical data to species JSON
 │   ├── analyze_data.py         # Statistical analysis
 │   └── generate_report.py      # Generate HTML report
 └── web/                        # Next.js application
@@ -133,7 +134,7 @@ npm run test:coverage  # Coverage report
 
 ### Testing
 - **Stack**: Vitest + React Testing Library + MSW
-- **125 tests** across 11 test files covering all components and page integration
+- **138 tests** across 11 test files covering all components and page integration
 - Mocks for MapLibre GL (including PMTiles protocol), geolocation, Wikipedia/Formspree APIs, next-intl, next-themes
 - Test files colocated with components (`*.test.tsx`)
 - Setup and mocks in `src/test/`
@@ -457,7 +458,56 @@ New section in StatsModal with interesting facts:
 #### Test Updates
 - Mock for useOnlineStatus hook
 - 11 new tests for species metadata, fun facts, offline behavior
-- All 125 tests pass
+- All 138 tests pass
+
+### Phase 9: Species Metadata Enrichment & Blooming Calendar (web/, scripts/)
+
+#### Species Metadata Enrichment (`scripts/enrich_species_metadata.py`)
+Added 6 new fields to all 359 species in `species-metadata.json`:
+- **bloomingMonths**: Specific months (1-12) when the species blooms (Southern Hemisphere)
+- **heightRange**: Typical height range [min, max] in meters
+- **crownRange**: Typical crown diameter range [min, max] in meters
+- **flowerColor**: Primary flower color (purple, white, yellow, pink, red, orange, green, cream)
+- **growthRate**: Growth rate (fast, medium, slow)
+- **source**: Citation URL (Municipio C, Municipio B, or Wikipedia)
+
+Data sources by priority:
+1. Top 15 species: Municipio C Montevideo (`municipioc.montevideo.gub.uy`)
+2. Species 16-30: Municipio B Montevideo (`municipiob.montevideo.gub.uy`)
+3. Remaining: Wikipedia/botanical references
+
+#### Enhanced TreePanel
+- **Blooming months grid**: 12-cell row (Jan-Dec), highlighted months in pink
+- **"In bloom now" badge**: Pink badge when current month matches bloomingMonths
+- **Height comparison bar**: Visual bar showing typical range vs actual tree height
+- **Flower color**: New row in species info with translated color name
+- **Growth rate**: New row with translated rate (Rápido/Medio/Lento)
+- **Data source link**: Small link at bottom of species section
+
+#### Blooming Calendar in StatsModal
+- **Collapsible section**: "Calendario de floración" (default collapsed)
+- **12-month grid**: Each card shows month name + count of blooming species
+- **Current month highlighted**: Green border for current month
+- **Click to expand**: Shows list of species blooming that month with tree counts
+- **New fun facts**: Peak blooming month, fast-growing species count
+
+#### New Files
+- `scripts/enrich_species_metadata.py`: Enrichment script with botanical data
+- Updated `web/public/species-metadata.json`: All 359 species with 6 new fields
+
+#### Translation Updates
+Both `es.json` and `en.json` updated with:
+- Month abbreviations and full names (1-12)
+- Flower color names (8 colors)
+- Growth rate labels (fast/medium/slow)
+- Blooming calendar UI strings
+- New fun fact templates
+
+#### Test Updates
+- Updated `mockSpeciesMetadata` with new fields in handlers.ts
+- 7 new TreePanel tests: blooming grid, flower color, growth rate, height comparison, source link, in-bloom badge, no blooming for dead trees
+- 6 new StatsModal tests: calendar visibility, expand/collapse, month species list, current month highlight, new fun facts
+- All 138 tests pass
 
 ---
 

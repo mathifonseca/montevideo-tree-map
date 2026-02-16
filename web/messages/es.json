@@ -124,7 +124,10 @@
     "treesByZone": "Árboles por zona (CCZ)",
     "heightDistribution": "Distribución de alturas",
     "streetsWithMostTrees": "Calles con más árboles",
-    "dataSource": "Datos del Censo de Arbolado Urbano 2008 - Intendencia de Montevideo"
+    "dataSource": "Datos del Censo de Arbolado Urbano 2008 - Intendencia de Montevideo",
+    "bloomingCalendar": "Calendario de floración",
+    "speciesBlooming": "{count} especies en flor",
+    "speciesBloomingIn": "Especies en flor en {month}"
   },
   "ccz": {
     "1": "Ciudad Vieja, Centro, Barrio Sur, Palermo, Parque Rodó",
@@ -156,6 +159,12 @@
     "origin": "Origen",
     "foliage": "Follaje",
     "bloomingSeason": "Floración",
+    "bloomingMonths": "Meses de floración",
+    "inBloomNow": "En flor ahora",
+    "flowerColor": "Color de flor",
+    "growthRate": "Crecimiento",
+    "typicalHeight": "Altura típica: {min}-{max}m",
+    "dataSource": "Fuente de datos",
     "uses": "Usos",
     "aboutSpecies": "Sobre esta especie"
   },
@@ -178,13 +187,58 @@
     "medicinal": "Medicinal",
     "timber": "Madera"
   },
+  "months": {
+    "1": "Ene",
+    "2": "Feb",
+    "3": "Mar",
+    "4": "Abr",
+    "5": "May",
+    "6": "Jun",
+    "7": "Jul",
+    "8": "Ago",
+    "9": "Sep",
+    "10": "Oct",
+    "11": "Nov",
+    "12": "Dic"
+  },
+  "monthsFull": {
+    "1": "Enero",
+    "2": "Febrero",
+    "3": "Marzo",
+    "4": "Abril",
+    "5": "Mayo",
+    "6": "Junio",
+    "7": "Julio",
+    "8": "Agosto",
+    "9": "Septiembre",
+    "10": "Octubre",
+    "11": "Noviembre",
+    "12": "Diciembre"
+  },
+  "flowerColors": {
+    "purple": "Violeta",
+    "white": "Blanco",
+    "yellow": "Amarillo",
+    "pink": "Rosa",
+    "red": "Rojo",
+    "orange": "Naranja",
+    "green": "Verde",
+    "cream": "Crema"
+  },
+  "growthRates": {
+    "fast": "Rápido",
+    "medium": "Medio",
+    "slow": "Lento"
+  },
   "funFacts": {
     "title": "Sabías que...",
     "mostCommon": "El {species} representa el {percentage}% de todos los árboles de Montevideo.",
     "rareSpecies": "Hay {count} especies con un solo ejemplar en toda la ciudad.",
     "nativePercentage": "Solo el {percentage}% de los árboles son especies nativas de Uruguay.",
     "deadTrees": "{count} árboles están marcados como ejemplares secos.",
-    "tallestTree": "El árbol más alto registrado mide {height} metros."
+    "tallestTree": "El árbol más alto registrado mide {height} metros.",
+    "peakBlooming": "El mes con más especies en flor es {month}, con {count} especies floreciendo.",
+    "fastGrowing": "Hay {count} especies de crecimiento rápido entre los árboles de la ciudad."
   },
   "offline": {
     "noConnection": "Sin conexión",

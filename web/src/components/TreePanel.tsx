@@ -26,6 +26,12 @@ interface SpeciesMetadata {
   bloomingSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | null;
   uses: string[];
   scientificName: string | null;
+  bloomingMonths: number[] | null;
+  heightRange: [number, number] | null;
+  crownRange: [number, number] | null;
+  flowerColor: string | null;
+  growthRate: 'fast' | 'medium' | 'slow' | null;
+  source: string | null;
 }
 
 // Cache for species info
@@ -412,6 +418,63 @@ export default function TreePanel({ treeId, onClose, treesData, speciesMetadata 
                         </span>
                       </div>
                     )}
+                    {/* Flower Color */}
+                    {metadata.flowerColor && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">{t('speciesInfo.flowerColor')}</span>
+                        <span className="text-gray-900 dark:text-white">{t(`flowerColors.${metadata.flowerColor}`)}</span>
+                      </div>
+                    )}
+                    {/* Growth Rate */}
+                    {metadata.growthRate && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-500 dark:text-gray-400">{t('speciesInfo.growthRate')}</span>
+                        <span className="text-gray-900 dark:text-white">{t(`growthRates.${metadata.growthRate}`)}</span>
+                      </div>
+                    )}
+                    {/* Blooming Months Grid */}
+                    {metadata.bloomingMonths && metadata.bloomingMonths.length > 0 && (
+                      <div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-gray-500 dark:text-gray-400 text-sm">{t('speciesInfo.bloomingMonths')}</span>
+                          {metadata.bloomingMonths.includes(new Date().getMonth() + 1) && (
+                            <span className="text-xs px-2 py-0.5 rounded-full bg-pink-100 text-pink-700 dark:bg-pink-900/30 dark:text-pink-400 font-medium">
+                              {t('speciesInfo.inBloomNow')}
+                            </span>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-12 gap-1" data-testid="blooming-months-grid">
+                          {Array.from({ length: 12 }, (_, i) => i + 1).map((month) => (
+                            <div
+                              key={month}
+                              className={`text-center rounded py-1 text-xs ${
+                                metadata.bloomingMonths!.includes(month)
+                                  ? 'bg-pink-200 text-pink-800 dark:bg-pink-900/40 dark:text-pink-300 font-medium'
+                                  : 'bg-gray-100 text-gray-400 dark:bg-gray-800 dark:text-gray-600'
+                              }`}
+                            >
+                              {t(`months.${month}`)}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {/* Source Link */}
+                    {metadata.source && (
+                      <div className="pt-1">
+                        <a
+                          href={metadata.source}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-gray-400 dark:text-gray-500 hover:text-green-500 dark:hover:text-green-400 text-xs"
+                        >
+                          {t('speciesInfo.dataSource')}
+                          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
@@ -476,6 +539,31 @@ export default function TreePanel({ treeId, onClose, treesData, speciesMetadata 
                 </div>
               )}
             </div>
+            {/* Height comparison bar */}
+            {tree.altura && metadata?.heightRange && (
+              <div className="mt-3" data-testid="height-comparison">
+                <p className="text-gray-500 dark:text-gray-400 text-xs mb-1">
+                  {t('speciesInfo.typicalHeight', { min: metadata.heightRange[0], max: metadata.heightRange[1] })}
+                </p>
+                <div className="relative h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                  {/* Typical range */}
+                  <div
+                    className="absolute h-full bg-green-200 dark:bg-green-900/50 rounded-full"
+                    style={{
+                      left: `${(metadata.heightRange[0] / Math.max(metadata.heightRange[1] * 1.3, tree.altura * 1.3)) * 100}%`,
+                      width: `${((metadata.heightRange[1] - metadata.heightRange[0]) / Math.max(metadata.heightRange[1] * 1.3, tree.altura * 1.3)) * 100}%`,
+                    }}
+                  />
+                  {/* This tree's height */}
+                  <div
+                    className="absolute h-full w-1 bg-green-500 dark:bg-green-400 rounded-full"
+                    style={{
+                      left: `${(tree.altura / Math.max(metadata.heightRange[1] * 1.3, tree.altura * 1.3)) * 100}%`,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Coordenadas */}

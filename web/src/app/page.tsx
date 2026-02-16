@@ -47,6 +47,12 @@ interface SpeciesMetadata {
   bloomingSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | null;
   uses: string[];
   scientificName: string | null;
+  bloomingMonths: number[] | null;
+  heightRange: [number, number] | null;
+  crownRange: [number, number] | null;
+  flowerColor: string | null;
+  growthRate: 'fast' | 'medium' | 'slow' | null;
+  source: string | null;
 }
 
 export default function Home() {

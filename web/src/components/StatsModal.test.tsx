@@ -14,10 +14,31 @@ describe('StatsModal', () => {
     'Especie rara 2': 1,
   };
 
-  const mockSpeciesMetadata = {
-    'Paraíso': { native: false, origin: 'Asia' },
-    'Fresno americano': { native: false, origin: 'América del Norte' },
-    'Anacahuita': { native: true, origin: 'Uruguay' },
+  const mockSpeciesMetadata: Record<string, any> = {
+    'Paraíso': {
+      native: false,
+      origin: 'Asia',
+      bloomingMonths: [10, 11],
+      heightRange: [8, 15],
+      flowerColor: 'purple',
+      growthRate: 'fast',
+    },
+    'Fresno americano': {
+      native: false,
+      origin: 'América del Norte',
+      bloomingMonths: [9, 10],
+      heightRange: [15, 25],
+      flowerColor: 'green',
+      growthRate: 'medium',
+    },
+    'Anacahuita': {
+      native: true,
+      origin: 'Uruguay',
+      bloomingMonths: [10, 11, 12],
+      heightRange: [4, 8],
+      flowerColor: 'white',
+      growthRate: 'slow',
+    },
   };
 
   const mockTreesData = {
@@ -182,6 +203,65 @@ describe('StatsModal', () => {
     it('displays native percentage when metadata is provided', () => {
       render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
       expect(screen.getByText(/especies nativas de Uruguay/)).toBeInTheDocument();
+    });
+
+    it('displays peak blooming month fact when metadata is provided', () => {
+      render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+      expect(screen.getByText(/mes con más especies en flor/)).toBeInTheDocument();
+    });
+
+    it('displays fast-growing species fact when metadata is provided', () => {
+      render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+      expect(screen.getByText(/especies de crecimiento rápido/)).toBeInTheDocument();
+    });
+  });
+
+  describe('Blooming Calendar', () => {
+    it('shows blooming calendar button when metadata is provided', () => {
+      render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+      expect(screen.getByText('Calendario de floración')).toBeInTheDocument();
+    });
+
+    it('expands blooming calendar when clicked', async () => {
+      const { user } = render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+
+      const calendarButton = screen.getByText('Calendario de floración').closest('button');
+      await user.click(calendarButton!);
+
+      // Should show month grid
+      const calendar = document.querySelector('[data-testid="blooming-calendar"]');
+      expect(calendar).toBeInTheDocument();
+    });
+
+    it('shows species list when month is clicked', async () => {
+      const { user } = render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+
+      // Expand calendar first
+      const calendarButton = screen.getByText('Calendario de floración').closest('button');
+      await user.click(calendarButton!);
+
+      // Click on October (Oct in Spanish)
+      const octButton = screen.getByText('Oct').closest('button');
+      await user.click(octButton!);
+
+      // Should show species blooming in October
+      expect(screen.getByText(/Especies en flor en Octubre/)).toBeInTheDocument();
+    });
+
+    it('highlights current month in the calendar', async () => {
+      const { user } = render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+
+      const calendarButton = screen.getByText('Calendario de floración').closest('button');
+      await user.click(calendarButton!);
+
+      // Current month button should have green styling
+      const currentMonth = new Date().getMonth() + 1;
+      const monthAbbreviations: Record<number, string> = {
+        1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun',
+        7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic',
+      };
+      const currentMonthButton = screen.getByText(monthAbbreviations[currentMonth]).closest('button');
+      expect(currentMonthButton?.className).toContain('green');
     });
   });
 });

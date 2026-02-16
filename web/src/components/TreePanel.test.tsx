@@ -292,5 +292,133 @@ describe('TreePanel', () => {
       // Should not show the "Sobre esta especie" section for dead trees
       expect(screen.queryByText('Sobre esta especie')).not.toBeInTheDocument();
     });
+
+    it('displays blooming months grid', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Meses de floración').length).toBeGreaterThanOrEqual(1);
+      });
+
+      // Should show the 12-month grid
+      const grids = document.querySelectorAll('[data-testid="blooming-months-grid"]');
+      expect(grids.length).toBeGreaterThanOrEqual(1);
+    });
+
+    it('displays flower color', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Color de flor').length).toBeGreaterThanOrEqual(1);
+        expect(screen.getAllByText('Violeta').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('displays growth rate', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Crecimiento').length).toBeGreaterThanOrEqual(1);
+        expect(screen.getAllByText('Rápido').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('displays height comparison bar', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        const comparisons = document.querySelectorAll('[data-testid="height-comparison"]');
+        expect(comparisons.length).toBeGreaterThanOrEqual(1);
+      });
+
+      // Should show the typical height text
+      expect(screen.getAllByText(/Altura típica: 8-15m/).length).toBeGreaterThanOrEqual(1);
+    });
+
+    it('displays data source link', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        const links = screen.getAllByText('Fuente de datos');
+        expect(links.length).toBeGreaterThanOrEqual(1);
+        expect(links[0].closest('a')).toHaveAttribute('href', 'https://municipioc.montevideo.gub.uy/node/79');
+      });
+    });
+
+    it('shows "in bloom now" badge when current month is in bloomingMonths', async () => {
+      // Mock current month to October (month 10, which is in Paraíso's bloomingMonths)
+      const realDate = global.Date;
+      const mockDate = class extends realDate {
+        constructor(...args: any[]) {
+          if (args.length === 0) {
+            super(2024, 9, 15); // October 15 (month index 9 = October)
+          } else {
+            super(...(args as [any]));
+          }
+        }
+        static now() { return new mockDate().getTime(); }
+      };
+      global.Date = mockDate as any;
+
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('En flor ahora').length).toBeGreaterThanOrEqual(1);
+      });
+
+      global.Date = realDate;
+    });
+
+    it('does not show blooming months for species without bloomingMonths', async () => {
+      render(
+        <TreePanel
+          {...defaultProps}
+          treeId={3}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Ejemplar seco').length).toBeGreaterThanOrEqual(2);
+      });
+
+      expect(screen.queryByText('Meses de floración')).not.toBeInTheDocument();
+    });
   });
 });

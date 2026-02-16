@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslations } from 'next-intl';
 
@@ -25,6 +25,12 @@ interface SpeciesMetadata {
   bloomingSeason: 'spring' | 'summer' | 'fall' | 'winter' | 'year-round' | null;
   uses: string[];
   scientificName: string | null;
+  bloomingMonths: number[] | null;
+  heightRange: [number, number] | null;
+  crownRange: [number, number] | null;
+  flowerColor: string | null;
+  growthRate: 'fast' | 'medium' | 'slow' | null;
+  source: string | null;
 }
 
 interface StatsModalProps {
@@ -203,8 +209,57 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData, 
       facts.push({ key: 'tallestTree', params: { height: maxHeight } });
     }
 
+    // Peak blooming month
+    if (speciesMetadata) {
+      const monthCounts: Record<number, number> = {};
+      for (const meta of Object.values(speciesMetadata)) {
+        if (meta.bloomingMonths) {
+          for (const m of meta.bloomingMonths) {
+            monthCounts[m] = (monthCounts[m] || 0) + 1;
+          }
+        }
+      }
+      const peakMonth = Object.entries(monthCounts).sort((a, b) => b[1] - a[1])[0];
+      if (peakMonth) {
+        facts.push({ key: 'peakBlooming', params: { month: peakMonth[0], count: peakMonth[1] } });
+      }
+
+      // Fast-growing species count
+      let fastCount = 0;
+      for (const meta of Object.values(speciesMetadata)) {
+        if (meta.growthRate === 'fast') fastCount++;
+      }
+      if (fastCount > 0) {
+        facts.push({ key: 'fastGrowing', params: { count: fastCount } });
+      }
+    }
+
     return facts;
   }, [speciesCounts, treesData, speciesMetadata]);
+
+  // Calculate blooming calendar data
+  const bloomingCalendar = useMemo(() => {
+    if (!speciesMetadata || !speciesCounts) return null;
+
+    const monthData: { month: number; species: { name: string; count: number }[] }[] = [];
+
+    for (let m = 1; m <= 12; m++) {
+      const bloomingSpecies: { name: string; count: number }[] = [];
+      for (const [species, meta] of Object.entries(speciesMetadata)) {
+        if (meta.bloomingMonths?.includes(m)) {
+          bloomingSpecies.push({ name: species, count: speciesCounts[species] || 0 });
+        }
+      }
+      bloomingSpecies.sort((a, b) => b.count - a.count);
+      monthData.push({ month: m, species: bloomingSpecies });
+    }
+
+    return monthData;
+  }, [speciesMetadata, speciesCounts]);
+
+  const [calendarExpanded, setCalendarExpanded] = useState(false);
+  const [expandedMonth, setExpandedMonth] = useState<number | null>(null);
+  const currentMonth = new Date().getMonth() + 1;
 
   // Get translated species name
   const getTranslatedSpeciesName = (name: string) => {
@@ -444,6 +499,102 @@ export default function StatsModal({ isOpen, onClose, speciesCounts, treesData, 
                   ))}
                 </div>
               </div>
+
+              {/* Blooming Calendar */}
+              {bloomingCalendar && (
+                <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => setCalendarExpanded(!calendarExpanded)}
+                    className="w-full px-4 py-3 flex items-center justify-between text-left hover:bg-gray-50 dark:hover:bg-gray-800/50"
+                  >
+                    <h3 className="text-gray-900 dark:text-white font-semibold flex items-center gap-2">
+                      <span>🌸</span>
+                      {t('statsModal.bloomingCalendar')}
+                    </h3>
+                    <svg
+                      className={`w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform ${calendarExpanded ? 'rotate-180' : ''}`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  <AnimatePresence>
+                    {calendarExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="px-4 pb-4">
+                          <div className="grid grid-cols-4 md:grid-cols-6 gap-2" data-testid="blooming-calendar">
+                            {bloomingCalendar.map(({ month, species }) => (
+                              <button
+                                key={month}
+                                onClick={() => setExpandedMonth(expandedMonth === month ? null : month)}
+                                className={`rounded-lg p-2 text-center transition-colors border ${
+                                  month === currentMonth
+                                    ? 'border-green-400 dark:border-green-500 bg-green-50 dark:bg-green-900/20'
+                                    : expandedMonth === month
+                                    ? 'border-pink-300 dark:border-pink-600 bg-pink-50 dark:bg-pink-900/20'
+                                    : 'border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/50'
+                                }`}
+                              >
+                                <p className={`text-sm font-medium ${
+                                  month === currentMonth
+                                    ? 'text-green-700 dark:text-green-400'
+                                    : 'text-gray-900 dark:text-white'
+                                }`}>
+                                  {t(`months.${month}`)}
+                                </p>
+                                <p className="text-xs text-gray-500 dark:text-gray-400">
+                                  {species.length}
+                                </p>
+                              </button>
+                            ))}
+                          </div>
+                          {/* Expanded month species list */}
+                          <AnimatePresence>
+                            {expandedMonth && (
+                              <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="overflow-hidden"
+                              >
+                                <div className="mt-3 border-t border-gray-200 dark:border-gray-700 pt-3">
+                                  <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2">
+                                    {t('statsModal.speciesBloomingIn', { month: t(`monthsFull.${expandedMonth}`) })}
+                                  </h4>
+                                  <div className="max-h-48 overflow-auto space-y-1">
+                                    {bloomingCalendar
+                                      .find((m) => m.month === expandedMonth)
+                                      ?.species.slice(0, 20)
+                                      .map(({ name, count }) => (
+                                        <div key={name} className="flex justify-between text-sm">
+                                          <span className="text-gray-600 dark:text-gray-300 truncate">
+                                            {getTranslatedSpeciesName(name)}
+                                          </span>
+                                          <span className="text-gray-400 dark:text-gray-500 text-xs ml-2 whitespace-nowrap">
+                                            {count.toLocaleString('es-UY')}
+                                          </span>
+                                        </div>
+                                      ))}
+                                  </div>
+                                </div>
+                              </motion.div>
+                            )}
+                          </AnimatePresence>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )}
 
               {/* Fun Facts */}
               {funFacts.length > 0 && (
