@@ -23,3 +23,12 @@ env/
 # Large geojson files (use .gz versions)
 data/raw/*.geojson
 data/processed/arboles.geojson
+
+# Node (root level artifacts)
+node_modules/
+package-lock.json
+
+# Large uncompressed data files (use .gz / .pmtiles versions)
+web/public/trees.json
+web/public/trees-data.json
+*.pmtiles-journal
