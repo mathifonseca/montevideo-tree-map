@@ -1,5 +1,6 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '../test/utils/render';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { render, screen, waitFor, fireEvent } from '../test/utils/render';
+import * as onlineStatusHook from '@/hooks/useOnlineStatus';
 import TreePanel from './TreePanel';
 import { mockTreesData, mockSpeciesMetadata } from '../test/mocks/handlers';
 
@@ -12,6 +13,10 @@ describe('TreePanel', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it('returns null when no tree is selected', () => {
@@ -204,6 +209,172 @@ describe('TreePanel', () => {
     });
   });
 
+  it('uses Web Share API when available', async () => {
+    const shareMock = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'share', {
+      value: shareMock,
+      configurable: true,
+    });
+
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByTitle('Compartir').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByTitle('Compartir')[0]);
+
+    expect(shareMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: expect.stringContaining('?arbol=1'),
+      })
+    );
+  });
+
+  it('opens carousel and supports next/prev navigation', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText('1 / 2')).toBeInTheDocument();
+    });
+
+    const navButtons = screen.getAllByRole('button').filter((btn) => {
+      const path = btn.querySelector('path');
+      return path?.getAttribute('d') === 'M9 5l7 7-7 7' || path?.getAttribute('d') === 'M15 19l-7-7 7-7';
+    });
+
+    const nextButton = navButtons.find((btn) => btn.querySelector('path')?.getAttribute('d') === 'M9 5l7 7-7 7');
+    const prevButton = navButtons.find((btn) => btn.querySelector('path')?.getAttribute('d') === 'M15 19l-7-7 7-7');
+    expect(nextButton).toBeDefined();
+    expect(prevButton).toBeDefined();
+
+    await user.click(nextButton!);
+    expect(screen.getByText('2 / 2')).toBeInTheDocument();
+
+    await user.click(prevButton!);
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+  });
+
+  it('supports keyboard navigation and escape to close carousel', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: 'ArrowRight' });
+    expect(screen.getByText('2 / 2')).toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: 'Escape' });
+    await waitFor(() => {
+      expect(screen.queryByText('1 / 2')).not.toBeInTheDocument();
+    });
+  });
+
+  it('supports swipe gestures in carousel', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+    const carouselImage = screen.getByAltText('Melia azedarach - 1');
+
+    fireEvent.touchStart(carouselImage.parentElement!, {
+      touches: [{ clientX: 220 }],
+    });
+    fireEvent.touchEnd(carouselImage.parentElement!, {
+      changedTouches: [{ clientX: 80 }],
+    });
+
+    expect(screen.getByText('2 / 2')).toBeInTheDocument();
+
+    // Swipe right should go back to previous image
+    const secondImage = screen.getByAltText('Melia azedarach - 2');
+    fireEvent.touchStart(secondImage.parentElement!, {
+      touches: [{ clientX: 80 }],
+    });
+    fireEvent.touchEnd(secondImage.parentElement!, {
+      changedTouches: [{ clientX: 220 }],
+    });
+
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+  });
+
+  it('updates image index via dots and keeps modal open on image container click', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+
+    const dots = screen.getAllByRole('button').filter((btn) => btn.className.includes('w-2 h-2 rounded-full'));
+    expect(dots.length).toBe(2);
+    await user.click(dots[1]);
+    expect(screen.getByText('2 / 2')).toBeInTheDocument();
+
+    // Click the container to hit stopPropagation handler
+    fireEvent.click(screen.getByAltText('Melia azedarach - 2').parentElement!);
+    expect(screen.getByText('2 / 2')).toBeInTheDocument();
+  });
+
+  it('closes carousel via close button and overlay click', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+
+    const closeButton = screen.getAllByRole('button').find((btn) =>
+      btn.className.includes('top-4 right-4') && btn.querySelector('path[d="M6 18L18 6M6 6l12 12"]')
+    );
+    await user.click(closeButton!);
+
+    await waitFor(() => {
+      expect(screen.queryByText('1 / 2')).not.toBeInTheDocument();
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+
+    const overlay = Array.from(document.querySelectorAll('div')).find((el) =>
+      el.className.includes('bg-black/90') && el.className.includes('z-50')
+    ) as HTMLElement;
+    fireEvent.click(overlay);
+
+    await waitFor(() => {
+      expect(screen.queryByText('1 / 2')).not.toBeInTheDocument();
+    });
+  });
+
+  it('shows offline image placeholder when offline', async () => {
+    vi.spyOn(onlineStatusHook, 'useOnlineStatus').mockReturnValue(false);
+
+    render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Fotos no disponibles offline').length).toBeGreaterThanOrEqual(1);
+    });
+  });
+
   describe('Species metadata', () => {
     it('displays "Introducida" badge for non-native species', async () => {
       render(
@@ -253,6 +424,32 @@ describe('TreePanel', () => {
 
       await waitFor(() => {
         expect(screen.getAllByText('Sobre esta especie').length).toBeGreaterThanOrEqual(1);
+      });
+    });
+
+    it('collapses and expands species metadata section', async () => {
+      const { user } = render(
+        <TreePanel
+          {...defaultProps}
+          treeId={1}
+          speciesMetadata={mockSpeciesMetadata}
+        />
+      );
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Origen').length).toBeGreaterThanOrEqual(1);
+      });
+
+      await user.click(screen.getAllByText('Sobre esta especie')[0]);
+
+      await waitFor(() => {
+        expect(screen.queryByText('Origen')).not.toBeInTheDocument();
+      });
+
+      await user.click(screen.getAllByText('Sobre esta especie')[0]);
+
+      await waitFor(() => {
+        expect(screen.getAllByText('Origen').length).toBeGreaterThanOrEqual(1);
       });
     });
 

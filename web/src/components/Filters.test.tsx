@@ -1,5 +1,6 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render, screen, within } from '../test/utils/render';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { render, screen, waitFor } from '../test/utils/render';
+import * as onlineStatusHook from '@/hooks/useOnlineStatus';
 import Filters from './Filters';
 
 const mockSpecies = [
@@ -16,6 +17,10 @@ const mockSpecies = [
 ];
 
 describe('Filters', () => {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   const defaultProps = {
     species: mockSpecies,
     selectedSpecies: null,
@@ -204,7 +209,92 @@ describe('Filters', () => {
     expect(screen.queryByText('Buscar por dirección')).not.toBeInTheDocument();
   });
 
+  it('searches addresses and selects a result', async () => {
+    const onLocationSelect = vi.fn();
+    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => ({
+        features: [
+          {
+            place_name: 'Av. 18 de Julio 1234, Montevideo',
+            center: [-56.1645, -34.9011],
+          },
+        ],
+      }),
+    } as Response);
+
+    const { user } = render(<Filters {...defaultProps} onLocationSelect={onLocationSelect} />);
+
+    const addressInput = screen.getByPlaceholderText('Ej: 18 de Julio 1234');
+    await user.type(addressInput, '18 de Julio 1234');
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Av. 18 de Julio 1234, Montevideo' })).toBeInTheDocument();
+    });
+
+    await user.click(screen.getByRole('button', { name: 'Av. 18 de Julio 1234, Montevideo' }));
+
+    expect(onLocationSelect).toHaveBeenCalledWith(-56.1645, -34.9011);
+    fetchSpy.mockRestore();
+  });
+
+  it('hides address results when query has less than 3 characters', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch');
+    const { user } = render(<Filters {...defaultProps} />);
+
+    const addressInput = screen.getByPlaceholderText('Ej: 18 de Julio 1234');
+    await user.type(addressInput, '18');
+
+    await waitFor(() => {
+      expect(fetchSpy).not.toHaveBeenCalled();
+    });
+
+    fetchSpy.mockRestore();
+  });
+
+  it('handles address search errors without crashing', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch').mockRejectedValue(new Error('network'));
+    const { user } = render(<Filters {...defaultProps} />);
+
+    const addressInput = screen.getByPlaceholderText('Ej: 18 de Julio 1234');
+    await user.type(addressInput, '18 de Julio 1234');
+
+    await waitFor(() => {
+      expect(screen.queryByRole('button', { name: /Montevideo/i })).not.toBeInTheDocument();
+    });
+
+    fetchSpy.mockRestore();
+  });
+
+  it('toggles mobile legend and supports species selection there', async () => {
+    const onSpeciesChange = vi.fn();
+    const { user } = render(
+      <Filters
+        {...defaultProps}
+        onSpeciesChange={onSpeciesChange}
+        speciesCounts={{ 'Paraíso': 100, 'Fresno americano': 50 }}
+      />
+    );
+
+    const legendToggles = screen.getAllByRole('button', { name: /Especies/i });
+    const mobileLegendToggle = legendToggles[legendToggles.length - 1];
+    await user.click(mobileLegendToggle);
+
+    const speciesButton = screen.getAllByRole('button', { name: /Paraíso100/i }).at(-1);
+    expect(speciesButton).toBeDefined();
+    await user.click(speciesButton!);
+
+    expect(onSpeciesChange).toHaveBeenCalledWith('Paraíso');
+  });
+
   describe('Offline behavior', () => {
+    it('hides address search when offline', () => {
+      vi.spyOn(onlineStatusHook, 'useOnlineStatus').mockReturnValue(false);
+
+      render(<Filters {...defaultProps} />);
+
+      expect(screen.queryByText('Buscar por dirección')).not.toBeInTheDocument();
+    });
+
     it('renders address search when online (default mock)', () => {
       render(<Filters {...defaultProps} />);
       expect(screen.getByText('Buscar por dirección')).toBeInTheDocument();

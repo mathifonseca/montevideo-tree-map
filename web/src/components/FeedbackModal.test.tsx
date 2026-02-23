@@ -92,6 +92,23 @@ describe('FeedbackModal', () => {
     });
   });
 
+  it('shows error message when request throws', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch').mockRejectedValue(new Error('network error'));
+    const { user } = render(<FeedbackModal {...defaultProps} />);
+
+    const textarea = screen.getByPlaceholderText('Sugerencias, errores, ideas...');
+    await user.type(textarea, 'Test feedback');
+
+    const submitButton = screen.getByRole('button', { name: /enviar$/i });
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Error al enviar. Intentá de nuevo.')).toBeInTheDocument();
+    });
+
+    fetchSpy.mockRestore();
+  });
+
   it('resets state when closed and reopened', async () => {
     const { user, rerender } = render(<FeedbackModal {...defaultProps} />);
 
