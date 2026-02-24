@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '../test/utils/render';
+import { render, screen, waitFor } from '../test/utils/render';
 import StatsModal from './StatsModal';
 
 describe('StatsModal', () => {
@@ -263,5 +263,177 @@ describe('StatsModal', () => {
       const currentMonthButton = screen.getByText(monthAbbreviations[currentMonth]).closest('button');
       expect(currentMonthButton?.className).toContain('green');
     });
+
+    it('collapses expanded month when same month is clicked again', async () => {
+      const { user } = render(<StatsModal {...defaultProps} speciesMetadata={mockSpeciesMetadata} />);
+
+      const calendarButton = screen.getByText('Calendario de floración').closest('button');
+      await user.click(calendarButton!);
+
+      // Click October to expand it
+      const octButton = screen.getByText('Oct').closest('button');
+      await user.click(octButton!);
+      expect(screen.getByText(/Especies en flor en Octubre/)).toBeInTheDocument();
+
+      // Click October again to collapse it
+      await user.click(octButton!);
+      await waitFor(() => {
+        expect(screen.queryByText(/Especies en flor en Octubre/)).not.toBeInTheDocument();
+      });
+    });
+  });
+
+  it('includes "20+m" height range when tree is 20m or taller', () => {
+    const tallTreeData = {
+      ...mockTreesData,
+      '4': {
+        ...mockTreesData['1'],
+        altura: 20,
+        calle: 'Tall Street',
+        numero: 1,
+        ccz: 2,
+      },
+    };
+    render(<StatsModal {...defaultProps} treesData={tallTreeData} />);
+    expect(screen.getByText('Distribución de alturas')).toBeInTheDocument();
+    expect(screen.getByText('20+m')).toBeInTheDocument();
+  });
+
+  it('includes "0-5m" height range when tree is shorter than 5m', () => {
+    const shortTreeData = {
+      ...mockTreesData,
+      '4': {
+        ...mockTreesData['1'],
+        altura: 3,
+        calle: 'Short Street',
+        numero: 1,
+        ccz: 2,
+      },
+    };
+    render(<StatsModal {...defaultProps} treesData={shortTreeData} />);
+    expect(screen.getByText('Distribución de alturas')).toBeInTheDocument();
+    expect(screen.getByText('0-5m')).toBeInTheDocument();
+  });
+
+  it('renders without errors when treesData is null', () => {
+    render(<StatsModal {...defaultProps} treesData={null} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
+    expect(screen.getByText('Árboles')).toBeInTheDocument();
+  });
+
+  it('renders without errors when speciesMetadata is null', () => {
+    render(<StatsModal {...defaultProps} speciesMetadata={null} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
+    expect(screen.queryByText('Calendario de floración')).not.toBeInTheDocument();
+  });
+
+  it('shows untranslated species name in chart when species is not in translations', () => {
+    const unknownSpeciesCounts = {
+      ...mockSpeciesCounts,
+      'Unknown Species XYZ': 999,
+    };
+    render(<StatsModal {...defaultProps} speciesCounts={unknownSpeciesCounts} />);
+    expect(screen.getByText('Especies más comunes')).toBeInTheDocument();
+    expect(screen.getAllByText('Unknown Species XYZ').length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('ignores street address with only whitespace after trimming', () => {
+    const whitespaceStreetData = {
+      ...mockTreesData,
+      '4': { ...mockTreesData['1'], calle: '   ' },
+    };
+    render(<StatsModal {...defaultProps} treesData={whitespaceStreetData} />);
+    expect(screen.getByText('Calles con más árboles')).toBeInTheDocument();
+  });
+
+  it('handles speciesMetadata where no species have bloomingMonths', () => {
+    const noBloomingMetadata = {
+      'Paraíso': { ...mockSpeciesMetadata['Paraíso'], bloomingMonths: null },
+      'Fresno americano': { ...mockSpeciesMetadata['Fresno americano'], bloomingMonths: null },
+      'Anacahuita': { ...mockSpeciesMetadata['Anacahuita'], bloomingMonths: null },
+    };
+    render(<StatsModal {...defaultProps} speciesMetadata={noBloomingMetadata} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
+  });
+
+  it('does not show fast-growing fact when no species have fast growth rate', () => {
+    const noFastMetadata = {
+      'Paraíso': { ...mockSpeciesMetadata['Paraíso'], growthRate: 'slow' },
+      'Fresno americano': { ...mockSpeciesMetadata['Fresno americano'] },
+    };
+    render(<StatsModal {...defaultProps} speciesMetadata={noFastMetadata} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
+  });
+
+  it('handles tree with unknown estado value in stats chart', () => {
+    const unknownEstadoData = {
+      ...mockTreesData,
+      '4': { ...mockTreesData['1'], estado: 9 },
+    };
+    render(<StatsModal {...defaultProps} treesData={unknownEstadoData} />);
+    expect(screen.getByText('Estado vegetativo')).toBeInTheDocument();
+  });
+
+  it('shows placeholder average when all trees have null cap', () => {
+    const noCapData = {
+      '1': { ...mockTreesData['1'], cap: null },
+      '2': { ...mockTreesData['2'], cap: null },
+      '3': { ...mockTreesData['3'], cap: null },
+    };
+    render(<StatsModal {...defaultProps} treesData={noCapData} />);
+    expect(screen.getByText('CAP prom.')).toBeInTheDocument();
+  });
+
+  it('handles trees with null height values gracefully', () => {
+    const nullHeightTreeData = {
+      ...mockTreesData,
+      '4': {
+        ...mockTreesData['1'],
+        altura: null,
+        cap: null,
+        diametro_copa: null,
+        estado: null,
+        ccz: null,
+        calle: null,
+      },
+    };
+    render(<StatsModal {...defaultProps} treesData={nullHeightTreeData} />);
+    expect(screen.getByText('Distribución de alturas')).toBeInTheDocument();
+  });
+
+  it('shows placeholder copa average when all trees have null diametro_copa', () => {
+    const noCopAData = {
+      '1': { ...mockTreesData['1'], diametro_copa: null },
+      '2': { ...mockTreesData['2'], diametro_copa: null },
+      '3': { ...mockTreesData['3'], diametro_copa: null },
+    };
+    render(<StatsModal {...defaultProps} treesData={noCopAData} />);
+    expect(screen.getByText('Copa prom.')).toBeInTheDocument();
+  });
+
+  it('skips most common species fact when speciesCounts is empty', () => {
+    render(<StatsModal {...defaultProps} speciesCounts={{}} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
+  });
+
+  it('skips dead trees fact when Ejemplar seco is absent from speciesCounts', () => {
+    const countsWithoutDead = {
+      'Paraíso': 51795,
+      'Fresno americano': 48092,
+      'Plátano de sombra': 23235,
+    };
+    render(<StatsModal {...defaultProps} speciesCounts={countsWithoutDead} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
+    expect(screen.queryByText(/ejemplares secos/)).not.toBeInTheDocument();
+  });
+
+  it('skips tallest tree fact when all tree heights are null', () => {
+    const allNullHeightData = {
+      '1': { ...mockTreesData['1'], altura: null },
+      '2': { ...mockTreesData['2'], altura: null },
+      '3': { ...mockTreesData['3'], altura: null },
+    };
+    render(<StatsModal {...defaultProps} treesData={allNullHeightData} />);
+    expect(screen.getByText('Estadísticas')).toBeInTheDocument();
   });
 });

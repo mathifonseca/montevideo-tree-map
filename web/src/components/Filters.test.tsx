@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { render, screen, waitFor } from '../test/utils/render';
+import { render, screen, waitFor, fireEvent, act } from '../test/utils/render';
 import * as onlineStatusHook from '@/hooks/useOnlineStatus';
 import Filters from './Filters';
 
@@ -299,5 +299,107 @@ describe('Filters', () => {
       render(<Filters {...defaultProps} />);
       expect(screen.getByText('Buscar por dirección')).toBeInTheDocument();
     });
+  });
+
+  it('toggles filter panel expansion when header is clicked', async () => {
+    const { user } = render(<Filters {...defaultProps} />);
+
+    // Click the header div (which has onClick={() => setExpanded(!expanded)})
+    const heading = screen.getByText('Arbolado urbano de Montevideo');
+    // The onClick is on the parent div
+    const headerDiv = heading.closest('div[class*="p-3"]');
+    expect(headerDiv).toBeTruthy();
+    await user.click(headerDiv!);
+
+    // Click again to toggle back
+    await user.click(headerDiv!);
+    expect(screen.getByText('Arbolado urbano de Montevideo')).toBeInTheDocument();
+  });
+
+  it('shows untranslated species name in legend when species is not in translations', () => {
+    const unknownCounts = { 'Unknown Species XYZ': 42 };
+    render(<Filters {...defaultProps} speciesCounts={unknownCounts} />);
+
+    // The legend renders and calls getTranslatedSpeciesName which falls through to return name
+    const legendHeaders = screen.getAllByText('Especies');
+    expect(legendHeaders.length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText(/Unknown Species XYZ/).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it('handles missing features key in address search response', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch').mockResolvedValue({
+      json: async () => ({}),
+    } as Response);
+
+    const { user } = render(<Filters {...defaultProps} />);
+    const addressInput = screen.getByPlaceholderText('Ej: 18 de Julio 1234');
+    await user.type(addressInput, 'Test address here');
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalled();
+    }, { timeout: 2000 });
+
+    expect(screen.queryByRole('button', { name: /Montevideo/i })).not.toBeInTheDocument();
+    fetchSpy.mockRestore();
+  });
+
+  it('shows loading spinner during address search', () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    vi.spyOn(global, 'fetch').mockImplementation(() => new Promise(() => {}));
+
+    render(<Filters {...defaultProps} />);
+
+    const addressInput = screen.getByPlaceholderText('Ej: 18 de Julio 1234');
+    fireEvent.change(addressInput, { target: { value: 'Test address' } });
+
+    act(() => { vi.advanceTimersByTime(350); });
+
+    expect(document.querySelector('.animate-spin')).toBeInTheDocument();
+
+    vi.useRealTimers();
+  });
+
+  it('calls onCCZChange with null when all zones option is selected', async () => {
+    const onCCZChange = vi.fn();
+    const { user } = render(<Filters {...defaultProps} onCCZChange={onCCZChange} selectedCCZ={5} />);
+
+    const select = screen.getByRole('combobox');
+    await user.selectOptions(select, '');
+
+    expect(onCCZChange).toHaveBeenCalledWith(null);
+  });
+
+  it('highlights selected species in mobile legend', async () => {
+    const { user } = render(
+      <Filters
+        {...defaultProps}
+        speciesCounts={{ 'Paraíso': 100 }}
+        selectedSpecies="Paraíso"
+      />
+    );
+
+    const legendToggles = screen.getAllByRole('button', { name: /Especies/i });
+    await user.click(legendToggles[legendToggles.length - 1]);
+
+    const allParaisoButtons = screen.getAllByRole('button', { name: /Paraíso/i });
+    expect(allParaisoButtons.some(btn => btn.className.includes('bg-gray-100'))).toBe(true);
+  });
+
+  it('address search catch block runs when fetch rejects', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch').mockRejectedValue(new Error('network error'));
+    const { user } = render(<Filters {...defaultProps} />);
+
+    const addressInput = screen.getByPlaceholderText('Ej: 18 de Julio 1234');
+    await user.type(addressInput, 'Test address here');
+
+    // Wait for the debounce (300ms) to fire and fetch to be called
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalled();
+    }, { timeout: 2000 });
+
+    // After catch, no address results appear
+    expect(screen.queryByRole('button', { name: /Montevideo/i })).not.toBeInTheDocument();
+
+    fetchSpy.mockRestore();
   });
 });

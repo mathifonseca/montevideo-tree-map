@@ -242,4 +242,130 @@ describe('Map', () => {
     expect(mockMapInstance.remove).toHaveBeenCalled();
     expect(removeProtocol).toHaveBeenCalledWith('pmtiles');
   });
+
+  it('applyFilter exits early when trees layer does not exist', async () => {
+    // Ensure isStyleLoaded returns true so applyFilter is called directly
+    mockMapInstance.isStyleLoaded.mockReturnValue(true);
+    // First getLayer call (outer condition) returns true, second (inside applyFilter) returns undefined
+    mockMapInstance.getLayer
+      .mockReturnValueOnce(true)
+      .mockReturnValueOnce(undefined);
+
+    const { rerender } = render(<Map {...defaultProps} />);
+    rerender(<Map {...defaultProps} selectedSpecies="Paraíso" />);
+
+    await waitFor(() => {
+      // applyFilter ran but hit the early return — setFilter not called
+      expect(mockMapInstance.setFilter).not.toHaveBeenCalled();
+    });
+
+    // Restore default
+    mockMapInstance.getLayer.mockReturnValue(true);
+    mockMapInstance.isStyleLoaded.mockReturnValue(true);
+  });
+
+  it('clears cursor crosshair when reportMode switches back to false', async () => {
+    const { rerender } = render(<Map {...defaultProps} reportMode={true} />);
+
+    rerender(<Map {...defaultProps} reportMode={false} />);
+
+    expect(mockMapInstance._canvasElement.style.cursor).toBe('');
+  });
+
+  it('sets and clears mapRef when provided', () => {
+    const mapRef = { current: null as any };
+    const { unmount } = render(<Map {...defaultProps} mapRef={mapRef} />);
+
+    expect(mapRef.current).toBeTruthy();
+
+    unmount();
+
+    expect(mapRef.current).toBeNull();
+  });
+
+  it('map click handler does nothing when report mode is off', async () => {
+    render(<Map {...defaultProps} />);
+
+    const loadHandler = getOnHandler('load') as (() => Promise<void>) | undefined;
+    await loadHandler?.();
+
+    const mapClickHandler = getOnHandler('click') as ((e: any) => void) | undefined;
+    mapClickHandler?.({ lngLat: { lat: -34.9, lng: -56.17 } });
+
+    expect(defaultProps.onReportClick).not.toHaveBeenCalled();
+  });
+
+  it('initializes map layer with light stroke color when theme is light', async () => {
+    mockThemeState.resolvedTheme = 'light';
+    render(<Map {...defaultProps} />);
+
+    const loadHandler = getOnHandler('load') as (() => Promise<void>) | undefined;
+    await loadHandler?.();
+
+    expect(mockMapInstance.addLayer).toHaveBeenCalledWith(
+      expect.objectContaining({
+        paint: expect.objectContaining({
+          'circle-stroke-color': '#666',
+        }),
+      })
+    );
+  });
+
+  it('skips setStyle when theme variant maps to same style URL', async () => {
+    // Both 'dark' and 'system' map to DARK_STYLE, so switching from dark→system is a no-op
+    const { rerender } = render(<Map {...defaultProps} />);
+
+    mockThemeState.resolvedTheme = 'system';
+    rerender(<Map {...defaultProps} />);
+
+    expect(mockMapInstance.setStyle).not.toHaveBeenCalled();
+  });
+
+  it('style.load callback uses dark stroke color when switching from light to dark', async () => {
+    mockThemeState.resolvedTheme = 'light';
+    const { rerender } = render(<Map {...defaultProps} />);
+
+    mockThemeState.resolvedTheme = 'dark';
+    rerender(<Map {...defaultProps} />);
+
+    expect(mockMapInstance.setStyle).toHaveBeenCalledWith(
+      'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json'
+    );
+
+    const styleLoadHandler = mockMapInstance.once.mock.calls
+      .find(([event]) => event === 'style.load')?.[1] as (() => void) | undefined;
+    expect(styleLoadHandler).toBeDefined();
+    styleLoadHandler?.();
+
+    expect(mockMapInstance.addLayer).toHaveBeenCalledWith(
+      expect.objectContaining({
+        paint: expect.objectContaining({
+          'circle-stroke-color': '#000',
+        }),
+      })
+    );
+  });
+
+  it('style.load callback exits early when map is unmounted before it fires', async () => {
+    const { rerender, unmount } = render(<Map {...defaultProps} />);
+
+    // Switch theme to trigger setStyle and register once('style.load', ...)
+    mockThemeState.resolvedTheme = 'light';
+    rerender(<Map {...defaultProps} />);
+
+    expect(mockMapInstance.setStyle).toHaveBeenCalled();
+
+    const styleLoadHandler = mockMapInstance.once.mock.calls
+      .find(([event]) => event === 'style.load')?.[1] as (() => void) | undefined;
+    expect(styleLoadHandler).toBeDefined();
+
+    // Unmount to null out map.current
+    unmount();
+
+    // Call the style.load handler after unmount — should hit the early return
+    styleLoadHandler?.();
+
+    // addSource should not have been called (map was null)
+    expect(mockMapInstance.addSource).not.toHaveBeenCalled();
+  });
 });

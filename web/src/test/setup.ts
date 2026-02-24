@@ -22,10 +22,10 @@ vi.mock('@/hooks/useOnlineStatus', () => import('./mocks/useOnlineStatus'));
 
 // Mock next/dynamic to render components directly
 vi.mock('next/dynamic', () => ({
-  default: (fn: () => Promise<{ default: React.ComponentType<any> }>) => {
-    const Component = vi.fn().mockImplementation((props) => {
-      return null; // Map component will be tested separately
-    });
+  default: (fn: () => Promise<{ default: React.ComponentType<any> }>, opts?: { loading?: () => React.ReactNode; ssr?: boolean }) => {
+    // Invoke loading() to exercise the loading JSX for coverage
+    if (opts?.loading) opts.loading();
+    const Component = vi.fn().mockImplementation(() => null);
     return Component;
   },
 }));

@@ -3,6 +3,8 @@ import { render, screen, waitFor, fireEvent } from '../test/utils/render';
 import * as onlineStatusHook from '@/hooks/useOnlineStatus';
 import TreePanel from './TreePanel';
 import { mockTreesData, mockSpeciesMetadata } from '../test/mocks/handlers';
+import { server } from '../test/mocks/server';
+import { http, HttpResponse } from 'msw';
 
 describe('TreePanel', () => {
   const defaultProps = {
@@ -635,5 +637,227 @@ describe('TreePanel', () => {
 
       expect(screen.queryByText('Meses de floración')).not.toBeInTheDocument();
     });
+  });
+
+  it('displays untranslated species name when not found in translations', async () => {
+    const unknownTreesData = {
+      '99': {
+        ...mockTreesData['1'],
+        nombre_comun: 'Unknown Species XYZ',
+        nombre_cientifico: 'Unknownia xyzabc',
+      },
+    };
+    render(<TreePanel {...defaultProps} treeId={99} treesData={unknownTreesData} />);
+
+    await waitFor(() => {
+      // getTranslatedSpeciesName falls through to return name for unknown species
+      expect(screen.getAllByText('Unknown Species XYZ').length).toBeGreaterThanOrEqual(1);
+    });
+  });
+
+  it('displays fallback color and unknown label for invalid estado value', async () => {
+    const unknownEstadoData = {
+      '10': { ...mockTreesData['1'], estado: 9 },
+    };
+    render(<TreePanel {...defaultProps} treeId={10} treesData={unknownEstadoData} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByText('Estado vegetativo').length).toBeGreaterThanOrEqual(1);
+    });
+
+    // Should render the fallback 'bg-gray-500' circle (unknown estado)
+    const circle = document.querySelector('.bg-gray-500');
+    expect(circle).toBeInTheDocument();
+  });
+
+  it('carousel touchEnd without prior touchStart returns early', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+    const carouselImage = screen.getByAltText('Melia azedarach - 1');
+
+    // Fire touchEnd without prior touchStart (touchStart state is null → early return)
+    fireEvent.touchEnd(carouselImage.parentElement!, {
+      changedTouches: [{ clientX: 80 }],
+    });
+
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+  });
+
+  it('carousel small swipe below threshold does not navigate images', async () => {
+    const { user } = render(<TreePanel {...defaultProps} treeId={1} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByAltText('Melia azedarach').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByAltText('Melia azedarach')[0]);
+    const carouselImage = screen.getByAltText('Melia azedarach - 1');
+
+    // diff = 100 - 75 = 25, which is less than the 50px threshold
+    fireEvent.touchStart(carouselImage.parentElement!, {
+      touches: [{ clientX: 100 }],
+    });
+    fireEvent.touchEnd(carouselImage.parentElement!, {
+      changedTouches: [{ clientX: 75 }],
+    });
+
+    expect(screen.getByText('1 / 2')).toBeInTheDocument();
+  });
+
+  it('sets description to null when Wikipedia response has no extract field', async () => {
+    server.use(
+      http.get('https://es.wikipedia.org/api/rest_v1/page/summary/:title', () => {
+        return HttpResponse.json({
+          type: 'standard',
+          content_urls: { desktop: { page: 'https://es.wikipedia.org/wiki/Test' } },
+          // no extract field
+        });
+      }),
+    );
+    const testData = {
+      '51': { ...mockTreesData['1'], nombre_cientifico: 'Speciesnoextract_unique_abc' },
+    };
+    render(<TreePanel {...defaultProps} treeId={51} treesData={testData} />);
+    await waitFor(() => {
+      expect(screen.queryByText('Cargando...')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    // No description shown (extract was null → || null taken)
+    expect(screen.queryByText('Leer más en Wikipedia')).not.toBeInTheDocument();
+  });
+
+  it('sets wikipediaUrl to null when Wikipedia response has no content_urls', async () => {
+    server.use(
+      http.get('https://es.wikipedia.org/api/rest_v1/page/summary/:title', () => {
+        return HttpResponse.json({
+          type: 'standard',
+          extract: 'Descripción sin URL.',
+          // no content_urls
+        });
+      }),
+    );
+    const testData = {
+      '52': { ...mockTreesData['1'], nombre_cientifico: 'Speciesnocontenturl_unique_abc' },
+    };
+    render(<TreePanel {...defaultProps} treeId={52} treesData={testData} />);
+    await waitFor(() => {
+      expect(screen.getAllByText('Descripción sin URL.').length).toBeGreaterThanOrEqual(1);
+    }, { timeout: 3000 });
+    // No Wikipedia link (content_urls was null → || null taken)
+    expect(screen.queryByText('Leer más en Wikipedia')).not.toBeInTheDocument();
+  });
+
+  it('skips image parsing when Commons returns an error status', async () => {
+    server.use(
+      http.get('https://commons.wikimedia.org/w/api.php', () => {
+        return HttpResponse.json({ error: 'Internal error' }, { status: 500 });
+      }),
+    );
+    const testData = {
+      '53': { ...mockTreesData['1'], nombre_cientifico: 'Testcommons500_unique_abc' },
+    };
+    render(<TreePanel {...defaultProps} treeId={53} treesData={testData} />);
+    await waitFor(() => {
+      expect(screen.queryByText('Cargando...')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    // No image displayed (commonsResponse.ok was false → if branch skipped)
+    expect(screen.queryByAltText('Testcommons500_unique_abc')).not.toBeInTheDocument();
+  });
+
+  it('handles Commons response without query.pages', async () => {
+    server.use(
+      http.get('https://commons.wikimedia.org/w/api.php', () => {
+        return HttpResponse.json({ query: {} }); // no pages key
+      }),
+    );
+    const testData = {
+      '54': { ...mockTreesData['1'], nombre_cientifico: 'Testnopages_unique_abc' },
+    };
+    render(<TreePanel {...defaultProps} treeId={54} treesData={testData} />);
+    await waitFor(() => {
+      expect(screen.queryByText('Cargando...')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    // No image displayed (pages was undefined → || {} fallback taken, empty loop)
+    expect(screen.queryByAltText('Testnopages_unique_abc')).not.toBeInTheDocument();
+  });
+
+  it('filters out SVG images from Commons results', async () => {
+    server.use(
+      http.get('https://commons.wikimedia.org/w/api.php', () => {
+        return HttpResponse.json({
+          query: {
+            pages: {
+              '999': { imageinfo: [{ thumburl: 'https://upload.wikimedia.org/commons/icon.svg' }] },
+            },
+          },
+        });
+      }),
+    );
+    const testData = {
+      '55': { ...mockTreesData['1'], nombre_cientifico: 'Testsvgfilter_unique_abc' },
+    };
+    render(<TreePanel {...defaultProps} treeId={55} treesData={testData} />);
+    await waitFor(() => {
+      expect(screen.queryByText('Cargando...')).not.toBeInTheDocument();
+    }, { timeout: 3000 });
+    // No image displayed (url.includes('.svg') → false branch of !url.includes('.svg'))
+    expect(screen.queryByAltText('Testsvgfilter_unique_abc')).not.toBeInTheDocument();
+  });
+
+  it('uses "Árbol" as tree name in share when nombre_comun is null', async () => {
+    const shareMock = vi.fn().mockResolvedValue(undefined);
+    Object.defineProperty(navigator, 'share', { value: shareMock, configurable: true });
+
+    const noNameTreeData = {
+      '56': { ...mockTreesData['1'], nombre_comun: null },
+    };
+    const { user } = render(<TreePanel {...defaultProps} treeId={56} treesData={noNameTreeData} />);
+
+    await waitFor(() => {
+      expect(screen.getAllByTitle('Compartir').length).toBeGreaterThanOrEqual(1);
+    });
+
+    await user.click(screen.getAllByTitle('Compartir')[0]);
+
+    // handleShare: tree.nombre_comun is null → falls back to t('common.tree') = 'Árbol'
+    expect(shareMock).toHaveBeenCalledWith(
+      expect.objectContaining({ title: expect.stringContaining('Árbol') })
+    );
+  });
+
+  it('sets fetchFailed to false when fetch returns empty results while online', async () => {
+    // Override both Wikipedia and Commons to return empty results
+    server.use(
+      http.get('https://es.wikipedia.org/api/rest_v1/page/summary/:title', () => {
+        return HttpResponse.json({ type: 'not_found' }, { status: 404 });
+      }),
+      http.get('https://commons.wikimedia.org/w/api.php', () => {
+        return HttpResponse.json({ query: { pages: {} } });
+      }),
+    );
+
+    // Use a unique scientific name to avoid cache hits from other tests
+    const emptyResultTreesData = {
+      '98': {
+        ...mockTreesData['1'],
+        nombre_comun: 'Especie sin datos',
+        nombre_cientifico: 'Speciesnonexistentum_unique_xyz',
+      },
+    };
+
+    render(<TreePanel {...defaultProps} treeId={98} treesData={emptyResultTreesData} />);
+
+    await waitFor(() => {
+      // Component renders with the species name
+      expect(screen.getAllByText('Especie sin datos').length).toBeGreaterThanOrEqual(1);
+    });
+
+    // fetchFailed remains false (online + empty result → setFetchFailed(false))
+    // No offline placeholder should appear since isOnline=true
+    expect(screen.queryByText('Fotos no disponibles offline')).not.toBeInTheDocument();
   });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '../test/utils/render';
+import { render, screen, waitFor, fireEvent } from '../test/utils/render';
 import FeedbackModal from './FeedbackModal';
 import { server } from '../test/mocks/server';
 import { errorHandlers } from '../test/mocks/handlers';

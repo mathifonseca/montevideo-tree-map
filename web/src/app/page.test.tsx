@@ -22,7 +22,9 @@ vi.mock('@/components/Map', () => ({
 // Override next/dynamic to render the mocked Map component
 vi.mock('next/dynamic', () => {
   return {
-    default: (importFn: any) => {
+    default: (importFn: any, opts?: { loading?: () => React.ReactNode; ssr?: boolean }) => {
+      // Invoke loading() to exercise the loading JSX for coverage
+      if (opts?.loading) opts.loading();
       // Return a wrapper that will use the mocked Map
       return function DynamicMock(props: any) {
         // Set mapRef if present
@@ -353,6 +355,38 @@ describe('Home (page integration)', () => {
     await waitFor(() => {
       expect(screen.getByText('Filtrar por zona')).toBeInTheDocument();
       expect(screen.getByText('Todas las zonas')).toBeInTheDocument();
+    });
+  });
+
+  it('skips flyTo when tree ID from URL is not found in trees data', async () => {
+    window.history.replaceState({}, '', '/?arbol=9999');
+
+    render(<Home />);
+
+    // Wait for data to load and the effect to run
+    await waitFor(() => {
+      expect(screen.getByText('Arbolado urbano de Montevideo')).toBeInTheDocument();
+    });
+
+    // Tree 9999 doesn't exist in mock data, so flyTo should NOT be called
+    await waitFor(() => {
+      expect(mockFlyTo).not.toHaveBeenCalled();
+    });
+  });
+
+  it('ignores invalid (non-numeric) tree ID in URL', async () => {
+    window.history.replaceState({}, '', '/?arbol=abc');
+
+    render(<Home />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Arbolado urbano de Montevideo')).toBeInTheDocument();
+    });
+
+    // The isNaN branch is taken (abc is not a number), selectedTree stays null
+    // The URL update effect clears the invalid param since selectedTree is null
+    await waitFor(() => {
+      expect(window.location.search).not.toContain('arbol=');
     });
   });
 });

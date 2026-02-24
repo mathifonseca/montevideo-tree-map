@@ -151,6 +151,21 @@ describe('ReportModal', () => {
     expect(onClose).toHaveBeenCalled();
   });
 
+  it('shows error message when request throws a network error', async () => {
+    const fetchSpy = vi.spyOn(global, 'fetch').mockRejectedValue(new Error('network error'));
+
+    const { user } = render(<ReportModal {...defaultProps} />);
+
+    const submitButton = screen.getByRole('button', { name: /enviar reporte/i });
+    await user.click(submitButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Error al enviar. Intentá de nuevo.')).toBeInTheDocument();
+    });
+
+    fetchSpy.mockRestore();
+  });
+
   it('resets form when coords change', async () => {
     const { user, rerender } = render(<ReportModal {...defaultProps} />);
 

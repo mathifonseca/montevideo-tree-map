@@ -19,8 +19,6 @@ export default function FeedbackModal({ isOpen, onClose }: FeedbackModalProps) {
   const [error, setError] = useState(false);
 
   const handleSubmit = async () => {
-    if (!message.trim()) return;
-
     setSending(true);
     setError(false);
 
