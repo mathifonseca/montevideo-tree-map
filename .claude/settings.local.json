@@ -71,7 +71,11 @@
       "Bash(echo:*)",
       "Bash(git status:*)",
       "Bash(rm:*)",
-      "Bash(tail:*)"
+      "Bash(tail:*)",
+      "WebFetch(domain:whois.marcaria.com)",
+      "Bash(whois:*)",
+      "WebFetch(domain:dns.google)",
+      "Bash(dig:*)"
     ]
   }
 }
